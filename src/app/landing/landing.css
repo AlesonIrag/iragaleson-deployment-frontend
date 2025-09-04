@@ -1,0 +1,489 @@
+/* Background slideshow styles */
+.background-slideshow {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+/* Ensure proper z-index layering */
+.relative {
+  position: relative;
+}
+
+/* Additional styling for better text visibility */
+.drop-shadow-lg {
+  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+}
+
+.drop-shadow-md {
+  filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+}
+
+/* Tethering/Alive animation for LOGIN button */
+.login-tether {
+  animation: tether 2s ease-in-out infinite;
+  transform-origin: center;
+  border-width: 2px;
+  border-style: solid;
+  border-color: white;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+@keyframes tether {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    border-color: white;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+  25% {
+    transform: scale(1.05) rotate(-1deg);
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 8px -1px rgb(0 0 0 / 0.15), 0 4px 6px -2px rgb(0 0 0 / 0.15);
+  }
+  50% {
+    transform: scale(1.02) rotate(1deg);
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 5px 7px -1px rgb(0 0 0 / 0.12), 0 3px 5px -2px rgb(0 0 0 / 0.12);
+  }
+  75% {
+    transform: scale(1.08) rotate(-0.5deg);
+    border-color: white;
+    box-shadow: 0 8px 10px -1px rgb(0 0 0 / 0.2), 0 6px 8px -2px rgb(0 0 0 / 0.2);
+  }
+}
+
+/* Hover effect enhancement */
+.login-tether:hover {
+  animation: tether-fast 0.8s ease-in-out infinite;
+  border-color: rgba(255, 255, 255, 1) !important;
+}
+
+@keyframes tether-fast {
+  0%, 100% {
+    transform: scale(1.1) rotate(0deg);
+    border-color: white;
+    box-shadow: 0 8px 12px -1px rgb(0 0 0 / 0.25), 0 6px 10px -2px rgb(0 0 0 / 0.25);
+  }
+  25% {
+    transform: scale(1.15) rotate(-2deg);
+    border-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 15px -1px rgb(0 0 0 / 0.3), 0 8px 12px -2px rgb(0 0 0 / 0.3);
+  }
+  50% {
+    transform: scale(1.12) rotate(2deg);
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 9px 13px -1px rgb(0 0 0 / 0.27), 0 7px 11px -2px rgb(0 0 0 / 0.27);
+  }
+  75% {
+    transform: scale(1.18) rotate(-1deg);
+    border-color: white;
+    box-shadow: 0 12px 18px -1px rgb(0 0 0 / 0.35), 0 10px 15px -2px rgb(0 0 0 / 0.35);
+  }
+}
+
+/* Mobile Navigation Pane Styles */
+#mobile-nav-pane {
+  backdrop-filter: blur(20px);
+  border-left: 4px solid #f97316;
+}
+
+#mobile-nav-pane.open {
+  transform: translateX(0);
+}
+
+#mobile-nav-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Navigation link hover effects */
+.nav-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(214, 126, 126, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.nav-link:hover::before {
+  left: 100%;
+}
+
+/* Mobile menu button animation */
+#mobile-menu-button {
+  transition: transform 0.3s ease;
+}
+
+#mobile-menu-button.active {
+  transform: rotate(90deg);
+}
+
+/* Responsive improvements */
+@media (max-width: 600px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Ensure text doesn't overflow on small screens */
+  h1, h2, h3 {
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Improve button spacing on mobile */
+  .login-tether {
+    min-width: 120px;
+    text-align: center;
+  }
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent horizontal scroll on all devices */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Ensure all containers respect viewport width */
+.container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Prevent flex items from overflowing */
+.flex {
+  min-width: 0;
+}
+
+/* Ensure inputs don't cause overflow */
+input {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Mobile navigation pane width adjustment for smaller screens */
+@media (max-width: 480px) {
+  #mobile-nav-pane {
+    width: 100vw;
+    max-width: 320px;
+  }
+}
+
+/* Enhanced mobile menu button states */
+#hamburger-icon.hidden {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+#close-icon.show {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+#close-icon {
+  opacity: 0;
+  transform: rotate(-180deg);
+  transition: all 0.3s ease;
+}
+
+#hamburger-icon {
+  transition: all 0.3s ease;
+}
+
+/* Header SVG icon hover effects */
+.group:hover svg {
+  stroke: #fb923c !important; /* Orange-400 color */
+}
+
+/* Ensure SVG icons are visible - BLACK by default */
+header svg {
+  stroke: #000000 !important; /* BLACK color */
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Header smooth expansion - NO SCROLLBAR */
+header {
+  transition: height 0.3s ease, padding 0.3s ease;
+  overflow: hidden !important; /* Remove scrollbar completely */
+  height: 80px; /* A bit more height normally */
+  padding-bottom: 8px; /* A little bit more padding bottom normally */
+}
+
+/* Header expands when hovering navigation */
+header:has(.group:hover) {
+  height: 110px !important; /* Expand a little bit more to show text */
+  padding-bottom: 10px;
+}
+
+/* Navigation group positioning */
+header .group {
+  position: relative;
+}
+
+/* Text labels - positioned to show when header expands */
+header .group span {
+  position: absolute;
+  top: 40px; /* Position below the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 2px 6px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+/* Show text when hovering */
+header .group:hover span {
+  opacity: 1;
+}
+
+/* ===== RESPONSIVE MOBILE NAVIGATION ===== */
+
+/* Desktop: Show navigation, hide burger menu */
+@media (min-width: 769px) {
+  #nav-links {
+    display: flex !important;
+  }
+
+  #mobile-burger {
+    display: none !important;
+  }
+}
+
+/* Mobile: Show burger menu, navigation slides in/out */
+@media (max-width: 768px) {
+  #mobile-burger {
+    display: flex !important;
+  }
+
+  /* Hide desktop navigation links on mobile (except when in mobile sidebar) */
+  header .group {
+    display: none !important;
+  }
+
+  /* Navigation links - hidden by default, slide in from right */
+  #nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 41, 59, 0.96) 100%);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    width: 50vw;
+    height: 100vh;
+    padding: 5rem 2.5rem 2rem 2.5rem;
+    gap: 0;
+    transform: translateX(100%);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 10000;
+    overflow-y: auto;
+  }
+
+  /* Show navigation when mobile menu is open */
+  #nav-links.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Disable header expansion on mobile */
+  header:has(.group:hover) {
+    height: 80px !important;
+    padding-bottom: 8px !important;
+  }
+
+  /* Hide text labels on mobile */
+  header .group span {
+    display: none !important;
+  }
+
+  /* Style navigation links for mobile - clean list style */
+  #nav-links .group {
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  #nav-links .group:hover {
+    background: transparent;
+    border-bottom-color: rgba(96, 165, 250, 0.5);
+    padding-left: 1rem;
+  }
+
+  #nav-links .group:active {
+    transform: scale(0.98);
+  }
+
+  #nav-links .group svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2;
+    color: #94a3b8;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  #nav-links .group:hover svg {
+    color: #60a5fa;
+    transform: translateX(4px);
+  }
+
+  #nav-links .group span {
+    display: inline !important;
+    position: static !important;
+    opacity: 1 !important;
+    background: none !important;
+    color: #e2e8f0 !important;
+    font-size: 17px !important;
+    font-weight: 400 !important;
+    margin-left: 1rem;
+    transition: all 0.3s ease;
+    letter-spacing: 0.025em;
+  }
+
+  #nav-links .group:hover span {
+    color: #ffffff !important;
+    transform: translateX(4px);
+  }
+
+  /* Last item - no border */
+  #nav-links .group:last-child {
+    border-bottom: none;
+  }
+}
+
+/* Mobile Overlay for blur effect - lighter and more transparent */
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Fix close icon visibility - make it black with better styling */
+#close-icon {
+  stroke: #000000 !important;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  padding: 4px;
+  transition: all 0.3s ease;
+}
+
+#close-icon:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* Ensure burger button stays on top */
+#mobile-burger {
+  position: relative;
+  z-index: 10001;
+}
+
+/* Ensure header stays on top */
+header {
+  position: relative;
+  z-index: 10001;
+}
+
+/* Mobile navigation header - hidden by default */
+.mobile-nav-header {
+  display: none;
+}
+
+/* Show mobile header only when navigation is open */
+#nav-links.mobile-open .mobile-nav-header {
+  display: block !important;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Animate navigation items when modal opens */
+#nav-links.mobile-open .group {
+  animation: slideInRight 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Stagger animation for each navigation item */
+#nav-links.mobile-open .group:nth-child(2) { animation-delay: 0.1s; }
+#nav-links.mobile-open .group:nth-child(3) { animation-delay: 0.15s; }
+#nav-links.mobile-open .group:nth-child(4) { animation-delay: 0.2s; }
+#nav-links.mobile-open .group:nth-child(5) { animation-delay: 0.25s; }
+#nav-links.mobile-open .group:nth-child(6) { animation-delay: 0.3s; }
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+

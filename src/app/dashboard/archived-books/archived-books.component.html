@@ -1,0 +1,354 @@
+<div class="min-h-screen p-6" [class]="isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'">
+  <!-- Toast Notifications -->
+  <app-toast></app-toast>
+
+  <!-- Header -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold mb-2">Archived Books</h1>
+        <p class="text-gray-600 dark:text-gray-400">Manage archived and removed books from the library collection</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button (click)="refreshArchivedBooks()"
+          class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+          [disabled]="isRefreshing"
+          [title]="isRefreshing ? 'Refreshing archived books...' : 'Refresh archived books list'">
+          <svg *ngIf="isRefreshing" class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+          <svg *ngIf="!isRefreshing" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+            </path>
+          </svg>
+          <span *ngIf="!isRefreshing" class="hidden sm:inline ml-2">Refresh</span>
+          <span *ngIf="isRefreshing" class="hidden sm:inline ml-2">Refreshing...</span>
+        </button>
+        
+        <button (click)="exportToCsv()"
+          class="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+          </svg>
+          Export CSV
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Overview - Small Boxes in Row -->
+  <div class="flex gap-4 mb-6">
+    <!-- Box 1: Total Archived -->
+    <div class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+      <div class="text-center">
+        <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-red-100 dark:bg-red-900">
+          <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+        </div>
+        <p class="text-xs font-medium mb-1 text-gray-600 dark:text-gray-400">Total Archived</p>
+        <p class="text-xl font-bold text-gray-900 dark:text-white">{{ totalArchived }}</p>
+      </div>
+    </div>
+
+    <!-- Box 2: Damaged Books -->
+    <div class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+      <div class="text-center">
+        <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-yellow-100 dark:bg-yellow-900">
+          <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+        </div>
+        <p class="text-xs font-medium mb-1 text-gray-600 dark:text-gray-400">Damaged Books</p>
+        <p class="text-xl font-bold text-gray-900 dark:text-white">{{ damagedBooks }}</p>
+      </div>
+    </div>
+
+    <!-- Box 3: Lost Books -->
+    <div class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+      <div class="text-center">
+        <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-orange-100 dark:bg-orange-900">
+          <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <p class="text-xs font-medium mb-1 text-gray-600 dark:text-gray-400">Lost Books</p>
+        <p class="text-xl font-bold text-gray-900 dark:text-white">{{ lostBooks }}</p>
+      </div>
+    </div>
+
+    <!-- Box 4: Outdated Books -->
+    <div class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+      <div class="text-center">
+        <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-blue-100 dark:bg-blue-900">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+        <p class="text-xs font-medium mb-1 text-gray-600 dark:text-gray-400">Outdated Books</p>
+        <p class="text-xl font-bold text-gray-900 dark:text-white">{{ outdatedBooks }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="rounded-lg p-6 shadow-sm border mb-8"
+    [class]="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="flex-1 max-w-md">
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()"
+            placeholder="Search archived books by title, author, ISBN..."
+            class="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            [class]="isDarkMode ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'">
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <select [(ngModel)]="selectedArchiveReason" (ngModelChange)="onFilterChange()"
+          class="px-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          [class]="isDarkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-gray-900'">
+          <option value="">All Reasons</option>
+          <option value="Damaged">Damaged</option>
+          <option value="Lost">Lost</option>
+          <option value="Outdated">Outdated</option>
+          <option value="Duplicate">Duplicate</option>
+          <option value="Policy">Policy Change</option>
+        </select>
+        <select [(ngModel)]="selectedCategory" (ngModelChange)="onFilterChange()"
+          class="px-4 py-3 border rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          [class]="isDarkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-gray-900'">
+          <option value="">All Categories</option>
+          <option *ngFor="let category of getUniqueCategories()" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Archived Books Table -->
+  <div class="rounded-lg shadow-sm border overflow-hidden"
+    [class]="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
+    <div class="px-6 py-4 border-b" [class]="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+      <h3 class="text-lg font-semibold" [class]="isDarkMode ? 'text-white' : 'text-gray-900'">Archived Books Collection</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead [class]="isDarkMode ? 'bg-gray-700' : 'bg-gray-50'">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+              [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" (click)="sortBy('title')">
+              <div class="flex items-center">
+                Book Details
+                <svg *ngIf="sortColumn === 'title'" class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path *ngIf="sortDirection === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                  <path *ngIf="sortDirection === 'desc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+              [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">Category</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+              [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" (click)="sortBy('archiveReason')">
+              <div class="flex items-center">
+                Archive Reason
+                <svg *ngIf="sortColumn === 'archiveReason'" class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path *ngIf="sortDirection === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                  <path *ngIf="sortDirection === 'desc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+              [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" (click)="sortBy('archivedDate')">
+              <div class="flex items-center">
+                Archived Date
+                <svg *ngIf="sortColumn === 'archivedDate'" class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path *ngIf="sortDirection === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                  <path *ngIf="sortDirection === 'desc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+              [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y" [class]="isDarkMode ? 'divide-gray-700' : 'divide-gray-200'">
+          <!-- No archived books message -->
+          <tr *ngIf="getFilteredBooks().length === 0" class="hover:bg-opacity-50"
+            [class]="isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'">
+            <td colspan="5" class="px-6 py-12 text-center">
+              <div class="flex flex-col items-center">
+                <svg class="w-12 h-12 text-gray-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                  </path>
+                </svg>
+                <h3 class="text-lg font-medium mb-2" [class]="isDarkMode ? 'text-white' : 'text-gray-900'">No archived books found</h3>
+                <p class="mb-4" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">Archived books will appear here when books are removed from the active collection.</p>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Archived books from mock data -->
+          <tr *ngFor="let book of getFilteredBooks()" class="hover:bg-opacity-50"
+            [class]="isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'">
+            <td class="px-6 py-4">
+              <div class="flex items-center">
+                <div class="w-12 h-16 rounded flex items-center justify-center mr-4"
+                  [class]="isDarkMode ? 'bg-red-900' : 'bg-red-100'">
+                  <svg class="w-6 h-6" [class]="isDarkMode ? 'text-red-400' : 'text-red-600'" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                    </path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-sm font-medium" [class]="isDarkMode ? 'text-white' : 'text-gray-900'">{{ book.title }}</div>
+                  <div class="text-sm" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" *ngIf="book.author">by {{ book.author }}</div>
+                  <div class="text-xs" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" *ngIf="book.isbn">ISBN: {{ book.isbn }}</div>
+                  <div class="text-xs" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">
+                    <span *ngIf="book.callNumber">Call Number: {{ book.callNumber }}</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-sm" [class]="isDarkMode ? 'text-gray-300' : 'text-gray-900'">
+              <div>{{ book.category }}</div>
+              <div class="text-xs" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" *ngIf="book.subject">{{ book.subject }}</div>
+            </td>
+            <td class="px-6 py-4">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full" [ngClass]="{
+                'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200': book.archiveReason === 'Damaged',
+                'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200': book.archiveReason === 'Lost',
+                'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200': book.archiveReason === 'Outdated',
+                'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200': book.archiveReason === 'Duplicate',
+                'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200': book.archiveReason === 'Policy'
+              }">
+                {{ book.archiveReason }}
+              </span>
+              <div class="text-xs text-gray-500 mt-1" *ngIf="book.archiveNotes">{{ book.archiveNotes }}</div>
+            </td>
+            <td class="px-6 py-4 text-sm" [class]="isDarkMode ? 'text-gray-300' : 'text-gray-900'">
+              {{ book.archivedDate | date:'MMM d, y' }}
+              <div class="text-xs" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">by {{ book.archivedBy }}</div>
+            </td>
+            <td class="px-6 py-4 text-sm">
+              <div class="flex space-x-2">
+                <button (click)="viewArchivedBook(book)"
+                  class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">View</button>
+                <button (click)="restoreBook(book)"
+                  class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">Restore</button>
+                <button (click)="permanentlyDeleteBook(book)"
+                  class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- View Archived Book Modal -->
+  <div *ngIf="showViewModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Archived Book Details</h3>
+          <button (click)="closeViewModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <div class="p-6" *ngIf="selectedBook">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
+            <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.title }}</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Author</label>
+            <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.author }}</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ISBN</label>
+            <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.isbn }}</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+            <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.category }}</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Archive Reason</label>
+            <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.archiveReason }}</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Archived Date</label>
+            <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.archivedDate | date:'MMM d, y' }}</p>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Archive Notes</label>
+            <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.archiveNotes || 'No notes available' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modals -->
+  <div *ngIf="showRestoreModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+      <div class="p-6">
+        <div class="flex items-center mb-4">
+          <svg class="w-12 h-12 text-green-500 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <div>
+            <h4 class="text-lg font-medium text-gray-900 dark:text-white">Restore Book</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to restore this book to the active collection?</p>
+          </div>
+        </div>
+        <div class="flex justify-end space-x-3">
+          <button (click)="closeRestoreModal()" class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg">
+            Cancel
+          </button>
+          <button (click)="confirmRestore()" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg">
+            Restore
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+      <div class="p-6">
+        <div class="flex items-center mb-4">
+          <svg class="w-12 h-12 text-red-500 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+          <div>
+            <h4 class="text-lg font-medium text-gray-900 dark:text-white">Permanently Delete</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">This action cannot be undone. The book will be permanently removed from all records.</p>
+          </div>
+        </div>
+        <div class="flex justify-end space-x-3">
+          <button (click)="closeDeleteModal()" class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg">
+            Cancel
+          </button>
+          <button (click)="confirmDelete()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg">
+            Delete Permanently
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

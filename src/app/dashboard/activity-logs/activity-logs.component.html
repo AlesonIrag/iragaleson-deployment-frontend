@@ -1,0 +1,195 @@
+<!-- Activity Logs -->
+<div class="max-w-7xl mx-auto activity-logs-container">
+  <!-- Header Section -->
+  <div class="mb-6 lg:mb-8">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h1 class="text-2xl lg:text-3xl font-bold" [class]="getTextClasses()">Activity Logs</h1>
+        <p class="mt-1 text-sm" [class]="getSecondaryTextClasses()">Monitor system activities and user actions</p>
+      </div>
+      <div class="mt-4 sm:mt-0 flex space-x-3">
+        <button class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors duration-200 text-sm font-medium">
+          Export Logs
+        </button>
+        <button class="px-4 py-2 border rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm font-medium" [class]="getCardClasses()">
+          Clear Old Logs
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Overview - Small Boxes in Row -->
+  <div class="flex gap-4 mb-8">
+    <!-- Box 1: Total Logs -->
+    <div class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300" [class]="getCardClasses()">
+      <div class="text-center">
+        <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-orange-100">
+          <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <p class="text-xs font-medium mb-1" [class]="getSecondaryTextClasses()">Total Logs</p>
+        <p class="text-xl font-bold" [class]="getTextClasses()">{{ stats.totalLogs }}</p>
+      </div>
+    </div>
+
+    <!-- Box 2: User Actions -->
+    <div class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300" [class]="getCardClasses()">
+      <div class="text-center">
+        <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-blue-100">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+        </div>
+        <p class="text-xs font-medium mb-1" [class]="getSecondaryTextClasses()">User Actions</p>
+        <p class="text-xl font-bold" [class]="getTextClasses()">{{ stats.userActions }}</p>
+      </div>
+    </div>
+
+    <!-- Box 3: Security Events -->
+    <div class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300" [class]="getCardClasses()">
+      <div class="text-center">
+        <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-green-100">
+          <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+          </svg>
+        </div>
+        <p class="text-xs font-medium mb-1" [class]="getSecondaryTextClasses()">Security Events</p>
+        <p class="text-xl font-bold" [class]="getTextClasses()">{{ stats.securityEvents }}</p>
+      </div>
+    </div>
+
+    <!-- Box 4: Error Logs -->
+    <div class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300" [class]="getCardClasses()">
+      <div class="text-center">
+        <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-red-100">
+          <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <p class="text-xs font-medium mb-1" [class]="getSecondaryTextClasses()">Error Logs</p>
+        <p class="text-xl font-bold text-red-600">{{ stats.errorLogs }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="mb-6 p-4 rounded-lg border" [class]="getCardClasses()">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+      <div class="flex-1 max-w-md">
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" [class]="getSecondaryTextClasses()" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input type="text" placeholder="Search logs..." 
+                 class="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                 [class]="isDarkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'">
+        </div>
+      </div>
+      <div class="flex space-x-3">
+        <select class="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                [class]="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'">
+          <option>All Types</option>
+          <option>User Login</option>
+          <option>Book Transaction</option>
+          <option>System Change</option>
+          <option>Security Event</option>
+          <option>Error</option>
+        </select>
+        <select class="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                [class]="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'">
+          <option>Last 24 Hours</option>
+          <option>Last 7 Days</option>
+          <option>Last 30 Days</option>
+          <option>Custom Range</option>
+        </select>
+        <select class="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                [class]="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-gray-900'">
+          <option>All Levels</option>
+          <option>Info</option>
+          <option>Warning</option>
+          <option>Error</option>
+          <option>Critical</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activity Logs Console -->
+  <div class="rounded-lg border overflow-hidden" [class]="getCardClasses()">
+    <div class="px-6 py-4 border-b" [class]="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+      <h3 class="text-lg font-semibold" [class]="getTextClasses()">System Activity Console</h3>
+    </div>
+    <div class="log-console p-4" [class]="isDarkMode ? 'bg-gray-900' : 'bg-gray-50'">
+      <div class="font-mono text-sm space-y-1">
+        <div *ngFor="let log of activityLogs; let i = index"
+             class="log-entry flex items-start space-x-3 py-1 hover:bg-opacity-50 rounded px-2 transition-colors duration-200"
+             [class]="isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'">
+
+          <!-- Line Number -->
+          <span class="text-xs w-6 text-right flex-shrink-0" [class]="getSecondaryTextClasses()">
+            {{ i + 1 }}
+          </span>
+
+          <!-- Timestamp -->
+          <span class="text-xs w-20 flex-shrink-0" [class]="getTimestampClass()">
+            [{{ log.timestamp | date:'HH:mm:ss' }}]
+          </span>
+
+          <!-- Log Level -->
+          <span class="text-xs w-16 flex-shrink-0 font-medium" [ngClass]="getLogLevelColor(log.level)">
+            [{{ log.action }}/{{ log.level.toUpperCase() }}]:
+          </span>
+
+          <!-- Log Message -->
+          <span class="text-xs flex-1 leading-relaxed" [class]="getLogMessageClass()">
+            {{ log.details }}
+          </span>
+
+          <!-- IP Address (if not localhost/system) -->
+          <span *ngIf="log.ipAddress !== 'localhost' && !log.ipAddress.includes('api.')"
+                class="text-xs w-32 flex-shrink-0 font-mono" [class]="getSecondaryTextClasses()">
+            ({{ log.ipAddress }})
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Console Footer -->
+    <div class="px-4 py-2 border-t text-xs" [class]="isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gray-100'">
+      <div class="flex items-center justify-between">
+        <span [class]="getSecondaryTextClasses()">
+          Showing last {{ activityLogs.length }} entries | Auto-refresh: ON | Log level: ALL
+        </span>
+        <div class="flex items-center space-x-2">
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+          <span class="text-green-600 font-medium">Live</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="mt-6 flex items-center justify-between">
+    <div class="text-sm" [class]="getSecondaryTextClasses()">
+      Showing 1 to 10 of 1,247 results
+    </div>
+    <div class="flex space-x-2">
+      <button class="px-3 py-2 border rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm" [class]="getCardClasses()">
+        Previous
+      </button>
+      <button class="px-3 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors duration-200 text-sm">
+        1
+      </button>
+      <button class="px-3 py-2 border rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm" [class]="getCardClasses()">
+        2
+      </button>
+      <button class="px-3 py-2 border rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm" [class]="getCardClasses()">
+        3
+      </button>
+      <button class="px-3 py-2 border rounded-lg hover:bg-gray-50 transition-colors duration-200 text-sm" [class]="getCardClasses()">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

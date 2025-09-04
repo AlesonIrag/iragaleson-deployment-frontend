@@ -1,0 +1,122 @@
+<div class="cataloging-container" [class.print-preview]="isPrintPreview">
+  <div class="cataloging-header" *ngIf="!isPrintPreview">
+    <h2 class="text-2xl font-bold mb-4">
+      <svg class="w-6 h-6 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      Cataloging Form
+    </h2>
+    <p class="text-gray-600 mb-6">Digital cataloging form divided into 4 sections. Each section represents 1/4 of a landscape bond paper.</p>
+    
+    <div class="action-buttons mb-6">
+      <button
+        (click)="printCatalogingForm()"
+        class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg mr-2 transition-colors duration-200 flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+        </svg>
+        Print Cataloging Form
+      </button>
+
+      <button
+        (click)="downloadAsPDF()"
+        [disabled]="isGeneratingPDF"
+        class="bg-purple-500 hover:bg-purple-600 text-white font-medium py-2 px-4 rounded-lg mr-2 transition-colors duration-200 flex items-center"
+        [class.opacity-75]="isGeneratingPDF">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+        </svg>
+        <span *ngIf="!isGeneratingPDF">Download as PDF</span>
+        <span *ngIf="isGeneratingPDF">Generating PDF...</span>
+      </button>
+
+      <button
+        (click)="loadSampleData()"
+        class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg mr-2 transition-colors duration-200 flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        Load Sample Data
+      </button>
+
+      <button
+        (click)="clearAllSections()"
+        class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+        Clear All
+      </button>
+    </div>
+  </div>
+
+  <div class="cataloging-form" [class.print-mode]="isPrintPreview">
+    <div class="form-sections">
+      <div 
+        *ngFor="let section of sections; let i = index" 
+        class="section-container"
+        [class.print-section]="isPrintPreview">
+        
+        <div class="section-header" *ngIf="!isPrintPreview">
+          <h3 class="font-semibold">Section {{ i + 1 }}</h3>
+        </div>
+        
+        <textarea 
+          *ngIf="!isPrintPreview"
+          [(ngModel)]="section.content"
+          class="section-textarea"
+          placeholder="Enter cataloging information for this section..."
+          rows="8">
+        </textarea>
+        
+        <div 
+          *ngIf="isPrintPreview" 
+          class="section-content-print"
+          [innerHTML]="formatContentForPrint(section.content)">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="print-header" *ngIf="isPrintPreview">
+    <h2>Benedicto College Library - Cataloging Form</h2>
+    <p>Divided into 4 sections (Landscape Orientation)</p>
+  </div>
+  
+  <div class="print-footer" *ngIf="isPrintPreview">
+    <p>Generated on: {{ getCurrentDate() }} | Page 1 of 1</p>
+  </div>
+  
+  <!-- PDF Download Confirmation Modal -->
+  <div *ngIf="showPDFModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+      <h3 class="text-lg font-semibold mb-4">Download as PDF</h3>
+      <p class="mb-6">This will generate a PDF of your cataloging form with all 4 sections on one landscape page. Do you want to proceed?</p>
+      <div class="flex justify-end space-x-3">
+        <button 
+          (click)="cancelPDFDownload()" 
+          class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100">
+          Cancel
+        </button>
+        <button 
+          (click)="confirmPDFDownload()" 
+          class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600">
+          Download PDF
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- PDF Generation Loading Modal -->
+  <div *ngIf="isGeneratingPDF" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 text-center">
+      <div class="flex justify-center mb-4">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Generating PDF</h3>
+      <p>Please wait while we create your PDF document...</p>
+    </div>
+  </div>
+
+
+</div>

@@ -1,0 +1,383 @@
+/* Support Page Styles - Benedicto College Library Management System */
+
+.support-container {
+  background: white;
+}
+
+/* ===== ENHANCED HEADER STYLES ===== */
+
+/* Mobile navigation pane width adjustment for smaller screens */
+@media (max-width: 480px) {
+  #mobile-nav-pane {
+    width: 100vw;
+    max-width: 320px;
+  }
+}
+
+/* Enhanced mobile menu button states */
+#hamburger-icon.hidden {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+#close-icon.show {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+#close-icon {
+  opacity: 0;
+  transform: rotate(-180deg);
+  transition: all 0.3s ease;
+}
+
+#hamburger-icon {
+  transition: all 0.3s ease;
+}
+
+/* Header SVG icon hover effects */
+.group:hover svg {
+  stroke: #fb923c !important; /* Orange-400 color */
+}
+
+/* Ensure SVG icons are visible - BLACK by default */
+header svg {
+  stroke: #000000 !important; /* BLACK color */
+  stroke-width: 2 !important;
+  fill: none !important;
+  color: #000000 !important;
+}
+
+/* Header smooth expansion - NO SCROLLBAR */
+header {
+  transition: height 0.3s ease, padding 0.3s ease;
+  overflow: hidden !important; /* Remove scrollbar completely */
+  height: 80px; /* A bit more height normally */
+  padding-bottom: 8px; /* A little bit more padding bottom normally */
+}
+
+/* Header expands when hovering navigation */
+header:has(.group:hover) {
+  height: 110px !important; /* Expand a little bit more to show text */
+  padding-bottom: 10px;
+}
+
+/* Navigation group positioning */
+header .group {
+  position: relative;
+}
+
+/* Text labels - positioned to show when header expands */
+header .group span {
+  position: absolute;
+  top: 40px; /* Position below the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 2px 6px;
+  border-radius: 3px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+/* Show text when hovering */
+header .group:hover span {
+  opacity: 1;
+}
+
+/* ===== RESPONSIVE MOBILE NAVIGATION ===== */
+
+/* Desktop: Show navigation, hide burger menu */
+@media (min-width: 769px) {
+  #nav-links {
+    display: flex !important;
+  }
+
+  #mobile-burger {
+    display: none !important;
+  }
+}
+
+/* Mobile: Hide navigation, show burger menu */
+@media (max-width: 768px) {
+  /* Hide desktop navigation links on mobile */
+  header .group {
+    display: none !important;
+  }
+
+  #nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 80vw;
+    max-width: 320px;
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 2rem 1.5rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 40;
+    box-shadow: -10px 0 25px rgba(0, 0, 0, 0.3);
+    border-left: 4px solid #f97316;
+  }
+
+  /* Show navigation when mobile menu is open */
+  #nav-links.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Disable header expansion on mobile */
+  header:has(.group:hover) {
+    height: 80px !important;
+    padding-bottom: 8px !important;
+  }
+
+  /* Hide text labels on mobile */
+  header .group span {
+    display: none !important;
+  }
+
+  /* Style navigation links for mobile - clean list style */
+  #nav-links .group {
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  #nav-links .group:hover {
+    background: transparent;
+    border-bottom-color: rgba(96, 165, 250, 0.5);
+    padding-left: 1rem;
+  }
+
+  #nav-links .group a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  #nav-links .group svg {
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+
+  #nav-links .group span {
+    position: static !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    font-size: 1rem !important;
+    color: #ffffff !important;
+    transform: none !important;
+    display: block !important;
+  }
+}
+
+.support-card {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.support-header {
+  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.support-divider {
+  background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 25%, #f59e0b 75%, #f97316 100%);
+  height: 4px;
+  border-radius: 2px;
+}
+
+.help-category {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.3s ease;
+}
+
+.help-category:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: #3b82f6;
+}
+
+.contact-card {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-left: 5px solid #3b82f6;
+}
+
+.faq-item {
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border-left: 3px solid #f59e0b;
+}
+
+.support-icon {
+  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+}
+
+.category-icon {
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+}
+
+.urgent-box {
+  background: white;
+  border: 2px solid #dc2626;
+  border-radius: 8px;
+}
+
+.success-tip {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-left: 5px solid #22c55e;
+}
+
+/* Search Input Enhancement */
+#supportSearch:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Search Suggestions Dropdown */
+#searchSuggestions {
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.suggestion-item {
+  transition: background-color 0.2s ease;
+}
+
+.suggestion-item:hover {
+  background-color: #eff6ff !important;
+}
+
+/* Highlight effect para sa searched sections */
+.highlight-section {
+  background: linear-gradient(90deg, #fef3c7, #fde68a, #fef3c7);
+  border-left-color: #f59e0b !important;
+  border-left-width: 6px !important;
+  animation: highlightPulse 3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+@keyframes highlightPulse {
+  0% {
+    background: linear-gradient(90deg, #fef3c7, #fde68a, #fef3c7);
+    transform: scale(1);
+  }
+  50% {
+    background: linear-gradient(90deg, #fde68a, #fbbf24, #fde68a);
+    transform: scale(1.02);
+  }
+  100% {
+    background: linear-gradient(90deg, #fef3c7, #fde68a, #fef3c7);
+    transform: scale(1);
+  }
+}
+
+/* Popular search tags enhancement */
+.popular-search-tag {
+  transition: all 0.2s ease;
+}
+
+.popular-search-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== MOBILE NAVIGATION ANIMATIONS ===== */
+
+/* Fade in animation for mobile navigation header */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide in animation for navigation items */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Ensure header stays on top */
+header {
+  position: relative;
+  z-index: 10001;
+}
+
+/* Mobile navigation header - hidden by default */
+.mobile-nav-header {
+  display: none;
+}
+
+/* Show mobile header only when navigation is open */
+#nav-links.mobile-open .mobile-nav-header {
+  display: block !important;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Animate navigation items when modal opens */
+#nav-links.mobile-open .group {
+  animation: slideInRight 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Stagger animation delays for each navigation item */
+#nav-links.mobile-open .group:nth-child(2) { animation-delay: 0.1s; }
+#nav-links.mobile-open .group:nth-child(3) { animation-delay: 0.2s; }
+#nav-links.mobile-open .group:nth-child(4) { animation-delay: 0.3s; }
+#nav-links.mobile-open .group:nth-child(5) { animation-delay: 0.4s; }
+#nav-links.mobile-open .group:nth-child(6) { animation-delay: 0.5s; }
+
+/* Prevent body scroll when mobile navigation is open */
+body.overflow-hidden {
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .support-card {
+    margin: 0.5rem;
+    padding: 1.5rem;
+  }
+
+  .help-category {
+    margin-bottom: 1rem;
+  }
+
+  .support-header {
+    font-size: 2rem;
+  }
+}

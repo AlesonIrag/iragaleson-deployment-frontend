@@ -1,0 +1,446 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex flex-col relative overflow-hidden">
+  <!-- Background decorative elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <!-- Large decorative circles -->
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-100/30 to-blue-200/20 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-orange-100/30 to-orange-200/20 rounded-full blur-3xl"></div>
+
+    <!-- Medium decorative circles -->
+    <div class="absolute top-1/4 -left-20 w-40 h-40 bg-gradient-to-br from-blue-200/20 to-blue-300/10 rounded-full blur-2xl"></div>
+    <div class="absolute bottom-1/4 -right-20 w-40 h-40 bg-gradient-to-bl from-orange-200/20 to-orange-300/10 rounded-full blur-2xl"></div>
+
+    <!-- Small floating elements -->
+    <div class="absolute top-1/3 right-1/4 w-20 h-20 bg-gradient-to-br from-blue-300/15 to-blue-400/10 rounded-full blur-xl"></div>
+    <div class="absolute bottom-1/3 left-1/4 w-20 h-20 bg-gradient-to-tr from-orange-300/15 to-orange-400/10 rounded-full blur-xl"></div>
+  </div>
+
+  <!-- Enhanced Professional Header with Hover Text Labels -->
+  <header class="bg-gray-950 shadow-xl relative z-10 w-full overflow-x-hidden">
+    <div class="container mx-auto px-4 sm:px-6 py-2 sm:py-3 max-w-full">
+      <!-- Main header row -->
+      <div class="flex justify-between items-center w-full min-w-0">
+        <!-- Logo section -->
+        <div class="flex-shrink-0 flex justify-start items-center min-w-0">
+          <a routerLink="/" class="hover:opacity-80 transition duration-300 flex items-center">
+            <img
+              src="assets/images/BcLogo.png"
+              alt="Benedicto College Logo"
+              class="h-8 sm:h-10 md:h-12 lg:h-14 w-auto max-w-full object-contain"
+              onerror="console.error('Logo failed to load:', this.src); this.style.border='2px solid red';"
+              onload="console.log('Logo loaded successfully:', this.src);"
+            >
+          </a>
+        </div>
+
+        <!-- Enhanced Navigation with Hover Text Labels -->
+        <div class="flex items-center justify-end ml-auto space-x-1">
+          <!-- Desktop Navigation - Hidden on mobile -->
+          <div class="hidden md:flex items-center space-x-1">
+            <strong class="text-gray-300 text-sm">LMS 2026</strong>
+          </div>
+
+          <!-- Main Website -->
+          <a href="https://benedictocollege.edu.ph" target="_blank" class="group flex items-center text-white hover:text-orange-400 transition-all duration-300 p-2 rounded-lg hover:bg-gray-800/20">
+            <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="#ffffff" stroke-width="2" viewBox="0 0 24 24" style="transition: stroke 0.3s ease;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9m0 9c-5 0-9-4-9-9s4-9 9-9"></path>
+            </svg>
+            <span>Main Website</span>
+          </a>
+
+          <!-- Help & Support -->
+          <a routerLink="/support" class="group flex items-center text-white hover:text-orange-400 transition-all duration-300 p-2 rounded-lg hover:bg-gray-800/20">
+            <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="#ffffff" stroke-width="2" viewBox="0 0 24 24" style="transition: stroke 0.3s ease;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Help & Support</span>
+          </a>
+
+          <!-- About Us -->
+          <a routerLink="/about" class="group flex items-center text-white hover:text-orange-400 transition-all duration-300 p-2 rounded-lg hover:bg-gray-800/20">
+            <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="#ffffff" stroke-width="2" viewBox="0 0 24 24" style="transition: stroke 0.3s ease;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>About Us</span>
+          </a>
+
+          <!-- Contact Us -->
+          <a routerLink="/contact" class="group flex items-center text-white hover:text-orange-400 transition-all duration-300 p-2 rounded-lg hover:bg-gray-800/20">
+            <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="#ffffff" stroke-width="2" viewBox="0 0 24 24" style="transition: stroke 0.3s ease;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            <span>Contact Us</span>
+          </a>
+
+          <!-- My Account -->
+          <a routerLink="/facultylogin" class="group flex items-center text-white hover:text-orange-400 transition-all duration-300 p-2 rounded-lg hover:bg-gray-800/20">
+            <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="#ffffff" stroke-width="2" viewBox="0 0 24 24" style="transition: stroke 0.3s ease;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+            <span>My Account</span>
+          </a>
+
+        <div id="mobile-burger" class="flex items-center">
+          <button onclick="
+            const navPane = document.getElementById('mobile-nav-pane');
+            const burgerIcon = document.getElementById('burger-icon');
+            const closeIcon = document.getElementById('close-icon');
+            const overlay = document.getElementById('mobile-nav-overlay');
+
+            if (navPane.classList.contains('translate-x-full')) {
+              navPane.classList.remove('translate-x-full');
+              overlay.classList.remove('hidden');
+              overlay.classList.add('show');
+              burgerIcon.classList.add('hidden');
+              closeIcon.classList.remove('hidden');
+              document.body.style.overflow = 'hidden';
+            } else {
+              navPane.classList.add('translate-x-full');
+              overlay.classList.add('hidden');
+              overlay.classList.remove('show');
+              burgerIcon.classList.remove('hidden');
+              closeIcon.classList.add('hidden');
+              document.body.style.overflow = '';
+            }
+          " class="text-white focus:outline-none p-2 relative z-50">
+            <svg id="burger-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+            <svg id="close-icon" class="w-6 h-6 hidden transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Overlay for blur effect -->
+  <div id="mobile-nav-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity duration-300 md:hidden" onclick="
+    const pane = document.getElementById('mobile-nav-pane');
+    const burger = document.getElementById('burger-icon');
+    const close = document.getElementById('close-icon');
+    const overlayEl = document.getElementById('mobile-nav-overlay');
+
+    pane.classList.add('translate-x-full');
+    overlayEl.classList.add('hidden');
+    overlayEl.classList.remove('show');
+    burger.classList.remove('hidden');
+    close.classList.add('hidden');
+    document.body.style.overflow = '';
+  "></div>
+
+  <!-- Mobile Sliding Navigation Pane -->
+  <div id="mobile-nav-pane" class="fixed top-0 right-0 h-full w-80 bg-gray-900 transform translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden">
+    <!-- Navigation Header -->
+    <div class="bg-gray-950 border-b border-gray-700 p-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <img src="assets/images/BcLogo.png" alt="BC Logo" class="h-8 w-auto mr-3">
+          <span class="text-white font-bold text-lg">Navigation</span>
+        </div>
+        <button id="close-nav-button" class="text-white hover:text-orange-400 transition duration-300" onclick="
+          const closePane = document.getElementById('mobile-nav-pane');
+          const closeBurger = document.getElementById('burger-icon');
+          const closeX = document.getElementById('close-icon');
+          const closeOverlay = document.getElementById('mobile-nav-overlay');
+
+          closePane.classList.add('translate-x-full');
+          closeOverlay.classList.add('hidden');
+          closeOverlay.classList.remove('show');
+          closeBurger.classList.remove('hidden');
+          closeX.classList.add('hidden');
+          document.body.style.overflow = '';
+        ">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Content -->
+    <div class="p-6 h-full overflow-y-auto">
+      <!-- Main Navigation -->
+      <div class="space-y-1 mb-6">
+        <h3 class="text-gray-400 text-xs uppercase tracking-wider font-semibold mb-3">Main Navigation</h3>
+        <a href="https://benedictocollege.edu.ph" target="_blank" class="nav-link flex items-center py-3 px-4 text-white hover:bg-gray-800 rounded-lg transition duration-300 group">
+          <svg class="w-5 h-5 mr-3 text-orange-400 group-hover:text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9m0 9c-5 0-9-4-9-9s4-9 9-9"></path>
+          </svg>
+          <span class="font-medium">Main Website</span>
+          <svg class="w-4 h-4 ml-auto text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+          </svg>
+        </a>
+        <a routerLink="/about" class="nav-link flex items-center py-3 px-4 text-white hover:bg-gray-800 rounded-lg transition duration-300 group">
+          <svg class="w-5 h-5 mr-3 text-orange-400 group-hover:text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="font-medium">About Us</span>
+          <svg class="w-4 h-4 ml-auto text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+        <a routerLink="/contact" class="nav-link flex items-center py-3 px-4 text-white hover:bg-gray-800 rounded-lg transition duration-300 group">
+          <svg class="w-5 h-5 mr-3 text-orange-400 group-hover:text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+          <span class="font-medium">Contact Us</span>
+          <svg class="w-4 h-4 ml-auto text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+        <a routerLink="/support" class="nav-link flex items-center py-3 px-4 text-white hover:bg-gray-800 rounded-lg transition duration-300 group">
+          <svg class="w-5 h-5 mr-3 text-orange-400 group-hover:text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="font-medium">Help & Support</span>
+          <svg class="w-4 h-4 ml-auto text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Login Section -->
+      <div class="border-t border-gray-700 pt-6">
+        <h3 class="text-gray-400 text-xs uppercase tracking-wider font-semibold mb-3">Account Access</h3>
+        <a routerLink="/login" class="nav-link flex items-center py-3 px-4 text-white hover:bg-gray-800 rounded-lg transition duration-300 group mb-3">
+          <svg class="w-5 h-5 mr-3 text-orange-400 group-hover:text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          <span class="font-medium">Student Login</span>
+          <svg class="w-4 h-4 ml-auto text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+
+        <!-- Quick Access Portals -->
+        <div class="space-y-2">
+          <a routerLink="/facultylogin" class="nav-link flex items-center py-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-300 text-sm">
+            <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>
+            Faculty Portal
+          </a>
+          <a routerLink="/admin-login" class="nav-link flex items-center py-2 px-4 text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition duration-300 text-sm">
+            <span class="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+            Admin Portal
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- main content -->
+  <main class="flex-1 flex">
+
+    <!-- logo image -->
+    <div class="flex items-center justify-center p-7">
+      <img
+        src="assets/images/login-logo.png"
+        alt="Benedicto College Faculty Login"
+        class="max-w-full h-auto object-fit-contain"
+        style="max-height: 470px;"
+        onerror="this.src='assets/images/login-logo.jpg'; console.log('Switched to JPG format');"
+        onload="console.log('Faculty login logo loaded successfully');"
+      >
+    </div>
+
+    <!-- login form container -->
+    <div class="flex items-center justify-center p-4 sm:p-5 lg:p-6">
+      <!-- login card -->
+      <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-3 sm:p-4 w-full max-w-sm lg:max-w-md mx-auto relative overflow-hidden">
+            <!-- decorative circles lang -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-200/40 to-green-300/30 rounded-full opacity-60 -translate-y-16 translate-x-16"></div>
+            <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-orange-200/40 to-orange-300/30 rounded-full opacity-60 translate-y-12 -translate-x-12"></div>
+
+            <!-- faculty icon ug welcome text -->
+            <div class="text-center mb-3 sm:mb-4 relative z-10">
+             <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center mx-auto mb-1 sm:mb-2 shadow-xl">
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+  </svg>
+</div>
+
+              <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-1">Faculty Portal</h2>
+              <p class="text-sm text-gray-600">Faculty access to library resources</p>
+            </div>
+
+       
+            <form class="space-y-2.5 relative z-10" id="facultyLoginForm" (submit)="onSubmit($event)">
+
+              <div>
+                <label for="facultyId" class="block text-sm font-semibold text-gray-700 mb-1.5">
+                  Faculty ID <span class="text-red-500">*</span>
+                </label>
+ <input
+  type="text"
+  id="facultyId"
+  name="facultyId"
+  [(ngModel)]="facultyId"
+  placeholder="2000-00000"
+  maxlength="10"
+  autocomplete="off"
+  inputmode="numeric"
+  (input)="onFacultyIdInput($event); clearLoginError()"
+  (blur)="onFacultyIdBlur($event)"
+  (keydown)="onFacultyIdKeydown($event)"
+  (paste)="onFacultyIdPaste($event)"
+  (drop)="onFacultyIdDrop($event)"
+  (dragover)="onFacultyIdDragOver($event)"
+  class="w-full px-3 py-2 sm:px-4 sm:py-2.5 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200 transition duration-300 bg-white text-gray-900 placeholder-gray-500 text-sm sm:text-base"
+/>
+
+
+            <div id="facultyIdError" class="text-red-600 text-xs sm:text-sm mt-2 font-medium hidden bg-red-50 border border-red-200 rounded-lg p-2">
+               Faculty ID is required!
+            </div>
+          </div>
+
+       
+          <div>
+            <label for="password" class="block text-sm font-semibold text-gray-700 mb-1.5">
+              Password <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                id="password"
+                name="password"
+                [(ngModel)]="password"
+                placeholder="••••••••••"
+                class="w-full px-3 py-2 sm:px-4 sm:py-2.5 pr-12 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-2 focus:ring-green-200 transition duration-300 bg-white text-gray-900 placeholder-gray-500 text-sm sm:text-base"
+                (input)="onPasswordInput($event)"
+                (blur)="onPasswordBlur($event)"
+              >
+              <button
+                type="button"
+                class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                (click)="togglePasswordVisibility()"
+                tabindex="-1"
+              >
+                <svg *ngIf="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                </svg>
+                <svg *ngIf="showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </button>
+            </div>
+            <div id="passwordError" class="text-red-600 text-xs sm:text-sm mt-2 font-medium hidden bg-red-50 border border-red-200 rounded-lg p-2">
+               Password is required!
+            </div>
+          </div>
+
+          <!-- remember me ug forgot password -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="w-4 h-4 text-green-500 border-2 border-gray-300 rounded focus:ring-green-200 focus:ring-2 bg-white"
+              >
+              <span class="ml-3 text-sm font-medium text-gray-700">Remember me</span>
+            </label>
+            <a routerLink="/forgot-password/faculty" class="text-sm font-semibold text-green-600 hover:text-green-700 transition duration-300">
+              Forgot your password?
+            </a>
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="showLoginError" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <p class="text-red-700 text-sm font-medium">{{ loginError }}</p>
+            </div>
+          </div>
+
+          <!-- login button -->
+          <button
+            type="submit"
+            [disabled]="isLoading"
+            class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-bold py-2.5 sm:py-3.5 px-4 sm:px-6 rounded-xl transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-green-200 text-sm sm:text-base"
+          >
+            <span *ngIf="!isLoading">Access Faculty Portal</span>
+            <span *ngIf="isLoading" class="flex items-center justify-center">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Signing In...
+            </span>
+          </button>
+        </form>
+
+        <!-- terms and privacy policy -->
+        <div class="mt-3 text-center relative z-10">
+          <p class="text-xs text-gray-500 leading-relaxed">
+            By signing in, you agree to our 
+            <a routerLink="/terms-of-service" class="text-green-600 hover:text-green-700 underline font-medium transition duration-300">Terms of Service</a>
+            and 
+            <a routerLink="/privacy-policy" class="text-green-600 hover:text-green-700 underline font-medium transition duration-300">Privacy Policy</a>
+          </p>
+        </div>
+
+            <!-- help links -->
+            <div class="mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-gray-200 text-center relative z-10">
+              <div class="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 text-xs sm:text-sm">
+                <a routerLink="/support" class="text-gray-600 hover:text-green-600 font-medium transition duration-300">
+                  Need Help?
+                </a>
+                <span class="text-gray-400 hidden sm:inline">|</span>
+                <a routerLink="/support" class="text-gray-600 hover:text-green-600 font-medium transition duration-300">
+                  Faculty Support
+                </a>
+              </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Mobile navigation event handlers
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const navPane = document.getElementById('mobile-nav-pane');
+        const overlay = document.getElementById('mobile-nav-overlay');
+        const burgerIcon = document.getElementById('burger-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        if (navPane && !navPane.classList.contains('translate-x-full')) {
+          navPane.classList.add('translate-x-full');
+          overlay.classList.add('hidden');
+          overlay.classList.remove('show');
+          burgerIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      }
+    });
+
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 768) {
+        const navPane = document.getElementById('mobile-nav-pane');
+        const overlay = document.getElementById('mobile-nav-overlay');
+        const burgerIcon = document.getElementById('burger-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        if (navPane) {
+          navPane.classList.add('translate-x-full');
+          overlay.classList.add('hidden');
+          overlay.classList.remove('show');
+          burgerIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      }
+    });
+  });
+</script>

@@ -1,0 +1,330 @@
+/* Admin Login Page Styles - Benedicto College Library Management System */
+
+/* Responsive design with 800px breakpoint */
+
+/* Default: Mobile view (below 800px) - Form only, centered */
+main {
+  flex-direction: column;
+}
+
+main > div:first-child {
+  display: none !important;
+}
+
+main > div:last-child {
+  width: 100% !important;
+}
+
+/* Desktop view (800px and above) - Logo + Form side by side */
+@media (min-width: 800px) {
+  main {
+    flex-direction: row !important;
+  }
+
+  main > div:first-child {
+    display: flex !important;
+    width: 40% !important;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  main > div:last-child {
+    width: 60% !important;
+  }
+}
+
+/* 800px dimension adjustments - larger header and better form fit */
+@media (max-width: 800px) {
+  /* Make header larger */
+  header {
+    padding: 1.5rem 1rem !important;
+    min-height: 80px !important;
+  }
+
+  /* Make login form fit better in main content */
+  main > div:last-child {
+    padding: 1.75rem 1rem !important;
+    min-height: calc(100vh - 150px) !important;
+  }
+
+  /* Make form container smaller */
+  main > div:last-child .bg-white {
+    max-width: 360px !important;
+    padding: 1.5rem !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Phone responsive adjustments */
+@media (max-width: 480px) {
+  main > div:last-child {
+    padding: 1rem !important;
+  }
+
+  main > div:last-child .bg-white {
+    max-width: 330px !important;
+    padding: 1.25rem !important;
+  }
+}
+
+/* Clean image styling - no containers, no borders */
+.login-logo-container {
+  /* No border radius, no shadows, just clean image */
+  border-radius: 0;
+  box-shadow: none;
+  background: none;
+}
+
+/* Fallback styling for image loading issues */
+.login-logo-container[src=""],
+.login-logo-container:not([src]) {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  min-height: 300px;
+}
+
+.login-logo-container[src=""]:before,
+.login-logo-container:not([src]):before {
+  content: "Benedicto College Logo";
+}
+
+/* Header SVG icon hover effects */
+.group:hover svg {
+  stroke: #fb923c !important; /* Orange-400 color */
+  transform: scale(1.1);
+}
+
+/* SVG transition effects */
+header .group svg {
+  transition: all 0.3s ease;
+}
+
+/* Ensure SVG icons are visible - BLACK by default */
+header svg {
+  stroke: #000000 !important; /* BLACK color */
+  stroke-width: 2 !important;
+  fill: none !important;
+  color: #000000 !important;
+}
+
+/* Header smooth expansion - NO SCROLLBAR */
+header {
+  transition: height 0.3s ease, padding 0.3s ease;
+  overflow: hidden !important; /* Remove scrollbar completely */
+  height: 80px; /* A bit more height normally */
+  padding-bottom: 8px; /* A little bit more padding bottom normally */
+}
+
+/* Header expands when hovering navigation */
+header:has(.group:hover) {
+  height: 110px !important; /* Expand a little bit more to show text */
+  padding-bottom: 10px;
+}
+
+/* Navigation group positioning and hover effects */
+header .group {
+  position: relative;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+header .group:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Text labels - positioned to show when header expands */
+header .group span {
+  position: absolute;
+  top: 40px; /* Position below the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 4px 8px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+/* Show text when hovering */
+header .group:hover span {
+  opacity: 1;
+}
+
+/* ===== ENHANCED MOBILE NAVIGATION STYLES ===== */
+
+/* Hide mobile burger menu by default (desktop) */
+#mobile-burger {
+  display: none;
+}
+
+/* Mobile: Show burger menu, navigation slides in/out */
+@media (max-width: 768px) {
+  #mobile-burger {
+    display: flex !important;
+  }
+
+  /* Hide desktop navigation links on mobile */
+  header .group {
+    display: none !important;
+  }
+
+  /* Navigation links - hidden by default, slide in from right */
+  #nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 41, 59, 0.96) 100%);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    width: 50vw;
+    height: 100vh;
+    padding: 5rem 2.5rem 2rem 2.5rem;
+    gap: 0;
+    transform: translateX(100%);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 10000;
+    overflow-y: auto;
+  }
+
+  /* Show navigation when mobile menu is open */
+  #nav-links.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Disable header expansion on mobile */
+  header:has(.group:hover) {
+    height: 80px !important;
+    padding-bottom: 8px !important;
+  }
+
+  /* Hide text labels on mobile */
+  header .group span {
+    display: none !important;
+  }
+
+  /* Style navigation links for mobile - clean list style */
+  #nav-links .group {
+    width: 100% !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 1.5rem 1rem !important;
+    margin-bottom: 0.5rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    transition: all 0.3s ease !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    text-align: center !important;
+    display: flex !important;
+    position: relative !important;
+  }
+
+  #nav-links .group:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-bottom-color: rgba(96, 165, 250, 0.5) !important;
+    transform: translateX(8px) !important;
+  }
+
+  #nav-links .group:active {
+    transform: scale(0.98) !important;
+  }
+
+  #nav-links .group span {
+    display: block !important;
+    position: static !important;
+    opacity: 1 !important;
+    background: none !important;
+    color: #e2e8f0 !important;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transition: all 0.3s ease !important;
+    letter-spacing: 0.025em !important;
+    text-align: center !important;
+    width: 100% !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  #nav-links .group:hover span {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    opacity: 1 !important;
+  }
+
+  /* Last item - no border */
+  #nav-links .group:last-child {
+    border-bottom: none;
+  }
+}
+
+/* Ensure header stays on top */
+header {
+  position: relative;
+  z-index: 10001;
+}
+
+/* Mobile navigation header - hidden by default */
+.mobile-nav-header {
+  display: none;
+}
+
+/* Show mobile header only when navigation is open */
+#nav-links.mobile-open .mobile-nav-header {
+  display: block !important;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Animate navigation items when modal opens */
+#nav-links.mobile-open .group {
+  animation: slideInRight 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Stagger animation for each navigation item */
+#nav-links.mobile-open .group:nth-child(2) { animation-delay: 0.1s; }
+#nav-links.mobile-open .group:nth-child(3) { animation-delay: 0.15s; }
+#nav-links.mobile-open .group:nth-child(4) { animation-delay: 0.2s; }
+#nav-links.mobile-open .group:nth-child(5) { animation-delay: 0.25s; }
+#nav-links.mobile-open .group:nth-child(6) { animation-delay: 0.3s; }
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

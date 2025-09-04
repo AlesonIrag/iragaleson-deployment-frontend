@@ -1,0 +1,59 @@
+/* Overview Component Styles */
+.news-section {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.announcements-section {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Card hover effects */
+.hover\:shadow-md:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Dark mode specific styles */
+[data-theme="dark"] .hover\:shadow-md:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* Widget animations */
+.lg\:hidden > div {
+  animation: slideInLeft 0.6s ease forwards;
+}
+
+.lg\:hidden > div:nth-child(1) { animation-delay: 0.1s; }
+.lg\:hidden > div:nth-child(2) { animation-delay: 0.2s; }
+.lg\:hidden > div:nth-child(3) { animation-delay: 0.3s; }
+.lg\:hidden > div:nth-child(4) { animation-delay: 0.4s; }
+.lg\:hidden > div:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .news-section,
+  .announcements-section {
+    margin-bottom: 1.5rem;
+  }
+}

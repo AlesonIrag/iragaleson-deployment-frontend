@@ -1,0 +1,1316 @@
+<div class="min-h-screen p-6" [class]="isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'">
+  <!-- Toast Notifications -->
+  <app-toast></app-toast>
+
+  <!-- Header -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold mb-2">Books & Catalog</h1>
+        <p class="text-gray-600 dark:text-gray-400">Manage your library's book collection</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button (click)="openBookSummaryModal()"
+          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center"
+          title="View book summary">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+            </path>
+          </svg>
+          Book Summary
+        </button>
+        <button (click)="refreshBooks()"
+          class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed refresh-button"
+          [disabled]="isRefreshing"
+          [title]="isRefreshing ? 'Refreshing books...' : 'Refresh books list'">
+          <div class="refresh-content">
+            <!-- Spinning circle when refreshing -->
+            <svg *ngIf="isRefreshing" class="w-5 h-5 loading-circle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+            <!-- Static refresh icon when not refreshing -->
+            <svg *ngIf="!isRefreshing" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+              </path>
+            </svg>
+            <!-- Dynamic text based on loading state -->
+            <span *ngIf="!isRefreshing" class="hidden sm:inline ml-2">Refresh</span>
+            <span *ngIf="isRefreshing" class="hidden sm:inline ml-2">Refreshing...</span>
+          </div>
+        </button>
+        <div class="flex space-x-3">
+          <!-- CSV Import Button -->
+          <button (click)="openImportCsvModal()"
+            class="bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+            </svg>
+            Import CSV
+          </button>
+
+          <!-- CSV Export Button -->
+          <button (click)="exportToCsv()"
+            class="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            Export CSV
+          </button>
+
+          <!-- Add New Book Button -->
+          <button (click)="openAddBookModal()"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            Add New Book
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Search and Filters -->
+  <div class="rounded-lg p-6 shadow-sm border mb-8"
+    [class]="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div class="flex-1 max-w-md">
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()"
+            placeholder="Search books by title, author, ISBN, or call number..."
+            class="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            [class]="isDarkMode ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'">
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <select [(ngModel)]="selectedCategory" (ngModelChange)="onFilterChange()"
+          class="px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          [class]="isDarkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-gray-900'">
+          <option value="">All Categories</option>
+          <option *ngFor="let category of getUniqueCategories()" [value]="category">{{ category }}</option>
+        </select>
+        <select [(ngModel)]="selectedSubject" (ngModelChange)="onFilterChange()"
+          class="px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          [class]="isDarkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-gray-900'">
+          <option value="">All Subjects</option>
+          <option *ngFor="let subject of getUniqueSubjects()" [value]="subject">{{ subject }}</option>
+        </select>
+        <select [(ngModel)]="selectedStatus" (ngModelChange)="onFilterChange()"
+          class="px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          [class]="isDarkMode ? 'border-gray-600 bg-gray-700 text-white' : 'border-gray-300 bg-white text-gray-900'">
+          <option value="">All Status</option>
+          <option *ngFor="let status of getUniqueStatuses()" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Books Table -->
+  <div class="rounded-lg shadow-sm border overflow-hidden"
+    [class]="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
+    <div class="px-6 py-4 border-b" [class]="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+      <h3 class="text-lg font-semibold" [class]="isDarkMode ? 'text-white' : 'text-gray-900'">Book Collection</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead [class]="isDarkMode ? 'bg-gray-700' : 'bg-gray-50'">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+              [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" (click)="sortBy('title')">
+              <div class="flex items-center">
+                Book Details
+                <svg *ngIf="sortColumn === 'title'" class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path *ngIf="sortDirection === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                  <path *ngIf="sortDirection === 'desc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+              [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" (click)="sortBy('category')">
+              <div class="flex items-center">
+                Category
+                <svg *ngIf="sortColumn === 'category'" class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path *ngIf="sortDirection === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                  <path *ngIf="sortDirection === 'desc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+              [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" (click)="sortBy('status')">
+              <div class="flex items-center">
+                Status
+                <svg *ngIf="sortColumn === 'status'" class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path *ngIf="sortDirection === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                  <path *ngIf="sortDirection === 'desc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+              [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">Location</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+              [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y" [class]="isDarkMode ? 'divide-gray-700' : 'divide-gray-200'">
+          <!-- No books message -->
+          <tr *ngIf="books.length === 0" class="hover:bg-opacity-50"
+            [class]="isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'">
+            <td colspan="5" class="px-6 py-12 text-center">
+              <div class="flex flex-col items-center">
+                <svg class="w-12 h-12 text-gray-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                  </path>
+                </svg>
+                <h3 class="text-lg font-medium mb-2" [class]="isDarkMode ? 'text-white' : 'text-gray-900'">No books
+                  found</h3>
+                <p class="mb-4" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">Get started by adding your
+                  first book to the catalog.</p>
+                <button (click)="openAddBookModal()"
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                  Add Your First Book
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Dynamic books from API -->
+          <tr *ngFor="let book of books" class="hover:bg-opacity-50"
+            [class]="isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'">
+            <td class="px-6 py-4">
+              <div class="flex items-center">
+                <div class="w-12 h-16 rounded flex items-center justify-center mr-4"
+                  [class]="isDarkMode ? 'bg-blue-900' : 'bg-blue-100'">
+                  <svg class="w-6 h-6" [class]="isDarkMode ? 'text-blue-400' : 'text-blue-600'" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                    </path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-sm font-medium" [class]="isDarkMode ? 'text-white' : 'text-gray-900'">{{ book.Title
+                    }}</div>
+                  <div class="text-sm" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" *ngIf="book.Author">by
+                    {{ book.Author }}</div>
+                  <div class="text-xs" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" *ngIf="book.ISBN">ISBN:
+                    {{ book.ISBN }}</div>
+                  <div class="text-xs" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">
+                    <span *ngIf="book.CallNumber">Call Number: {{ book.CallNumber }}</span>
+                    <span *ngIf="book.CallNumber && book.DeweyDecimal"> | </span>
+                    <span *ngIf="book.DeweyDecimal">Dewey: {{ book.DeweyDecimal }}</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-sm" [class]="isDarkMode ? 'text-gray-300' : 'text-gray-900'">
+              <div *ngIf="book.Category">{{ book.Category }}</div>
+              <div class="text-xs" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'" *ngIf="book.Subject">{{
+                book.Subject }}</div>
+            </td>
+            <td class="px-6 py-4">
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full" [ngClass]="{
+                      'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200': book.Status === 'Available',
+                      'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200': book.Status === 'Borrowed',
+                      'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200': book.Status === 'Lost',
+                      'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200': book.Status === 'Damaged'
+                    }">
+                {{ book.Status }}
+              </span>
+              <div class="text-xs text-gray-500 mt-1">{{ book.Copies || 1 }} copies</div>
+            </td>
+            <td class="px-6 py-4 text-sm">{{ book.ShelfLocation || 'N/A' }}</td>
+            <td class="px-6 py-4 text-sm">
+              <div class="flex space-x-2">
+                <button (click)="viewBook(book.BookID)"
+                  class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">View</button>
+                <button (click)="editBook(book.BookID)"
+                  class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300">Edit</button>
+                <button (click)="openArchiveModal(book)"
+                  class="text-orange-600 hover:text-orange-900 dark:text-orange-400 dark:hover:text-orange-300">Archive</button>
+                <button (click)="deleteBook(book.BookID)"
+                  class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Delete</button>
+              </div>
+            </td>
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="totalBooks > 0" class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+      <div class="flex items-center justify-between">
+        <!-- Results info and Items per page selector -->
+        <div class="flex items-center gap-4">
+          <div class="text-sm text-gray-700 dark:text-gray-300">
+            Showing {{ getDisplayRange() }} books
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-sm text-gray-700 dark:text-gray-300">Show:</label>
+            <select [(ngModel)]="itemsPerPage" (ngModelChange)="onItemsPerPageChange()"
+              class="px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+            <span class="text-sm text-gray-700 dark:text-gray-300">per page</span>
+          </div>
+        </div>
+
+        <!-- Pagination controls -->
+        <div class="flex items-center space-x-2">
+          <!-- Previous button -->
+          <button (click)="previousPage()" [disabled]="currentPage === 1"
+            class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+          </button>
+
+          <!-- Page numbers -->
+          <button *ngFor="let page of getPageNumbers()" (click)="goToPage(page)"
+            [class]="page === currentPage ?
+              'px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-300 rounded-lg dark:bg-blue-900 dark:text-blue-200 dark:border-blue-600' :
+              'px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'">
+            {{ page }}
+          </button>
+
+          <!-- Next button -->
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages"
+            class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Book Modal -->
+  <div *ngIf="showAddBookModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-[800px] h-[500px] overflow-y-auto">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Add New Book</h3>
+          <button (click)="closeAddBookModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <form (ngSubmit)="onSubmitBook()" #bookForm="ngForm" class="p-4">
+        <div class="space-y-3">
+          <!-- Title (Full Width) -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Title <span class="text-red-500">*</span>
+            </label>
+            <input type="text" [(ngModel)]="newBook.Title" name="title" required
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+              [class.border-red-500]="!newBook.Title && isSubmitting" placeholder="Enter book title">
+            <p *ngIf="!newBook.Title && isSubmitting" class="text-red-500 text-xs mt-1">Title is required</p>
+          </div>
+
+          <!-- Author, ISBN, and Category Row -->
+          <div class="grid grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Author</label>
+              <input type="text" [(ngModel)]="newBook.Author" name="author"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                placeholder="Author name">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                ISBN <span class="text-red-500">*</span>
+              </label>
+              <input type="text" [(ngModel)]="newBook.ISBN" name="isbn" required
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                [class.border-red-500]="!newBook.ISBN && isSubmitting" placeholder="ISBN">
+              <p *ngIf="!newBook.ISBN && isSubmitting" class="text-red-500 text-xs mt-1">Required</p>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+              <select [(ngModel)]="newBook.Category" name="category"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm">
+                <option value="">Select Category</option>
+                <option value="Technology">Technology</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="History">History</option>
+                <option value="Literature">Literature</option>
+                <option value="Science">Science</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Business">Business</option>
+                <option value="Arts">Arts</option>
+                <option value="Philosophy">Philosophy</option>
+                <option value="Religion">Religion</option>
+                <option value="Others">Others</option>
+                <option value="Miscellaneous">Miscellaneous</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Subject and Publisher Row -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Subject</label>
+              <input type="text" [(ngModel)]="newBook.Subject" name="subject"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                placeholder="Subject">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Publisher</label>
+              <input type="text" [(ngModel)]="newBook.Publisher" name="publisher"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                placeholder="Publisher name">
+            </div>
+          </div>
+
+          <!-- Years, Copies, Call Number, and Dewey Row -->
+          <div class="grid grid-cols-4 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Published Year</label>
+              <input type="number" [(ngModel)]="newBook.PublishedYear" name="publishedYear" min="1000" max="2030"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                placeholder="Year">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Copyright Year</label>
+              <input type="number" [(ngModel)]="newBook.CopyrightYear" name="copyrightYear" min="1000" max="2030"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                placeholder="Year">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Copies</label>
+              <input type="number" [(ngModel)]="newBook.Copies" name="copies" min="1"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                placeholder="1">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+              <select [(ngModel)]="newBook.Status" name="status"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm">
+                <option value="Available">Available</option>
+                <option value="Borrowed">Borrowed</option>
+                <option value="Lost">Lost</option>
+                <option value="Damaged">Damaged</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Call Number, Dewey, Shelf Location, and Date Row -->
+          <div class="grid grid-cols-4 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Call Number</label>
+              <input type="text" [(ngModel)]="newBook.CallNumber" name="callNumber"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                placeholder="Call #">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Dewey Decimal</label>
+              <input type="text" [(ngModel)]="newBook.DeweyDecimal" name="deweyDecimal"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                placeholder="Dewey #">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Shelf Location</label>
+              <input type="text" [(ngModel)]="newBook.ShelfLocation" name="shelfLocation"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                placeholder="Shelf">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Acquisition Date</label>
+              <input type="date" [(ngModel)]="newBook.AcquisitionDate" name="acquisitionDate"
+                class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm">
+            </div>
+          </div>
+
+          <!-- Remarks -->
+          <div>
+            <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Remarks</label>
+            <textarea [(ngModel)]="newBook.Remarks" name="remarks" rows="2"
+              class="w-full px-2 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm resize-none"
+              placeholder="Any remarks or notes about the book"></textarea>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="flex justify-end gap-2 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+          <button type="button" (click)="closeAddBookModal()"
+            class="px-3 py-1.5 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md transition-colors text-sm">
+            Cancel
+          </button>
+          <button type="submit" [disabled]="!newBook.Title || !newBook.ISBN || isSubmitting"
+            class="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-md transition-colors flex items-center text-sm">
+            <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-2 h-3 w-3 text-white"
+              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            {{ isSubmitting ? 'Adding...' : 'Add Book' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- View Book Modal -->
+  <div *ngIf="showViewBookModal && selectedBook"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Book Details</h3>
+          <button (click)="closeViewBookModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="px-6 py-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Book Icon and Basic Info -->
+          <div class="md:col-span-2 flex items-start space-x-4 mb-6">
+            <div class="w-20 h-28 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+              <svg class="w-10 h-10 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                </path>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{{ selectedBook.Title }}</h4>
+              <p class="text-gray-600 dark:text-gray-400 mb-1" *ngIf="selectedBook.Author">by {{ selectedBook.Author }}
+              </p>
+              <p class="text-sm text-gray-500 dark:text-gray-500" *ngIf="selectedBook.ISBN">ISBN: {{ selectedBook.ISBN
+                }}</p>
+              <div class="mt-3">
+                <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full" [ngClass]="{
+                        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200': selectedBook.Status === 'Available',
+                        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200': selectedBook.Status === 'Borrowed',
+                        'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200': selectedBook.Status === 'Lost',
+                        'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200': selectedBook.Status === 'Damaged'
+                      }">
+                  {{ selectedBook.Status }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book Details Grid -->
+          <div class="space-y-4">
+            <div *ngIf="selectedBook.Category">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+              <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.Category }}</p>
+            </div>
+
+            <div *ngIf="selectedBook.Subject">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Subject</label>
+              <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.Subject }}</p>
+            </div>
+
+            <div *ngIf="selectedBook.Publisher">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Publisher</label>
+              <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.Publisher }}</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div *ngIf="selectedBook.PublishedYear">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Published Year</label>
+                <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.PublishedYear }}</p>
+              </div>
+              <div *ngIf="selectedBook.CopyrightYear">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Copyright Year</label>
+                <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.CopyrightYear }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div *ngIf="selectedBook.CallNumber">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Call Number</label>
+                <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.CallNumber }}</p>
+              </div>
+              <div *ngIf="selectedBook.DeweyDecimal">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Dewey Decimal</label>
+                <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.DeweyDecimal }}</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Copies</label>
+                <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.Copies || 1 }}</p>
+              </div>
+              <div *ngIf="selectedBook.ShelfLocation">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Shelf Location</label>
+                <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.ShelfLocation }}</p>
+              </div>
+            </div>
+
+            <div *ngIf="selectedBook.AcquisitionDate">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Acquisition Date</label>
+              <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.AcquisitionDate | date:'mediumDate'
+                }}</p>
+            </div>
+          </div>
+
+          <div class="md:col-span-2" *ngIf="selectedBook.Remarks">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Remarks</label>
+            <p class="mt-1 text-sm text-gray-900 dark:text-white">{{ selectedBook.Remarks }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3">
+        <button (click)="closeViewBookModal()"
+          class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">
+          Close
+        </button>
+        <button (click)="editBook(selectedBook.BookID)"
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+          Edit Book
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Book Modal -->
+  <div *ngIf="showEditBookModal && selectedBook"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Edit Book</h3>
+          <button (click)="closeEditBookModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <form (ngSubmit)="onUpdateBook()" #editBookForm="ngForm" class="px-6 py-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Title -->
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Title <span class="text-red-500">*</span>
+            </label>
+            <input type="text" [(ngModel)]="editBookData.Title" name="editTitle" required
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              [class.border-red-500]="!editBookData.Title && isSubmitting"
+              [class.dark:border-red-500]="!editBookData.Title && isSubmitting" placeholder="Enter book title">
+            <p *ngIf="!editBookData.Title && isSubmitting" class="text-red-500 text-xs mt-1">Title is required</p>
+          </div>
+
+          <!-- Author -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Author</label>
+            <input type="text" [(ngModel)]="editBookData.Author" name="editAuthor"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Enter author name">
+          </div>
+
+          <!-- ISBN -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              ISBN <span class="text-red-500">*</span>
+            </label>
+            <input type="text" [(ngModel)]="editBookData.ISBN" name="editIsbn" required
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              [class.border-red-500]="!editBookData.ISBN && isSubmitting"
+              [class.dark:border-red-500]="!editBookData.ISBN && isSubmitting" placeholder="Enter ISBN">
+            <p *ngIf="!editBookData.ISBN && isSubmitting" class="text-red-500 text-xs mt-1">ISBN is required</p>
+          </div>
+
+          <!-- Category -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Category</label>
+            <select [(ngModel)]="editBookData.Category" name="editCategory"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <option value="">Select Category</option>
+              <option value="Technology">Technology</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="History">History</option>
+              <option value="Literature">Literature</option>
+              <option value="Science">Science</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Business">Business</option>
+              <option value="Arts">Arts</option>
+              <option value="Philosophy">Philosophy</option>
+              <option value="Religion">Religion</option>
+              <option value="Others">Others</option>
+              <option value="Miscellaneous">Miscellaneous</option>
+            </select>
+          </div>
+
+          <!-- Subject -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Subject</label>
+            <input type="text" [(ngModel)]="editBookData.Subject" name="editSubject"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Enter subject">
+          </div>
+
+          <!-- Published Year -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Published Year</label>
+            <input type="number" [(ngModel)]="editBookData.PublishedYear" name="editPublishedYear" min="1000" max="2030"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Enter published year">
+          </div>
+
+          <!-- Copyright Year -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Copyright Year</label>
+            <input type="number" [(ngModel)]="editBookData.CopyrightYear" name="editCopyrightYear" min="1000" max="2030"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Enter copyright year">
+          </div>
+
+          <!-- Publisher -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Publisher</label>
+            <input type="text" [(ngModel)]="editBookData.Publisher" name="editPublisher"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Enter publisher">
+          </div>
+
+          <!-- Call Number -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Call Number</label>
+            <input type="text" [(ngModel)]="editBookData.CallNumber" name="editCallNumber"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Enter call number">
+          </div>
+
+          <!-- Dewey Decimal -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Dewey Decimal</label>
+            <input type="text" [(ngModel)]="editBookData.DeweyDecimal" name="editDeweyDecimal"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Enter Dewey Decimal">
+          </div>
+
+          <!-- Copies -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Number of Copies</label>
+            <input type="number" [(ngModel)]="editBookData.Copies" name="editCopies" min="1"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Enter number of copies">
+          </div>
+
+          <!-- Status -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
+            <select [(ngModel)]="editBookData.Status" name="editStatus"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <option value="Available">Available</option>
+              <option value="Borrowed">Borrowed</option>
+              <option value="Lost">Lost</option>
+              <option value="Damaged">Damaged</option>
+            </select>
+          </div>
+
+          <!-- Shelf Location -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Shelf Location</label>
+            <input type="text" [(ngModel)]="editBookData.ShelfLocation" name="editShelfLocation"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Enter shelf location">
+          </div>
+
+          <!-- Acquisition Date -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Acquisition Date</label>
+            <input type="date" [(ngModel)]="editBookData.AcquisitionDate" name="editAcquisitionDate"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+          </div>
+
+          <!-- Remarks -->
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Remarks</label>
+            <textarea [(ngModel)]="editBookData.Remarks" name="editRemarks" rows="3"
+              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Enter any remarks or notes about the book"></textarea>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <button type="button" (click)="closeEditBookModal()"
+            class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">
+            Cancel
+          </button>
+          <button type="button" (click)="onUpdateBook()"
+            [disabled]="!editBookData.Title || !editBookData.ISBN || isSubmitting"
+            class="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center">
+            <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            {{ isSubmitting ? 'Updating...' : 'Update Book' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div *ngIf="showDeleteConfirmModal && selectedBook"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Confirm Delete</h3>
+          <button (click)="closeDeleteConfirmModal()"
+            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="px-6 py-4">
+        <div class="flex items-center mb-4">
+          <div class="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mr-4">
+            <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z">
+              </path>
+            </svg>
+          </div>
+          <div>
+            <h4 class="text-lg font-medium text-gray-900 dark:text-white">Delete Book</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400">This action cannot be undone.</p>
+          </div>
+        </div>
+
+        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4">
+          <h5 class="font-medium text-gray-900 dark:text-white mb-2">{{ selectedBook.Title }}</h5>
+          <p class="text-sm text-gray-600 dark:text-gray-400" *ngIf="selectedBook.Author">by {{ selectedBook.Author }}
+          </p>
+          <p class="text-xs text-gray-500 dark:text-gray-500" *ngIf="selectedBook.ISBN">ISBN: {{ selectedBook.ISBN }}
+          </p>
+        </div>
+
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          Are you sure you want to delete this book? This will permanently remove it from the library catalog.
+        </p>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3">
+        <button (click)="closeDeleteConfirmModal()" [disabled]="isSubmitting"
+          class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors">
+          Cancel
+        </button>
+        <button (click)="confirmDelete()" [disabled]="isSubmitting"
+          class="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center">
+          <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+          </svg>
+          {{ isSubmitting ? 'Deleting...' : 'Delete Book' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Summary Modal -->
+  <div *ngIf="showBookSummaryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
+      <!-- Modal Header with Colorful Design -->
+      <div class="relative px-6 py-6 bg-gradient-to-r from-green-600 to-blue-600 text-white rounded-t-lg">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                </path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold">Book Collection Summary</h3>
+              <p class="text-green-100 text-sm">Overview of your library's book catalog</p>
+            </div>
+          </div>
+          <button (click)="closeBookSummaryModal()" class="text-white hover:text-gray-200 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6">
+        <!-- Profile Header with Colorful Design -->
+        <div
+          class="flex items-center mb-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-900 dark:to-green-900 rounded-lg border border-blue-200 dark:border-blue-700">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center mr-4">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+              </path>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Library Book Collection</h4>
+            <p class="text-gray-600 dark:text-gray-400">Complete overview of all books in the catalog</p>
+            <div class="flex gap-2 mt-2">
+              <span
+                class="px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs rounded-full">Active
+                Catalog</span>
+              <span
+                class="px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs rounded-full">Digital
+                Management</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book Summary Section with Minimalist Design -->
+        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-6">
+          <div class="border-b border-gray-200 dark:border-gray-700 pb-4 mb-6">
+            <h5 class="text-lg font-medium text-gray-900 dark:text-white">Book Summary</h5>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Total Books -->
+            <div class="bg-white dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Books</div>
+              <div class="text-2xl font-semibold text-gray-900 dark:text-white">{{ getBookStats().totalBooks }}</div>
+            </div>
+
+            <!-- Available Books -->
+            <div class="bg-white dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">Available</div>
+              <div class="text-2xl font-semibold text-gray-900 dark:text-white">{{ getBookStats().availableBooks }}
+              </div>
+            </div>
+
+            <!-- Borrowed Books -->
+            <div class="bg-white dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">Borrowed</div>
+              <div class="text-2xl font-semibold text-gray-900 dark:text-white">{{ getBookStats().borrowedBooks }}</div>
+            </div>
+
+            <!-- Lost Books -->
+            <div class="bg-white dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">Lost</div>
+              <div class="text-2xl font-semibold text-gray-900 dark:text-white">{{ getBookStats().lostBooks }}</div>
+            </div>
+
+            <!-- Damaged Books -->
+            <div class="bg-white dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">Damaged</div>
+              <div class="text-2xl font-semibold text-gray-900 dark:text-white">{{ getBookStats().damagedBooks }}</div>
+            </div>
+
+            <!-- Categories -->
+            <div class="bg-white dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div class="text-sm text-gray-500 dark:text-gray-400 mb-1">Categories</div>
+              <div class="text-2xl font-semibold text-gray-900 dark:text-white">{{
+                getObjectKeys(getBookStats().categoryStats).length }}</div>
+            </div>
+          </div>
+
+          <!-- Category Distribution -->
+          <div class="mt-6" *ngIf="getObjectKeys(getBookStats().categoryStats).length > 0">
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-2 mb-4">
+              <h6 class="text-sm font-medium text-gray-900 dark:text-white">Category Distribution</h6>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div *ngFor="let category of getObjectKeys(getBookStats().categoryStats)"
+                class="flex justify-between items-center py-2 px-3 bg-white dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600">
+                <span class="text-sm text-gray-900 dark:text-white">{{ category }}</span>
+                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">{{
+                  getBookStats().categoryStats[category] }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colorful Information Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Collection Information -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-3">
+                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                  </path>
+                </svg>
+              </div>
+              <h6 class="text-lg font-semibold text-gray-900 dark:text-white">Collection Information</h6>
+            </div>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="text-gray-600 dark:text-gray-400">Total Catalog Size</span>
+                <span class="font-medium text-gray-900 dark:text-white">{{ getBookStats().totalBooks }} books</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600 dark:text-gray-400">Available for Borrowing</span>
+                <span class="font-medium text-green-600 dark:text-green-400">{{ getBookStats().availableBooks }}
+                  books</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600 dark:text-gray-400">Currently Borrowed</span>
+                <span class="font-medium text-yellow-600 dark:text-yellow-400">{{ getBookStats().borrowedBooks }}
+                  books</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status Information -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+            <div class="flex items-center mb-4">
+              <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+                  </path>
+                </svg>
+              </div>
+              <h6 class="text-lg font-semibold text-gray-900 dark:text-white">Status Overview</h6>
+            </div>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="text-gray-600 dark:text-gray-400">Books Needing Attention</span>
+                <span class="font-medium text-red-600 dark:text-red-400">{{ getBookStats().lostBooks +
+                  getBookStats().damagedBooks }} books</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600 dark:text-gray-400">Lost Books</span>
+                <span class="font-medium text-gray-900 dark:text-white">{{ getBookStats().lostBooks }} books</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600 dark:text-gray-400">Damaged Books</span>
+                <span class="font-medium text-gray-900 dark:text-white">{{ getBookStats().damagedBooks }} books</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer with Colorful Design -->
+      <div
+        class="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900 border-t border-gray-200 dark:border-gray-700 rounded-b-lg">
+        <div class="flex justify-end">
+          <button (click)="closeBookSummaryModal()"
+            class="px-6 py-2 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl">
+            Close Summary
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSV Import Modal -->
+  <div *ngIf="showImportCsvModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
+      <!-- Modal Header -->
+      <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20">
+        <div class="flex items-center">
+          <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center mr-4">
+            <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Import Books from CSV</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Upload and validate book catalog data</p>
+          </div>
+        </div>
+        <button (click)="closeImportCsvModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6">
+        <!-- Step 1: Upload CSV -->
+        <div *ngIf="csvImportStep === 'upload'">
+          <div class="text-center mb-6">
+            <!-- Enhanced drag-and-drop area -->
+            <div class="border-2 border-dashed rounded-lg p-8 transition-all duration-200"
+                 [class]="isDragOver ? 'border-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 dark:border-indigo-500' : 'border-gray-300 dark:border-gray-600'"
+                 (dragover)="onDragOver($event)"
+                 (dragleave)="onDragLeave($event)"
+                 (drop)="onDrop($event)">
+              <svg class="w-12 h-12 mx-auto mb-4 transition-colors duration-200"
+                   [class]="isDragOver ? 'text-indigo-500 dark:text-indigo-400' : 'text-gray-400'"
+                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+              </svg>
+              <h4 class="text-lg font-medium mb-2 transition-colors duration-200"
+                  [class]="isDragOver ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-900 dark:text-white'">
+                {{ isDragOver ? 'Drop CSV file here' : 'Upload CSV File' }}
+              </h4>
+              <p class="mb-4 transition-colors duration-200"
+                 [class]="isDragOver ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-600 dark:text-gray-400'">
+                {{ isDragOver ? 'Release to upload your file' : 'Drag and drop a CSV file here, or click to browse' }}
+              </p>
+              <input type="file" accept=".csv" (change)="onCsvFileSelected($event)"
+                     class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 dark:file:bg-indigo-900 dark:file:text-indigo-200">
+            </div>
+          </div>
+
+          <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-4">
+            <div class="flex">
+              <svg class="w-5 h-5 text-yellow-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div class="text-sm text-yellow-800 dark:text-yellow-200">
+                <p class="font-medium">CSV Format Requirements:</p>
+                <ul class="mt-2 list-disc list-inside space-y-1">
+                  <li><strong>Required headers:</strong> Title, Author, ISBN</li>
+                  <li><strong>Optional headers:</strong> Category, Subject, PublishedYear, CopyrightYear, Publisher, CallNumber, DeweyDecimal, Copies, Remarks, Status, ShelfLocation, AcquisitionDate</li>
+                  <li><strong>ISBN format:</strong> Valid ISBN-10 or ISBN-13</li>
+                  <li><strong>Publication year:</strong> Between 1000-2030</li>
+                  <li><strong>File requirements:</strong> CSV (.csv extension), Maximum 10MB, UTF-8 encoding</li>
+                  <li><strong>Status values:</strong> Available, Borrowed, Lost, Damaged (defaults to Available)</li>
+                </ul>
+                <p class="mt-2 text-xs bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 p-2 rounded"><strong>ℹ️ Tip:</strong> Download the template to see the exact format required.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between">
+            <button (click)="downloadBookTemplate()"
+              class="px-4 py-2 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 rounded-lg transition-colors duration-200">
+              Download Template
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Validate Data -->
+        <div *ngIf="csvImportStep === 'validate'">
+          <div class="mb-6">
+            <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Validation Results</h4>
+
+            <!-- Valid Books -->
+            <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 mb-4">
+              <div class="flex items-center mb-2">
+                <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="font-medium text-green-800 dark:text-green-200">
+                  {{ csvValidationResults.valid.length }} Valid Books
+                </span>
+              </div>
+            </div>
+
+            <!-- Invalid Books -->
+            <div *ngIf="csvValidationResults.invalid.length > 0"
+              class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-4">
+              <div class="flex items-center mb-2">
+                <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+                <span class="font-medium text-red-800 dark:text-red-200">
+                  {{ csvValidationResults.invalid.length }} Invalid Books
+                </span>
+              </div>
+              <div class="max-h-40 overflow-y-auto">
+                <div *ngFor="let invalid of csvValidationResults.invalid" class="text-sm text-red-700 dark:text-red-300 mb-2">
+                  <strong>Row {{ invalid.rowNumber }}:</strong> {{ invalid.errors.join(', ') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Import Progress -->
+        <div *ngIf="csvImportStep === 'import'">
+          <div class="text-center">
+            <div class="mb-4">
+              <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                </svg>
+              </div>
+              <h4 class="text-lg font-medium text-gray-900 dark:text-white">Importing Books...</h4>
+              <p class="text-gray-600 dark:text-gray-400">Please wait while we import your book catalog</p>
+            </div>
+
+            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-4">
+              <div class="bg-indigo-600 h-2 rounded-full transition-all duration-300" [style.width.%]="csvImportProgress"></div>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{{ csvImportProgress }}% Complete</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex justify-end space-x-3 p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+        <button *ngIf="csvImportStep !== 'import'"
+          type="button"
+          (click)="closeImportCsvModal()"
+          class="px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200 font-medium">
+          Cancel
+        </button>
+
+        <button *ngIf="csvImportStep === 'validate' && csvValidationResults.valid.length > 0"
+          type="button"
+          (click)="importValidBooks()"
+          class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors duration-200 font-medium shadow-lg"
+          [disabled]="isSubmitting">
+          Import {{ csvValidationResults.valid.length }} Books
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Archive Book Modal -->
+  <div *ngIf="showArchiveModal && selectedBook" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Archive Book</h3>
+          <button (click)="closeArchiveModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Modal Body -->
+      <div class="p-6" *ngIf="selectedBook">
+        <!-- Book Information Display -->
+        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
+          <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Book Details</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
+              <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.Title }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Author</label>
+              <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.Author || 'N/A' }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">ISBN</label>
+              <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.ISBN }}</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+              <p class="text-sm text-gray-900 dark:text-white">{{ selectedBook.Category || 'N/A' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Archive Form -->
+        <form (ngSubmit)="confirmArchive()" #archiveForm="ngForm">
+          <div class="space-y-4">
+            <!-- Archive Reason -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Archive Reason <span class="text-red-500">*</span>
+              </label>
+              <select [(ngModel)]="archiveData.reason" name="archiveReason" required
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                [class.border-red-500]="!archiveData.reason && archiveFormSubmitted">
+                <option value="">Select Archive Reason</option>
+                <option value="Lost">Lost</option>
+                <option value="Damaged">Damaged</option>
+                <option value="Outdated">Outdated</option>
+                <option value="Policy">Policy Change</option>
+              </select>
+              <p *ngIf="!archiveData.reason && archiveFormSubmitted" class="text-red-500 text-xs mt-1">Archive reason is required</p>
+            </div>
+
+            <!-- Archive Notes -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Archive Notes
+              </label>
+              <textarea [(ngModel)]="archiveData.notes" name="archiveNotes" rows="4"
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                placeholder="Enter any additional notes or remarks about why this book is being archived..."></textarea>
+            </div>
+
+            <!-- Archive Date (Auto-filled, read-only) -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Archive Date</label>
+              <input type="text" [value]="getCurrentDate()" readonly
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-600 text-gray-900 dark:text-white cursor-not-allowed">
+            </div>
+
+            <!-- Archived By (Auto-filled, read-only) -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Archived By</label>
+              <input type="text" [value]="getCurrentAdmin()?.fullName || 'Admin User'" readonly
+                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-600 text-gray-900 dark:text-white cursor-not-allowed">
+            </div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <button type="button" (click)="closeArchiveModal()"
+              class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200">
+              Cancel
+            </button>
+            <button type="submit" [disabled]="!archiveData.reason || isSubmitting"
+              class="px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-colors duration-200 flex items-center font-medium">
+              <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              {{ isSubmitting ? 'Archiving...' : 'Archive Book' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

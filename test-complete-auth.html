@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Authentication Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section.success {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+        .test-section.error {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+        }
+        .test-section.pending {
+            border-color: #ffc107;
+            background-color: #fff3cd;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: black;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .credentials {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Complete Authentication Flow Test</h1>
+        
+        <div class="credentials">
+            <h3>Test Credentials:</h3>
+            <p><strong>Student ID:</strong> 2024-00001</p>
+            <p><strong>Password:</strong> password123</p>
+        </div>
+
+        <div class="test-section" id="test1">
+            <h3>Test 1: Direct Access Protection</h3>
+            <p>This test verifies that direct access to /student-dashboard is blocked when not authenticated.</p>
+            <button class="btn-primary" onclick="testDirectAccess()">🚫 Test Direct Access</button>
+            <div id="result1"></div>
+        </div>
+
+        <div class="test-section" id="test2">
+            <h3>Test 2: Login Flow</h3>
+            <p>This test verifies that the login process works correctly.</p>
+            <button class="btn-primary" onclick="testLogin()">🔑 Test Login</button>
+            <div id="result2"></div>
+        </div>
+
+        <div class="test-section" id="test3">
+            <h3>Test 3: Authenticated Access</h3>
+            <p>This test verifies that authenticated users can access the dashboard.</p>
+            <button class="btn-primary" onclick="testAuthenticatedAccess()">✅ Test Authenticated Access</button>
+            <div id="result3"></div>
+        </div>
+
+        <div class="test-section" id="test4">
+            <h3>Test 4: Logout Functionality</h3>
+            <p>This test verifies that logout completely clears authentication.</p>
+            <button class="btn-primary" onclick="testLogout()">🚪 Test Logout</button>
+            <div id="result4"></div>
+        </div>
+
+        <div class="test-section" id="test5">
+            <h3>Test 5: Post-Logout Protection</h3>
+            <p>This test verifies that access is blocked after logout.</p>
+            <button class="btn-primary" onclick="testPostLogout()">🔒 Test Post-Logout Protection</button>
+            <div id="result5"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Manual Testing Steps</h2>
+        
+        <div class="step">
+            <strong>Step 1:</strong> Open a new tab and go to <a href="http://localhost:4200/student-dashboard" target="_blank">http://localhost:4200/student-dashboard</a>
+            <br><em>Expected: Should redirect to login page</em>
+        </div>
+        
+        <div class="step">
+            <strong>Step 2:</strong> Go to <a href="http://localhost:4200/login" target="_blank">http://localhost:4200/login</a> and login with test credentials
+            <br><em>Expected: Should redirect to student dashboard</em>
+        </div>
+        
+        <div class="step">
+            <strong>Step 3:</strong> Try accessing <a href="http://localhost:4200/student-dashboard" target="_blank">http://localhost:4200/student-dashboard</a> again
+            <br><em>Expected: Should show dashboard without redirect</em>
+        </div>
+        
+        <div class="step">
+            <strong>Step 4:</strong> Click logout in the dashboard
+            <br><em>Expected: Should redirect to login and clear all authentication</em>
+        </div>
+        
+        <div class="step">
+            <strong>Step 5:</strong> Try accessing dashboard again after logout
+            <br><em>Expected: Should redirect to login page</em>
+        </div>
+    </div>
+
+    <script>
+        function updateTestResult(testId, status, message) {
+            const testSection = document.getElementById(testId);
+            const resultDiv = document.getElementById(`result${testId.slice(-1)}`);
+            
+            testSection.className = `test-section ${status}`;
+            resultDiv.innerHTML = `<div class="test-result">${message}</div>`;
+        }
+
+        function testDirectAccess() {
+            updateTestResult('test1', 'pending', '🔄 Testing direct access to /student-dashboard...');
+            
+            // Open in new window to test
+            const testWindow = window.open('http://localhost:4200/student-dashboard', '_blank');
+            
+            setTimeout(() => {
+                try {
+                    const currentUrl = testWindow.location.href;
+                    if (currentUrl.includes('/login')) {
+                        updateTestResult('test1', 'success', '✅ PASSED: Direct access blocked, redirected to login');
+                        testWindow.close();
+                    } else if (currentUrl.includes('/student-dashboard')) {
+                        updateTestResult('test1', 'error', '❌ FAILED: Direct access allowed (should be blocked)');
+                        testWindow.close();
+                    } else {
+                        updateTestResult('test1', 'pending', '⏳ Checking... Please verify manually that you were redirected to login');
+                    }
+                } catch (error) {
+                    updateTestResult('test1', 'pending', '⏳ Cross-origin restriction - Please verify manually that you were redirected to login');
+                }
+            }, 2000);
+        }
+
+        function testLogin() {
+            updateTestResult('test2', 'pending', '🔄 Opening login page for manual testing...');
+            window.open('http://localhost:4200/login', '_blank');
+            updateTestResult('test2', 'pending', '⏳ Please login with the test credentials and verify you reach the dashboard');
+        }
+
+        function testAuthenticatedAccess() {
+            updateTestResult('test3', 'pending', '🔄 Testing authenticated access...');
+            window.open('http://localhost:4200/student-dashboard', '_blank');
+            updateTestResult('test3', 'pending', '⏳ If you are logged in, you should see the dashboard. If not, you should be redirected to login.');
+        }
+
+        function testLogout() {
+            updateTestResult('test4', 'pending', '🔄 Testing logout functionality...');
+            updateTestResult('test4', 'pending', '⏳ Please go to the dashboard and click logout. Verify you are redirected to login.');
+        }
+
+        function testPostLogout() {
+            updateTestResult('test5', 'pending', '🔄 Testing post-logout protection...');
+            window.open('http://localhost:4200/student-dashboard', '_blank');
+            updateTestResult('test5', 'pending', '⏳ After logging out, this should redirect to login page.');
+        }
+
+        // Auto-run first test
+        window.onload = function() {
+            console.log('🧪 Authentication test page loaded');
+            console.log('📋 Test credentials: 2024-00001 / password123');
+        };
+    </script>
+</body>
+</html>

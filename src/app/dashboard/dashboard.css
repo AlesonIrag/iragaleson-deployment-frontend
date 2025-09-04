@@ -1,0 +1,1018 @@
+/* Modern Interactive Library Management Dashboard Styles */
+
+/* Dark Mode Support */
+[data-theme="dark"] .nav-link {
+  color: #9ca3af;
+}
+
+[data-theme="dark"] .nav-link:hover {
+  color: #f9fafb;
+  background-color: #374151;
+}
+
+[data-theme="dark"] .nav-link.active {
+  color: #60a5fa;
+  background-color: #1e3a8a;
+  border-right: 2px solid #60a5fa;
+}
+
+/* Navigation Styles */
+.nav-link {
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #111827;
+  background-color: #f3f4f6;
+  transform: translateX(4px);
+}
+
+.nav-link.active {
+  color: #2563eb;
+  background-color: #eff6ff;
+  border-right: 2px solid #2563eb;
+}
+
+/* Logout Button Animation */
+.logout-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Widget Animations */
+.widget-card {
+  transition: all 0.3s ease;
+}
+
+.widget-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+}
+
+/* Weather Widget Animations */
+#weather-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Stats Counter Animation */
+.stat-counter {
+  animation: countUp 2s ease-out;
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* News Item Hover Effects */
+.news-item:hover {
+  transform: translateX(8px);
+}
+
+/* Sidebar fixed height and layout */
+aside.w-64 {
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+/* Mobile-only responsive design */
+@media (max-width: 1023px) {
+  /* Hide the mobile menu button on desktop */
+  .lg\:hidden {
+    display: block;
+  }
+
+  /* Make sidebar mobile-friendly */
+  aside.w-64 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* Show sidebar when mobile menu is open */
+  aside.w-64[style*="translateX(0)"] {
+    transform: translateX(0) !important;
+  }
+
+  /* Hide right sidebar on mobile */
+  aside.w-80 {
+    display: none;
+  }
+
+  /* Adjust main content padding for mobile */
+  main {
+    padding: 0.75rem !important;
+    margin-left: 0 !important;
+  }
+
+  /* Ensure header content doesn't overflow and account for mobile menu button */
+  header {
+    padding-left: 4rem !important; /* Account for mobile menu button */
+    padding-right: 0.75rem !important;
+    margin-left: 0 !important;
+  }
+
+  /* Mobile menu button positioning */
+  .mobile-menu-btn {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 60;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Ensure main dashboard content has proper spacing */
+  .flex-1.flex.flex-col {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Fix header text sizing for mobile */
+  .header-title {
+    font-size: 1rem !important;
+    line-height: 1.25rem !important;
+  }
+
+  .header-subtitle {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+  }
+}
+
+/* Desktop - keep everything as original */
+@media (min-width: 1024px) {
+  /* Hide mobile menu button on desktop */
+  .lg\:hidden {
+    display: none;
+  }
+
+  /* Ensure sidebar is visible on desktop */
+  aside.w-64 {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    transform: translateX(0) !important;
+  }
+
+  /* Show right sidebar on desktop */
+  aside.w-80 {
+    display: block;
+  }
+
+  /* Hide mobile widgets on desktop */
+  .lg\:hidden {
+    display: none !important;
+  }
+}
+
+/* Notification Badge Animation */
+.notification-badge {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(-1px);
+  }
+}
+
+/* Smooth Scrolling */
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f7fafc;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Dark Mode Scrollbar */
+[data-theme="dark"] .overflow-y-auto {
+  scrollbar-color: #4b5563 #1f2937;
+}
+
+[data-theme="dark"] .overflow-y-auto::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+[data-theme="dark"] .overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+[data-theme="dark"] .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Dark Mode Toggle Animation */
+.dark-mode-toggle {
+  transition: transform 0.2s ease;
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Mobile Menu Improvements */
+.mobile-menu-overlay {
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease;
+}
+
+/* Card Hover Effects */
+.widget-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Responsive Text Scaling */
+@media (max-width: 640px) {
+  .text-3xl {
+    font-size: 1.875rem;
+  }
+
+  .text-2xl {
+    font-size: 1.5rem;
+  }
+
+  .text-xl {
+    font-size: 1.125rem;
+  }
+
+  /* Extra small screen adjustments */
+  .mobile-greeting {
+    font-size: 0.625rem !important;
+    line-height: 0.875rem !important;
+    font-weight: 500 !important;
+    max-width: calc(100vw - 5rem) !important;
+  }
+
+  .dashboard-header h2 {
+    font-size: 0.625rem !important;
+    line-height: 0.875rem !important;
+  }
+
+  /* Mobile menu button adjustments for small screens */
+  .mobile-menu-btn {
+    top: 0.25rem;
+    left: 0.25rem;
+    padding: 0.25rem !important;
+    width: 1.75rem !important;
+    height: 1.75rem !important;
+  }
+
+  .mobile-menu-btn svg {
+    width: 0.75rem !important;
+    height: 0.75rem !important;
+  }
+
+  /* Header padding for very small screens */
+  .dashboard-header {
+    padding-left: 2.25rem !important;
+    padding-right: 0.125rem !important;
+    min-height: 2.5rem !important;
+  }
+
+  /* Ensure header buttons are very small on mobile */
+  .dashboard-header .flex.items-center {
+    gap: 0.125rem !important;
+  }
+
+  .dashboard-header .flex.items-center button {
+    padding: 0.125rem !important;
+    min-width: 1.25rem !important;
+    min-height: 1.25rem !important;
+  }
+
+  .dashboard-header .flex.items-center svg {
+    width: 0.75rem !important;
+    height: 0.75rem !important;
+  }
+
+  /* Hide user avatar on very small screens */
+  .dashboard-header .flex.items-center img {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+
+  /* Mobile role and date for small screens */
+  .mobile-role {
+    font-size: 0.5rem !important;
+    line-height: 0.75rem !important;
+    font-weight: 500 !important;
+  }
+
+  .mobile-date {
+    font-size: 0.5rem !important;
+    line-height: 0.75rem !important;
+    opacity: 0.7 !important;
+  }
+
+  /* Ensure content spacing */
+  .dashboard-header .flex.flex-col {
+    gap: 0.0625rem !important;
+  }
+}
+
+/* Enhanced Focus States */
+.nav-link:focus,
+button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+[data-theme="dark"] .nav-link:focus,
+[data-theme="dark"] button:focus {
+  outline-color: #60a5fa;
+}
+
+/* Loading States */
+.loading {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Improved Transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Mobile Header Improvements */
+@media (max-width: 1023px) {
+  /* Ensure header text doesn't get cut off */
+  .header-title {
+    font-size: 1.25rem !important;
+    line-height: 1.75rem !important;
+  }
+
+  /* Mobile button spacing */
+  .header-buttons {
+    gap: 0.5rem !important;
+  }
+
+  /* Ensure mobile widgets are properly spaced */
+  .mobile-widgets {
+    margin-top: 2rem;
+  }
+}
+
+/* Ensure proper text truncation */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* AI Chat Widget Styles */
+.chat-widget {
+  z-index: 1000;
+}
+
+/* Profile Modal Styles */
+.profile-modal {
+  z-index: 9999 !important;
+  position: absolute !important;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.profile-modal-overlay {
+  z-index: 9998 !important;
+  position: fixed !important;
+}
+
+/* Fix profile modal button hover overflow */
+.profile-modal button {
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.profile-modal button:first-child {
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+}
+
+.profile-modal button:last-child {
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+}
+
+.profile-modal .py-2 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Chat button pulse animation */
+.chat-button-pulse {
+  animation: chatPulse 2s infinite;
+}
+
+@keyframes chatPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+/* Chat window animations */
+.chat-window-enter {
+  animation: chatWindowSlideIn 0.3s ease-out;
+}
+
+@keyframes chatWindowSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Chat message animations */
+.chat-message {
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Typing indicator animation */
+.typing-indicator {
+  animation: typingPulse 1.5s infinite;
+}
+
+@keyframes typingPulse {
+  0%, 60%, 100% {
+    opacity: 0.4;
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
+/* Chat scrollbar styling */
+.chat-messages::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 2px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Dark mode chat scrollbar */
+[data-theme="dark"] .chat-messages::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+[data-theme="dark"] .chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Tooltip animation */
+.tooltip-enter {
+  animation: tooltipFadeIn 0.2s ease-out;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Chat input focus styles */
+.chat-input:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #3b82f6;
+  border-color: transparent;
+}
+
+/* Mobile chat widget adjustments */
+@media (max-width: 640px) {
+  .chat-widget {
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .chat-window {
+    width: calc(100vw - 2rem);
+    max-width: 320px;
+    height: 400px;
+  }
+
+  .chat-tooltip {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* Chat button hover effects */
+.chat-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+/* Message bubble styling */
+.message-bubble {
+  max-width: 85%;
+  word-wrap: break-word;
+}
+
+.message-bubble.user {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.message-bubble.ai {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+
+[data-theme="dark"] .message-bubble.ai {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+/* Online indicator pulse */
+.online-indicator {
+  animation: onlinePulse 2s infinite;
+}
+
+@keyframes onlinePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Chat header gradient */
+.chat-header {
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+}
+
+[data-theme="dark"] .chat-header {
+  background: linear-gradient(135deg, #1f2937, #111827);
+}
+
+/* Smooth transitions for all chat elements */
+.chat-widget * {
+  transition: all 0.2s ease;
+}
+
+/* Notification badge bounce */
+.notification-badge {
+  animation: badgeBounce 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes badgeBounce {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+/* Enhanced Navigation Styling */
+.nav-section-header {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.nav-section-header:hover {
+  opacity: 1;
+}
+
+/* Enhanced nav-link styling with better spacing */
+.nav-link {
+  position: relative;
+  margin-bottom: 0.125rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+.nav-link svg {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.nav-link:hover svg {
+  transform: scale(1.1);
+}
+
+/* Active state with subtle glow effect */
+.nav-link.active {
+  position: relative;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+}
+
+.nav-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: linear-gradient(to bottom, #3b82f6, #1d4ed8);
+  border-radius: 0 2px 2px 0;
+}
+
+/* Dark mode active state */
+[data-theme="dark"] .nav-link.active::before {
+  background: linear-gradient(to bottom, #60a5fa, #3b82f6);
+}
+
+/* Greeting section styling */
+.greeting-section {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 51, 234, 0.05));
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .greeting-section {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.greeting-text {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+[data-theme="dark"] .greeting-text {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Enhanced header styling */
+.dashboard-header {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .dashboard-header {
+  background: rgba(31, 41, 55, 0.9);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Desktop header text alignment */
+@media (min-width: 1024px) {
+  .dashboard-header .flex-1 {
+    text-align: left !important;
+  }
+
+  .dashboard-header .flex.flex-col {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .dashboard-header .mobile-role {
+    text-align: left !important;
+    align-self: flex-start !important;
+  }
+}
+
+/* Collapsible Navigation Animations */
+.nav-section {
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+.nav-section.collapsed {
+  max-height: 0 !important;
+  opacity: 0;
+  margin-bottom: 0 !important;
+}
+
+.nav-section.expanded {
+  max-height: 500px; /* Adjust based on content */
+  opacity: 1;
+}
+
+/* Toggle button hover effects */
+.nav-toggle-btn {
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.nav-toggle-btn:hover {
+  transform: translateX(2px);
+}
+
+[data-theme="dark"] .nav-toggle-btn:hover {
+  background-color: rgba(55, 65, 81, 0.5) !important;
+}
+
+.nav-toggle-btn:not([data-theme="dark"]):hover {
+  background-color: rgba(243, 244, 246, 0.5) !important;
+}
+
+/* Arrow rotation animation */
+.nav-arrow {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* Navigation section dividers */
+.nav-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1), transparent);
+  margin: 0.75rem 1rem;
+}
+
+[data-theme="dark"] .nav-divider {
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+/* Super admin badge */
+.super-admin-badge {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-left: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced mobile responsiveness */
+@media (max-width: 1023px) {
+  .greeting-section {
+    margin: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .greeting-text {
+    font-size: 1rem !important;
+    line-height: 1.25rem !important;
+  }
+
+  .nav-section-header {
+    font-size: 0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .nav-link {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  /* Mobile header specific fixes */
+  .dashboard-header {
+    padding-left: 3rem !important;
+    padding-right: 0.25rem !important;
+    min-height: 3rem !important;
+  }
+
+  .dashboard-header h2 {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+    font-weight: 500 !important;
+  }
+
+  /* Mobile greeting and info styling */
+  .mobile-greeting {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+    font-weight: 500 !important;
+    max-width: calc(100vw - 6rem) !important;
+  }
+
+  .mobile-role {
+    font-size: 0.625rem !important;
+    line-height: 0.875rem !important;
+    font-weight: 500 !important;
+    color: inherit !important;
+  }
+
+  .mobile-date {
+    font-size: 0.625rem !important;
+    line-height: 0.875rem !important;
+    opacity: 0.8 !important;
+    margin-top: 0.125rem !important;
+  }
+
+  /* Ensure proper spacing between elements */
+  .dashboard-header .flex.flex-col {
+    gap: 0.125rem !important;
+  }
+
+  /* Make sure buttons don't take too much space */
+  .dashboard-header .flex.items-center {
+    gap: 0.25rem !important;
+  }
+
+  .dashboard-header .flex.items-center button {
+    padding: 0.25rem !important;
+    min-width: 1.5rem !important;
+    min-height: 1.5rem !important;
+  }
+
+  .dashboard-header .flex.items-center svg {
+    width: 0.875rem !important;
+    height: 0.875rem !important;
+  }
+
+  /* Ensure proper text wrapping */
+  .dashboard-header .flex-1 {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  /* Mobile button sizing */
+  .dashboard-header button {
+    padding: 0.5rem !important;
+  }
+
+  .dashboard-header svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+
+  /* Mobile main content adjustments */
+  .dashboard-main-content {
+    padding: 1rem !important;
+    margin-top: 0 !important;
+  }
+
+  /* Mobile card spacing */
+  .dashboard-card {
+    margin-bottom: 1rem;
+    padding: 1rem !important;
+  }
+
+  /* Mobile news section */
+  .news-section h3 {
+    font-size: 1.125rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Mobile announcements */
+  .announcements-section {
+    margin-top: 1.5rem !important;
+  }
+
+  /* Ensure mobile overlay doesn't interfere */
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 40;
+    backdrop-filter: blur(2px);
+  }
+}
+
+/* Smooth scroll for navigation */
+.nav-container {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced focus states for accessibility */
+.nav-link:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+[data-theme="dark"] .nav-link:focus-visible {
+  outline-color: #60a5fa;
+  background-color: rgba(96, 165, 250, 0.1);
+}
+
+/* Subtle animation for section headers */
+.nav-section-header {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced card styling */
+.dashboard-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .dashboard-card {
+  background: rgba(31, 41, 55, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .dashboard-card:hover {
+  background: rgba(31, 41, 55, 0.95);
+  border-color: rgba(96, 165, 250, 0.3);
+}

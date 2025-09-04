@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Authentication Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Admin Authentication Test</h1>
+        <p>Test the admin authentication system for the Library Management System</p>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Admin Email:</label>
+                <input type="email" id="email" value="superadmin@library.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" value="SuperAdmin123" required>
+            </div>
+            
+            <button type="submit" id="loginBtn">🚀 Test Login</button>
+            <button type="button" id="clearBtn">🗑️ Clear Results</button>
+        </form>
+        
+        <div id="result" class="result" style="display: none;"></div>
+        
+        <div class="info" style="margin-top: 30px;">
+            <h3>📋 Test Credentials:</h3>
+            <p><strong>Super Admin:</strong> superadmin@library.com / SuperAdmin123</p>
+            <p><strong>Librarian:</strong> librarian@library.com / Librarian123</p>
+            <p><strong>Data Center Admin:</strong> datacenter@library.com / DataCenter123</p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api/v1';
+        
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.textContent = '⏳ Testing...';
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result info';
+            resultDiv.textContent = 'Testing admin authentication...';
+            
+            try {
+                // Test admin login
+                const response = await fetch(`${API_BASE}/adminauth/login-admin`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                console.log('🔍 Full API Response:', data); // Debug log
+
+                if (response.ok && data.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Authentication Successful!
+
+Admin Details:
+- ID: ${data.data.AdminID}
+- Name: ${data.data.FullName}
+- Email: ${data.data.Email}
+- Role: ${data.data.Role}
+- Status: ${data.data.Status}
+
+🎉 The authentication middleware is working correctly!
+This admin would now have access to the dashboard.
+
+Raw Response: ${JSON.stringify(data, null, 2)}`;
+
+                    // Store in localStorage to simulate the auth service
+                    localStorage.setItem('currentAdmin', JSON.stringify({
+                        adminId: data.data.AdminID,
+                        fullName: data.data.FullName,
+                        email: data.data.Email,
+                        role: data.data.Role,
+                        status: data.data.Status
+                    }));
+                    
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Authentication Failed!
+                    
+Error: ${data.error || 'Unknown error'}
+
+Please check your credentials and try again.`;
+                }
+                
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Connection Error!
+                
+Error: ${error.message}
+
+Make sure the backend server is running on http://localhost:3000`;
+            }
+            
+            // Reset button
+            loginBtn.disabled = false;
+            loginBtn.textContent = '🚀 Test Login';
+        });
+        
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            document.getElementById('result').style.display = 'none';
+            localStorage.removeItem('currentAdmin');
+        });
+        
+        // Check if already authenticated
+        window.addEventListener('load', () => {
+            const storedAdmin = localStorage.getItem('currentAdmin');
+            if (storedAdmin) {
+                const admin = JSON.parse(storedAdmin);
+                const resultDiv = document.getElementById('result');
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result info';
+                resultDiv.textContent = `ℹ️ Already Authenticated
+                
+Current Admin: ${admin.fullName} (${admin.role})
+Email: ${admin.email}
+
+Click "Clear Results" to logout.`;
+            }
+        });
+    </script>
+</body>
+</html>

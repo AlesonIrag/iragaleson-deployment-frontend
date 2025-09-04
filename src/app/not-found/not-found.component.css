@@ -1,0 +1,149 @@
+/* 404 Not Found Page Styles - Benedicto College Library Management System */
+
+/* Enhanced mobile menu button states */
+#hamburger-icon.hidden {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+#close-icon.show {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+#close-icon {
+  opacity: 0;
+  transform: rotate(-180deg);
+  transition: all 0.3s ease;
+}
+
+#hamburger-icon {
+  transition: all 0.3s ease;
+}
+
+/* Header SVG icon hover effects */
+.group:hover svg {
+  stroke: #fb923c !important; /* Orange-400 color */
+}
+
+/* Button hover effects */
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* Quick links hover effects */
+.grid a:hover {
+  transform: translateY(-2px);
+  border-color: #3b82f6;
+}
+
+.grid a:hover svg {
+  color: #2563eb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .text-6xl {
+    font-size: 4rem;
+  }
+  
+  .text-8xl {
+    font-size: 5rem;
+  }
+  
+  .text-9xl {
+    font-size: 6rem;
+  }
+}
+
+/* Mobile navigation pane width adjustment for smaller screens */
+@media (max-width: 480px) {
+  #nav-links {
+    width: 100vw;
+    max-width: 320px;
+  }
+}
+
+/* Enhanced focus states for accessibility */
+button:focus,
+a:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Logo fade-in animation */
+.logo-fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Error message slide-in animation */
+.error-slide-in {
+  animation: slideInUp 0.8s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button group animation */
+.button-group {
+  animation: slideInUp 1s ease-out 0.3s both;
+}
+
+/* Quick links animation */
+.quick-links {
+  animation: slideInUp 1.2s ease-out 0.5s both;
+}
+
+/* 404 Animation Effects */
+.animate-bounce-slow {
+  animation: bounce-slow 3s infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Mobile Navigation Styles */
+#nav-links {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 50%;
+  height: 100vh;
+  background-color: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(10px);
+  transition: right 0.3s ease;
+  z-index: 40;
+  padding-top: 80px;
+}
+
+#nav-links.show {
+  right: 0;
+}

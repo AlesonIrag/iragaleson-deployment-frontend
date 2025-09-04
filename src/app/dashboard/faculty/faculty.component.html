@@ -1,0 +1,1062 @@
+<div [class]="isDarkMode ? 'text-white' : 'text-gray-900'">
+  <!-- Toast Notifications -->
+  <app-toast></app-toast>
+  <!-- Header -->
+  <div class="mb-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold mb-2">Faculty Management</h1>
+        <p class="text-gray-600 dark:text-gray-400">Manage faculty accounts and permissions</p>
+      </div>
+      <div class="flex space-x-3">
+        <!-- CSV Import Button -->
+        <button (click)="openImportCsvModal()"
+          class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+          </svg>
+          Import CSV
+        </button>
+
+        <!-- CSV Export Button -->
+        <button (click)="exportToCsv()"
+          class="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+          </svg>
+          Export CSV
+        </button>
+
+        <!-- Add New Faculty Button -->
+        <button (click)="openAddFacultyModal()"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+          Add New Faculty
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats Overview - Small Boxes in Row -->
+<div class="flex gap-4 mb-6">
+  <!-- Box 1: Total Faculty -->
+  <div
+    class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+    <div class="text-center">
+      <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-blue-100 dark:bg-blue-900">
+        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z">
+          </path>
+        </svg>
+      </div>
+      <p class="text-xs font-medium mb-1 text-gray-600 dark:text-gray-400">Total Faculty</p>
+      <p class="text-xl font-bold text-gray-900 dark:text-white">{{ stats.totalFaculty }}</p>
+    </div>
+  </div>
+
+  <!-- Box 2: Active Faculty -->
+  <div
+    class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+    <div class="text-center">
+      <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-green-100 dark:bg-green-900">
+        <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+      <p class="text-xs font-medium mb-1 text-gray-600 dark:text-gray-400">Active Faculty</p>
+      <p class="text-xl font-bold text-gray-900 dark:text-white">{{ stats.activeFaculty }}</p>
+    </div>
+  </div>
+
+  <!-- Box 3: Departments -->
+  <div
+    class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+    <div class="text-center">
+      <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-purple-100 dark:bg-purple-900">
+        <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+          </path>
+        </svg>
+      </div>
+      <p class="text-xs font-medium mb-1 text-gray-600 dark:text-gray-400">Departments</p>
+      <p class="text-xl font-bold text-gray-900 dark:text-white">{{ stats.departments }}</p>
+    </div>
+  </div>
+
+  <!-- Box 4: Blocked Faculty -->
+  <div
+    class="stat-box flex-1 p-4 rounded-lg border transition-colors duration-300 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+    <div class="text-center">
+      <div class="w-8 h-8 mx-auto mb-2 p-1 rounded-full bg-red-100 dark:bg-red-900">
+        <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+        </svg>
+      </div>
+      <p class="text-xs font-medium mb-1 text-gray-600 dark:text-gray-400">Blocked Faculty</p>
+      <p class="text-xl font-bold text-gray-900 dark:text-white">{{ stats.inactiveFaculty }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Search and Filters -->
+<div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
+  <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    <div class="flex-1 max-w-md">
+      <div class="relative">
+        <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none"
+          stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <input type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()"
+          placeholder="Search faculty by name, email, or department..."
+          class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+      </div>
+    </div>
+    <div class="flex gap-3">
+      <select [(ngModel)]="selectedDepartment" (ngModelChange)="onFilterChange()"
+        class="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+        <option value="">All Departments</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="English">English</option>
+        <option value="Science">Science</option>
+      </select>
+      <select [(ngModel)]="selectedStatus" (ngModelChange)="onFilterChange()"
+        class="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+        <option value="">All Status</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Faculty Table -->
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+  <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Faculty Members</h3>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full">
+      <thead class="bg-gray-50 dark:bg-gray-700">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+            (click)="sortBy('name')">
+            <div class="flex items-center">
+              Faculty Member
+              <svg *ngIf="sortColumn === 'name'" class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path *ngIf="sortDirection === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                <path *ngIf="sortDirection === 'desc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+            (click)="sortBy('department')">
+            <div class="flex items-center">
+              Department
+              <svg *ngIf="sortColumn === 'department'" class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path *ngIf="sortDirection === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                <path *ngIf="sortDirection === 'desc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Position</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+            (click)="sortBy('joinDate')">
+            <div class="flex items-center">
+              Join Date
+              <svg *ngIf="sortColumn === 'joinDate'" class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path *ngIf="sortDirection === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                <path *ngIf="sortDirection === 'desc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
+            (click)="sortBy('status')">
+            <div class="flex items-center">
+              Status
+              <svg *ngIf="sortColumn === 'status'" class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path *ngIf="sortDirection === 'asc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                <path *ngIf="sortDirection === 'desc'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+        @if (loading) {
+        <!-- Loading State -->
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+          <td colspan="7" class="px-6 py-8 text-center">
+            <div class="flex items-center justify-center">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span class="text-gray-500 dark:text-gray-400">Loading faculty...</span>
+            </div>
+          </td>
+        </tr>
+        } @else if (error) {
+        <!-- Error State -->
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+          <td colspan="7" class="px-6 py-8 text-center">
+            <div class="text-red-500 dark:text-red-400">
+              <svg class="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <p class="text-sm">{{ error }}</p>
+              <button (click)="loadFaculty()" class="mt-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm">
+                Try Again
+              </button>
+            </div>
+          </td>
+        </tr>
+        } @else if (totalFacultyCount === 0) {
+        <!-- Empty State -->
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+          <td colspan="7" class="px-6 py-8 text-center">
+            <div class="text-gray-500 dark:text-gray-400">
+              <svg class="mx-auto h-12 w-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <p class="text-sm">No faculty members found</p>
+              <button (click)="openAddFacultyModal()" class="mt-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-sm">
+                Add First Faculty Member
+              </button>
+            </div>
+          </td>
+        </tr>
+        } @else {
+        <!-- Faculty Rows -->
+        @for (facultyMember of getPaginatedFaculty(); track facultyMember.id) {
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200"
+          [class]="facultyMember.status === 'Inactive' ? 'bg-red-50 dark:bg-red-900/20 opacity-75' : ''">
+          <td class="px-6 py-4">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+                <span class="text-blue-600 dark:text-blue-400 font-medium">{{ getInitials(facultyMember.name) }}</span>
+              </div>
+              <div>
+                <div class="text-sm font-medium"
+                  [class]="facultyMember.status === 'Inactive' ? 'text-red-600 dark:text-red-400 line-through' : ''">
+                  {{ facultyMember.name }}
+                </div>
+                <div class="text-sm"
+                  [class]="facultyMember.status === 'Inactive' ? 'text-red-500 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'">
+                  {{ facultyMember.id }}
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-sm" [class]="facultyMember.status === 'Inactive' ? 'text-red-600 dark:text-red-400' : ''">
+            {{ facultyMember.department }}
+          </td>
+          <td class="px-6 py-4 text-sm" [class]="facultyMember.status === 'Inactive' ? 'text-red-600 dark:text-red-400' : ''">
+            {{ facultyMember.position }}
+          </td>
+          <td class="px-6 py-4 text-sm" [class]="facultyMember.status === 'Inactive' ? 'text-red-600 dark:text-red-400' : ''">
+            {{ facultyMember.email }}
+          </td>
+          <td class="px-6 py-4 text-sm" [class]="facultyMember.status === 'Inactive' ? 'text-red-600 dark:text-red-400' : ''">
+            {{ facultyMember.joinDate | date:'MMM d, y' }}
+          </td>
+          <td class="px-6 py-4">
+            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full" [ngClass]="{
+              'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200': facultyMember.status === 'Active',
+              'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200': facultyMember.status === 'Inactive'
+            }">
+              {{ facultyMember.status === 'Inactive' ? 'Blocked' : 'Active' }}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-sm">
+            <div class="flex space-x-2">
+              <button (click)="editFacultyAction(facultyMember.id)"
+                class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                Edit
+              </button>
+              <button (click)="viewFacultyAction(facultyMember.id)"
+                class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
+                View
+              </button>
+              <button (click)="blockFacultyAction(facultyMember.id)" class="font-medium"
+                [class]="facultyMember.status === 'Inactive' ? 'text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300' : 'text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300'">
+                {{ facultyMember.status === 'Inactive' ? 'Unblock' : 'Block' }}
+              </button>
+              <button (click)="deleteFacultyAction(facultyMember.id)"
+                class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div *ngIf="totalFacultyCount > 0" class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+    <div class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+      <!-- Results Info -->
+      <div class="flex items-center space-x-4">
+        <span class="text-sm text-gray-700 dark:text-gray-300">
+          Showing {{ getDisplayRange() }} faculty members
+        </span>
+
+        <!-- Items per page selector -->
+        <div class="flex items-center space-x-2">
+          <label class="text-sm text-gray-700 dark:text-gray-300">Show:</label>
+          <select
+            [(ngModel)]="itemsPerPage"
+            (change)="onItemsPerPageChange()"
+            class="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>
+          <span class="text-sm text-gray-700 dark:text-gray-300">per page</span>
+        </div>
+      </div>
+
+      <!-- Pagination Navigation -->
+      <div class="flex items-center space-x-2">
+        <!-- Previous Button -->
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+
+        <!-- Page Numbers -->
+        @for (page of getPageNumbers(); track page) {
+          <button
+            (click)="goToPage(page)"
+            [class]="page === currentPage
+              ? 'px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-blue-600 hover:bg-blue-700 transition-colors'
+              : 'px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors'">
+            {{ page }}
+          </button>
+        }
+
+        <!-- Next Button -->
+        <button
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+          class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Faculty Modal -->
+<div *ngIf="showAddFacultyModal"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 modal-overlay">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto modal-content">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
+      <div class="flex items-center">
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Add New Faculty</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Create a new faculty account</p>
+        </div>
+      </div>
+      <button (click)="closeAddFacultyModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-6">
+      <form (ngSubmit)="addFaculty()" #addFacultyForm="ngForm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Faculty ID -->
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Faculty ID <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newFaculty.facultyId"
+              name="facultyId"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              [class.border-red-500]="validationErrors.facultyId"
+              placeholder="Enter faculty ID (e.g., 2024-12345)"
+              required>
+            <div *ngIf="validationErrors.facultyId" class="text-red-500 text-sm mt-1">
+              {{ validationErrors.facultyId }}
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              Format: YYYY-NNNNN or YYYY-NNNNNN (e.g., 2024-12345 or 2024-123456)
+            </div>
+          </div>
+
+          <!-- First Name -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              First Name <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newFaculty.firstName"
+              name="firstName"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              [class.border-red-500]="validationErrors.firstName"
+              placeholder="Enter first name"
+              required>
+            <div *ngIf="validationErrors.firstName" class="text-red-500 text-sm mt-1">
+              {{ validationErrors.firstName }}
+            </div>
+          </div>
+
+          <!-- Last Name -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Last Name <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newFaculty.lastName"
+              name="lastName"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              [class.border-red-500]="validationErrors.lastName"
+              placeholder="Enter last name"
+              required>
+            <div *ngIf="validationErrors.lastName" class="text-red-500 text-sm mt-1">
+              {{ validationErrors.lastName }}
+            </div>
+          </div>
+
+          <!-- Middle Initial -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Middle Initial
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newFaculty.middleInitial"
+              name="middleInitial"
+              maxlength="1"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              placeholder="M">
+          </div>
+
+          <!-- Suffix -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Suffix
+            </label>
+            <input
+              type="text"
+              [(ngModel)]="newFaculty.suffix"
+              name="suffix"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              placeholder="Jr., Sr., III, etc.">
+          </div>
+
+          <!-- Department -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Department <span class="text-red-500">*</span>
+            </label>
+            <select
+              [(ngModel)]="newFaculty.department"
+              name="department"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              [class.border-red-500]="validationErrors.department"
+              required>
+              <option value="">Select Department</option>
+              <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+            </select>
+            <div *ngIf="validationErrors.department" class="text-red-500 text-sm mt-1">
+              {{ validationErrors.department }}
+            </div>
+          </div>
+
+          <!-- Position -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Position <span class="text-red-500">*</span>
+            </label>
+            <select
+              [(ngModel)]="newFaculty.position"
+              name="position"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              [class.border-red-500]="validationErrors.position"
+              required>
+              <option value="">Select Position</option>
+              <option *ngFor="let pos of positions" [value]="pos">{{ pos }}</option>
+            </select>
+            <div *ngIf="validationErrors.position" class="text-red-500 text-sm mt-1">
+              {{ validationErrors.position }}
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Email Address <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              [(ngModel)]="newFaculty.email"
+              name="email"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              [class.border-red-500]="validationErrors.email"
+              placeholder="Enter email address"
+              required>
+            <div *ngIf="validationErrors.email" class="text-red-500 text-sm mt-1">
+              {{ validationErrors.email }}
+            </div>
+          </div>
+
+          <!-- Phone Number -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              [(ngModel)]="newFaculty.phoneNumber"
+              name="phoneNumber"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              [class.border-red-500]="validationErrors.phoneNumber"
+              placeholder="Enter phone number">
+            <div *ngIf="validationErrors.phoneNumber" class="text-red-500 text-sm mt-1">
+              {{ validationErrors.phoneNumber }}
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Status
+            </label>
+            <select
+              [(ngModel)]="newFaculty.status"
+              name="status"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+
+          <!-- Password -->
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Password <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="password"
+              [(ngModel)]="newFaculty.password"
+              name="password"
+              class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              [class.border-red-500]="validationErrors.password"
+              placeholder="Enter password"
+              required>
+            <div *ngIf="validationErrors.password" class="text-red-500 text-sm mt-1">
+              {{ validationErrors.password }}
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex justify-end space-x-3 p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+      <button
+        type="button"
+        (click)="closeAddFacultyModal()"
+        class="px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200 font-medium"
+        [disabled]="isSubmitting">
+        Cancel
+      </button>
+      <button
+        type="button"
+        (click)="addFaculty()"
+        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 flex items-center font-medium shadow-lg"
+        [disabled]="isSubmitting">
+        <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        {{ isSubmitting ? 'Adding...' : 'Add Faculty' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Faculty Modal -->
+<div *ngIf="showEditFacultyModal"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 modal-overlay">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto modal-content">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
+      <div class="flex items-center">
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Edit Faculty</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Update faculty information</p>
+        </div>
+      </div>
+      <button (click)="closeEditFacultyModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-6">
+      <form (ngSubmit)="updateFaculty()" #editFacultyForm="ngForm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Faculty ID (Read-only) -->
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Faculty ID</label>
+            <input type="text"
+                   [(ngModel)]="editFaculty.facultyId"
+                   name="facultyId"
+                   readonly
+                   class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed">
+          </div>
+
+          <!-- First Name -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">First Name *</label>
+            <input type="text"
+                   [(ngModel)]="editFaculty.firstName"
+                   name="firstName"
+                   required
+                   class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+          </div>
+
+          <!-- Last Name -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Last Name *</label>
+            <input type="text"
+                   [(ngModel)]="editFaculty.lastName"
+                   name="lastName"
+                   required
+                   class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+          </div>
+
+          <!-- Middle Initial -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Middle Initial</label>
+            <input type="text"
+                   [(ngModel)]="editFaculty.middleInitial"
+                   name="middleInitial"
+                   maxlength="10"
+                   class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+          </div>
+
+          <!-- Suffix -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Suffix</label>
+            <input type="text"
+                   [(ngModel)]="editFaculty.suffix"
+                   name="suffix"
+                   maxlength="20"
+                   class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+          </div>
+
+          <!-- Department -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Department *</label>
+            <select [(ngModel)]="editFaculty.department"
+                    name="department"
+                    required
+                    class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+              <option value="">Select Department</option>
+              <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+            </select>
+          </div>
+
+          <!-- Position -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Position *</label>
+            <select [(ngModel)]="editFaculty.position"
+                    name="position"
+                    required
+                    class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+              <option value="">Select Position</option>
+              <option *ngFor="let pos of positions" [value]="pos">{{ pos }}</option>
+            </select>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address *</label>
+            <input type="email"
+                   [(ngModel)]="editFaculty.email"
+                   name="email"
+                   required
+                   class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+          </div>
+
+          <!-- Phone Number -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
+            <input type="tel"
+                   [(ngModel)]="editFaculty.phoneNumber"
+                   name="phoneNumber"
+                   placeholder="09XXXXXXXXX"
+                   class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+          </div>
+
+          <!-- Enrollment Status -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</label>
+            <select [(ngModel)]="editFaculty.status"
+                    name="status"
+                    class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex justify-end space-x-3 p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+      <button
+        type="button"
+        (click)="closeEditFacultyModal()"
+        class="px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200 font-medium"
+        [disabled]="isSubmitting">
+        Cancel
+      </button>
+      <button
+        type="button"
+        (click)="updateFaculty()"
+        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 flex items-center font-medium shadow-lg"
+        [disabled]="isSubmitting">
+        <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        {{ isSubmitting ? 'Updating...' : 'Update Faculty' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- View Faculty Modal -->
+<div *ngIf="showViewFacultyModal"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 modal-overlay">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto modal-content">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20">
+      <div class="flex items-center">
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Faculty Details</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">View faculty information</p>
+        </div>
+      </div>
+      <button (click)="closeViewFacultyModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-6" *ngIf="selectedFaculty">
+      <!-- Faculty Profile Header -->
+      <div class="flex items-center mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+        <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-6">
+          <span class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ getInitials(selectedFaculty.name) }}</span>
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{{ selectedFaculty.name }}</h3>
+          <p class="text-lg text-gray-600 dark:text-gray-400">{{ selectedFaculty.position }}</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">{{ selectedFaculty.department }}</p>
+        </div>
+      </div>
+
+      <!-- Faculty Details Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Personal Information -->
+        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">Personal Information</h4>
+          
+          <div class="space-y-4">
+            <div class="flex justify-between items-center py-3 border-b border-gray-100 dark:border-gray-700">
+              <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Faculty ID</span>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ selectedFaculty.id }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center py-3 border-b border-gray-100 dark:border-gray-700">
+              <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Full Name</span>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ selectedFaculty.name }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center py-3 border-b border-gray-100 dark:border-gray-700">
+              <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Email Address</span>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ selectedFaculty.email }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center py-3 border-b border-gray-100 dark:border-gray-700">
+              <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Phone Number</span>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ selectedFaculty.phoneNumber || 'Not provided' }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center py-3 border-b border-gray-100 dark:border-gray-700">
+              <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</span>
+              <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full" [ngClass]="{
+                'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200': selectedFaculty.status === 'Active',
+                'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200': selectedFaculty.status === 'Inactive'
+              }">
+                {{ selectedFaculty.status }}
+              </span>
+            </div>
+            
+            <div class="flex justify-between items-center py-3 border-b border-gray-100 dark:border-gray-700">
+              <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Join Date</span>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ selectedFaculty.joinDate | date:'MMM d, y' }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center py-3">
+              <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Last Updated</span>
+              <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ selectedFaculty.updatedAt | date:'MMM d, y' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Faculty Summary -->
+        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+          <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">Faculty Summary</h4>
+          
+          <div class="grid grid-cols-1 gap-4">
+            <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ selectedFaculty.status }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">Current Status</div>
+            </div>
+            <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ selectedFaculty.department }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">Department</div>
+            </div>
+            <div class="text-center p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ selectedFaculty.joinDate | date:'MMM y' }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400">Member Since</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex justify-end space-x-3 p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+      <button
+        type="button"
+        (click)="closeViewFacultyModal()"
+        class="px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200 font-medium">
+        Close
+    </button>
+    </div>
+  </div>
+</div>
+
+<!-- Block Faculty Modal -->
+<div *ngIf="showBlockFacultyModal"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 modal-overlay">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 modal-content">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
+      <div class="flex items-center">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center mr-4"
+          [class]="selectedFaculty?.status === 'Inactive' ? 'bg-green-100 dark:bg-green-900' : 'bg-red-100 dark:bg-red-900'">
+          <svg class="w-6 h-6" [class]="selectedFaculty?.status === 'Inactive' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            {{ selectedFaculty?.status === 'Inactive' ? 'Unblock' : 'Block' }} Faculty
+          </h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            {{ selectedFaculty?.status === 'Inactive' ? 'Activate' : 'Deactivate' }} faculty account
+          </p>
+        </div>
+      </div>
+      <button (click)="closeBlockFacultyModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-6" *ngIf="selectedFaculty">
+      <div class="text-center">
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+          Are you sure you want to {{ selectedFaculty.status === 'Inactive' ? 'unblock' : 'block' }}
+          <strong>{{ selectedFaculty.name }}</strong>?
+        </p>
+        <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-4">
+          <div class="flex">
+            <svg class="w-5 h-5 text-yellow-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+            </svg>
+            <div class="text-sm text-yellow-800 dark:text-yellow-200">
+              <p class="font-medium">{{ selectedFaculty.status === 'Inactive' ? 'Unblocking' : 'Blocking' }} this faculty will:</p>
+              <ul class="mt-2 list-disc list-inside space-y-1">
+                <li *ngIf="selectedFaculty.status === 'Active'">Prevent them from accessing the system</li>
+                <li *ngIf="selectedFaculty.status === 'Active'">Disable their account privileges</li>
+                <li *ngIf="selectedFaculty.status === 'Inactive'">Restore their system access</li>
+                <li *ngIf="selectedFaculty.status === 'Inactive'">Reactivate their account privileges</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex justify-end space-x-3 p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+      <button
+        type="button"
+        (click)="closeBlockFacultyModal()"
+        class="px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200 font-medium"
+        [disabled]="isSubmitting">
+        Cancel
+      </button>
+      <button
+        type="button"
+        (click)="blockFaculty()"
+        class="px-6 py-2 text-white rounded-lg transition-colors duration-200 flex items-center font-medium shadow-lg"
+        [class]="selectedFaculty?.status === 'Inactive' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'"
+        [disabled]="isSubmitting">
+        <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        {{ isSubmitting ? (selectedFaculty?.status === 'Inactive' ? 'Unblocking...' : 'Blocking...') : (selectedFaculty?.status === 'Inactive' ? 'Unblock Faculty' : 'Block Faculty') }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Faculty Modal -->
+<div *ngIf="showDeleteFacultyModal"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 modal-overlay">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4 modal-content">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20">
+      <div class="flex items-center">
+        <div class="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Delete Faculty</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Permanently remove faculty account</p>
+        </div>
+      </div>
+      <button (click)="closeDeleteFacultyModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-6" *ngIf="selectedFaculty">
+      <div class="text-center">
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-4">
+          <div class="flex">
+            <svg class="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+            </svg>
+            <div class="text-sm text-red-800 dark:text-red-200">
+              <p class="font-medium">This action cannot be undone!</p>
+              <p class="mt-1">Deleting this faculty will permanently remove:</p>
+              <ul class="mt-2 list-disc list-inside space-y-1">
+                <li>Faculty account and login access</li>
+                <li>All associated records and permissions</li>
+                <li>Any linked academic data</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+          Are you sure you want to permanently delete <br>
+          <strong>{{ selectedFaculty.name }}</strong>?
+        </p>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Type <strong>DELETE</strong> to confirm:
+          </label>
+          <input
+            type="text"
+            [(ngModel)]="deleteConfirmation"
+            name="deleteConfirmation"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-center"
+            placeholder="Type DELETE to confirm"
+            [class.border-red-500]="deleteConfirmation && deleteConfirmation !== 'DELETE'">
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex justify-end space-x-3 p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+      <button
+        type="button"
+        (click)="closeDeleteFacultyModal()"
+        class="px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-lg transition-colors duration-200 font-medium"
+        [disabled]="isSubmitting">
+        Cancel
+      </button>
+      <button
+        type="button"
+        (click)="deleteFaculty()"
+        class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200 flex items-center font-medium shadow-lg"
+        [disabled]="isSubmitting || deleteConfirmation !== 'DELETE'">
+        <svg *ngIf="isSubmitting" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        {{ isSubmitting ? 'Deleting...' : 'Delete Faculty' }}
+      </button>
+    </div>
+  </div>
+</div>

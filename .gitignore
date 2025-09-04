@@ -1,0 +1,1579 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+*.js.map
+*.d.ts.map
+
+# Node.js
+/node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.npm
+.eslintcache
+*.tgz
+*.tar.gz
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+/coverage
+/nyc_output
+*.lcov
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# WebStorm
+.idea/
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Angular specific
+/.angular/cache
+.sass-cache/
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings
+*.ngfactory.ts
+*.ngstyle.ts
+
+# Testing
+/coverage
+/nyc_output
+*.lcov
+junit.xml
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.backup
+*.orig
+
+# Build artifacts
+build/
+dist/
+*.tsbuildinfo
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# Serverless
+.serverless/
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Storybook build outputs
+.out
+.storybook-out
+
+# Temporary folders
+tmp/
+temp/
+
+# ===== LIBRARY MANAGEMENT SYSTEM SPECIFIC =====
+
+# Backend API
+src/backend-api/node_modules/
+src/backend-api/logs/
+src/backend-api/uploads/
+src/backend-api/sessions/
+src/backend-api/cache/
+src/backend-api/.env
+src/backend-api/.env.local
+src/backend-api/.env.production
+src/backend-api/.env.development
+src/backend-api/config/local.js
+src/backend-api/config/production.js
+src/backend-api/ecosystem.config.js
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+*.mdb
+*.accdb
+database.sql
+db_backup.sql
+schema.sql
+
+# SSL Certificates and Keys
+*.pem
+*.key
+*.crt
+*.cert
+*.p12
+*.pfx
+ssl/
+certificates/
+
+# Authentication & Security
+jwt-secret.txt
+auth-keys/
+private-keys/
+public-keys/
+secrets/
+.secrets/
+
+# File Uploads
+uploads/
+public/uploads/
+assets/uploads/
+src/assets/uploads/
+user-uploads/
+temp-uploads/
+
+# Session Storage
+sessions/
+.sessions/
+session-store/
+
+# Cache directories
+.cache/
+cache/
+redis-cache/
+memory-cache/
+
+# API Documentation
+api-docs/
+swagger-docs/
+postman-collections/
+
+# Test files and mock data
+test-*.js
+mock-*.js
+dummy-data/
+test-data/
+fixtures/
+mocks/
+
+# Development utilities
+dev-tools/
+debug/
+profiling/
+benchmarks/
+
+# Backup files
+*.backup
+*.bak
+*.old
+*.orig
+backup/
+backups/
+db-backups/
+
+# Configuration overrides
+config.override.js
+settings.override.json
+local-config.json
+
+# Third-party integrations
+google-credentials.json
+aws-credentials.json
+azure-credentials.json
+firebase-adminsdk-*.json
+service-account-*.json
+
+# Email templates (if containing sensitive info)
+email-templates/private/
+notification-templates/private/
+
+# Reports and analytics
+reports/
+analytics/
+metrics/
+statistics/
+
+# Monitoring and logging
+monitoring/
+health-checks/
+error-reports/
+crash-dumps/
+
+# Development databases
+dev.db
+development.sqlite
+test.db
+local.db
+
+# Package manager files (additional)
+.pnpm-store/
+.yarn/
+.yarnrc.yml
+.npmrc.local
+
+# Build and deployment
+deployment/
+deploy/
+release/
+staging/
+production/
+
+# Documentation (if auto-generated)
+docs/generated/
+api-reference/
+code-docs/
+
+# IDE specific (additional)
+.fleet/
+.nova/
+*.code-workspace
+.vscode/settings.local.json
+
+# OS specific (additional)
+.fseventsd/
+.TemporaryItems/
+.apdisk
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+
+# Windows specific (additional)
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux specific (additional)
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Archive files
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+*.xz
+
+# Media files (if not part of the project)
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.mp3
+*.wav
+*.flac
+
+# Large files
+*.iso
+*.dmg
+*.img
+
+# Temporary Angular files
+.angular/
+.ng_build/
+.ng_pkg_build/
+
+# Webpack
+.webpack/
+webpack-stats.json
+
+# ESLint and Prettier
+.eslintrc.local.js
+.prettierrc.local.js
+
+# Husky
+.husky/_/
+
+# Commitizen
+.cz-config.js
+
+# Semantic Release
+.semantic-release/
+
+# Renovate
+renovate.json5
+
+# GitHub specific
+.github/workflows/local.yml
+.github/secrets/
+
+# GitLab specific
+.gitlab-ci.local.yml
+
+# Vercel
+.vercel/
+
+# Netlify
+.netlify/
+
+# Heroku
+.heroku/
+
+# Railway
+.railway/
+
+# Render
+.render/
+
+# DigitalOcean
+.do/
+
+# AWS
+.aws/
+.elasticbeanstalk/
+
+# Azure
+.azure/
+
+# Google Cloud
+.gcloud/
+
+# Kubernetes
+k8s/local/
+kubernetes/local/
+
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
+terraform.tfvars.local
+
+# Ansible
+*.retry
+.vault_pass
+
+# Vagrant
+.vagrant/
+Vagrantfile.local
+
+# VirtualBox
+*.vbox
+*.vdi
+
+# VMware
+*.vmx
+*.vmdk
+
+# Performance monitoring
+.clinic/
+.0x/
+
+# Security scanning
+.snyk
+.whitesource
+
+# License checking
+.fossa/
+
+# Code quality
+.sonarqube/
+.codeclimate/
+
+# Dependency checking
+.dependabot/
+.renovatebot/
+
+# API testing
+.insomnia/
+.postman/
+newman/
+
+# Load testing
+.artillery/
+.k6/
+
+# Browser testing
+.playwright/
+.puppeteer/
+
+# Mobile development
+.expo/
+.react-native/
+
+# Electron
+.electron/
+electron-builder.yml.local
+
+# Capacitor
+.capacitor/
+capacitor.config.local.ts
+
+# Ionic
+.ionic/
+
+# NativeScript
+.tns/
+
+# React Native
+.metro/
+
+# Flutter
+.flutter/
+.dart_tool/
+
+# Xamarin
+.vs/
+bin/
+obj/
+
+# Unity
+.unity/
+Library/
+Temp/
+Logs/
+
+# Unreal Engine
+.uproject
+Binaries/
+Intermediate/
+Saved/
+
+# Game development
+.godot/
+.defold/
+
+# Machine Learning
+.ml/
+models/
+datasets/
+checkpoints/
+tensorboard/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# R
+.Rhistory
+.RData
+.Ruserdata
+
+# Python (if mixed stack)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Java (if mixed stack)
+*.class
+*.jar
+*.war
+*.ear
+target/
+.gradle/
+build/
+
+# C# (if mixed stack)
+bin/
+obj/
+*.user
+*.suo
+*.cache
+
+# PHP (if mixed stack)
+vendor/
+composer.phar
+.phpunit.result.cache
+
+# Ruby (if mixed stack)
+.bundle/
+vendor/bundle/
+.ruby-version
+.ruby-gemset
+
+# Go (if mixed stack)
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+vendor/
+
+# Rust (if mixed stack)
+target/
+Cargo.lock
+
+# Swift (if mixed stack)
+.build/
+Packages/
+*.xcodeproj/
+*.xcworkspace/
+
+# Kotlin (if mixed stack)
+.kotlin/
+*.kts
+
+# Scala (if mixed stack)
+.metals/
+.bloop/
+.ammonite/
+
+# Clojure (if mixed stack)
+.lein-*
+.nrepl-port
+target/
+
+# Erlang/Elixir (if mixed stack)
+_build/
+deps/
+.fetch
+
+# Haskell (if mixed stack)
+.stack-work/
+*.hi
+*.o
+
+# OCaml (if mixed stack)
+_build/
+*.cmi
+*.cmo
+*.cmx
+
+# F# (if mixed stack)
+.fake/
+.ionide/
+
+# Perl (if mixed stack)
+.prove
+blib/
+
+# Lua (if mixed stack)
+*.luac
+
+# Shell scripts
+*.sh.local
+*.bat.local
+*.ps1.local
+
+# Configuration management
+.chef/
+.puppet/
+.salt/
+
+# Monitoring
+.prometheus/
+.grafana/
+.jaeger/
+.zipkin/
+
+# Message queues
+.rabbitmq/
+.kafka/
+.redis/
+
+# Databases
+.mysql/
+.postgresql/
+.mongodb/
+.cassandra/
+.elasticsearch/
+
+# Search engines
+.solr/
+.sphinx/
+
+# CDN
+.cloudflare/
+.fastly/
+.cloudfront/
+
+# Analytics
+.google-analytics/
+.mixpanel/
+.amplitude/
+
+# Error tracking
+.sentry/
+.bugsnag/
+.rollbar/
+
+# Feature flags
+.launchdarkly/
+.split/
+
+# A/B testing
+.optimizely/
+.vwo/
+
+# Customer support
+.zendesk/
+.intercom/
+.freshdesk/
+
+# Payment processing
+.stripe/
+.paypal/
+.square/
+
+# Communication
+.slack/
+.discord/
+.teams/
+
+# Project management
+.jira/
+.trello/
+.asana/
+
+# Time tracking
+.toggl/
+.harvest/
+.clockify/
+
+# Documentation
+.gitbook/
+.notion/
+.confluence/
+
+# Design
+.figma/
+.sketch/
+.adobe/
+
+# Video conferencing
+.zoom/
+.webex/
+.gotomeeting/
+
+# File sharing
+.dropbox/
+.googledrive/
+.onedrive/
+
+# Backup services
+.carbonite/
+.backblaze/
+.crashplan/
+
+# VPN
+.openvpn/
+.wireguard/
+.nordvpn/
+
+# Remote access
+.teamviewer/
+.anydesk/
+.chrome-remote-desktop/
+
+# Virtualization
+.docker-compose.override.yml
+.docker-compose.local.yml
+docker-compose.prod.yml
+docker-compose.staging.yml
+
+# Container registries
+.dockerhub/
+.gcr/
+.ecr/
+.acr/
+
+# Orchestration
+.kubernetes/
+.openshift/
+.rancher/
+
+# Service mesh
+.istio/
+.linkerd/
+.consul/
+
+# API gateways
+.kong/
+.ambassador/
+.traefik/
+
+# Load balancers
+.nginx/local/
+.apache/local/
+.haproxy/local/
+
+# Reverse proxies
+.cloudflare-tunnel/
+.ngrok/
+.localtunnel/
+
+# Development tools
+.devcontainer/
+.codespaces/
+.gitpod/
+
+# Package registries
+.npmjs/
+.yarn-registry/
+.nuget/
+.maven/
+
+# Artifact repositories
+.artifactory/
+.nexus/
+.jfrog/
+
+# Code repositories
+.github-enterprise/
+.gitlab-enterprise/
+.bitbucket-enterprise/
+
+# CI/CD
+.jenkins/
+.travis/
+.circleci/local/
+.appveyor/local/
+.azure-pipelines/local/
+
+# Infrastructure as Code
+.pulumi/
+.cdk/
+.sam/
+.serverless-framework/
+
+# Secrets management
+.vault/
+.consul-template/
+.berglas/
+
+# Certificate management
+.cert-manager/
+.letsencrypt/
+.acme/
+
+# DNS
+.route53/
+.cloudflare-dns/
+.godaddy/
+
+# Email services
+.sendgrid/
+.mailgun/
+.ses/
+
+# SMS services
+.twilio/
+.nexmo/
+.plivo/
+
+# Push notifications
+.firebase-messaging/
+.pusher/
+.onesignal/
+
+# Social media
+.facebook/
+.twitter/
+.linkedin/
+.instagram/
+
+# Maps
+.google-maps/
+.mapbox/
+.here/
+
+# Weather
+.openweathermap/
+.weatherapi/
+.accuweather/
+
+# Translation
+.google-translate/
+.deepl/
+.microsoft-translator/
+
+# Image processing
+.cloudinary/
+.imagekit/
+.kraken/
+
+# Video processing
+.mux/
+.wistia/
+.vimeo/
+
+# Audio processing
+.spotify/
+.soundcloud/
+.audible/
+
+# Machine learning APIs
+.openai/
+.huggingface/
+.cohere/
+
+# Blockchain
+.ethereum/
+.bitcoin/
+.polygon/
+
+# IoT
+.aws-iot/
+.azure-iot/
+.google-iot/
+
+# Edge computing
+.cloudflare-workers/
+.vercel-edge/
+.netlify-edge/
+
+# Serverless
+.aws-lambda/
+.azure-functions/
+.google-cloud-functions/
+
+# Microservices
+.consul/
+.etcd/
+.zookeeper/
+
+# Event streaming
+.apache-kafka/
+.amazon-kinesis/
+.azure-event-hubs/
+
+# Data processing
+.apache-spark/
+.apache-flink/
+.apache-storm/
+
+# Data warehousing
+.snowflake/
+.bigquery/
+.redshift/
+
+# Business intelligence
+.tableau/
+.powerbi/
+.looker/
+
+# Customer relationship management
+.salesforce/
+.hubspot/
+.pipedrive/
+
+# Enterprise resource planning
+.sap/
+.oracle/
+.microsoft-dynamics/
+
+# Human resources
+.workday/
+.bamboohr/
+.adp/
+
+# Accounting
+.quickbooks/
+.xero/
+.freshbooks/
+
+# Legal
+.docusign/
+.hellosign/
+.pandadoc/
+
+# Compliance
+.okta/
+.auth0/
+.ping-identity/
+
+# Risk management
+.riskiq/
+.recorded-future/
+.threatconnect/
+
+# Incident response
+.pagerduty/
+.opsgenie/
+.victorops/
+
+# Asset management
+.lansweeper/
+.spiceworks/
+.manageengine/
+
+# Network monitoring
+.nagios/
+.zabbix/
+.prtg/
+
+# Application performance monitoring
+.newrelic/
+.datadog/
+.dynatrace/
+
+# Log management
+.splunk/
+.elastic-stack/
+.sumo-logic/
+
+# Security information and event management
+.qradar/
+.arcsight/
+.splunk-enterprise-security/
+
+# Vulnerability management
+.nessus/
+.qualys/
+.rapid7/
+
+# Penetration testing
+.metasploit/
+.burp-suite/
+.nmap/
+
+# Code analysis
+.sonarqube/
+.checkmarx/
+.veracode/
+
+# Dependency scanning
+.snyk/
+.whitesource/
+.black-duck/
+
+# Container security
+.twistlock/
+.aqua-security/
+.sysdig/
+
+# Cloud security
+.cloudguard/
+.prisma-cloud/
+.lacework/
+
+# Identity and access management
+.active-directory/
+.ldap/
+.saml/
+
+# Single sign-on
+.okta-sso/
+.auth0-sso/
+.azure-ad-sso/
+
+# Multi-factor authentication
+.duo/
+.rsa-securid/
+.yubikey/
+
+# Privileged access management
+.cyberark/
+.thycotic/
+.beyondtrust/
+
+# Data loss prevention
+.symantec-dlp/
+.forcepoint-dlp/
+.microsoft-purview/
+
+# Backup and recovery
+.veeam/
+.commvault/
+.acronis/
+
+# Disaster recovery
+.zerto/
+.vmware-srm/
+.azure-site-recovery/
+
+# Business continuity
+.continuity-plan/
+.disaster-recovery-plan/
+.incident-response-plan/
+
+# Governance, risk, and compliance
+.grc-platform/
+.risk-register/
+.compliance-matrix/
+
+# Audit and assurance
+.audit-logs/
+.compliance-reports/
+.security-assessments/
+
+# Training and awareness
+.security-training/
+.phishing-simulation/
+.awareness-campaigns/
+
+# Vendor management
+.vendor-assessments/
+.third-party-risk/
+.supplier-management/
+
+# Contract management
+.contract-lifecycle/
+.vendor-contracts/
+.service-agreements/
+
+# Intellectual property
+.patent-portfolio/
+.trademark-registry/
+.copyright-management/
+
+# Research and development
+.innovation-pipeline/
+.research-projects/
+.development-roadmap/
+
+# Product management
+.product-backlog/
+.feature-requests/
+.user-stories/
+
+# Quality assurance
+.test-plans/
+.test-cases/
+.defect-tracking/
+
+# Release management
+.release-notes/
+.deployment-guides/
+.rollback-procedures/
+
+# Change management
+.change-requests/
+.approval-workflows/
+.impact-assessments/
+
+# Configuration management
+.configuration-items/
+.baseline-configurations/
+.change-control/
+
+# Asset lifecycle management
+.asset-inventory/
+.depreciation-schedules/
+.disposal-procedures/
+
+# Capacity planning
+.capacity-models/
+.performance-baselines/
+.growth-projections/
+
+# Service level management
+.service-catalogs/
+.sla-templates/
+.performance-metrics/
+
+# Knowledge management
+.knowledge-base/
+.documentation-standards/
+.best-practices/
+
+# Communication management
+.communication-plans/
+.stakeholder-registers/
+.escalation-procedures/
+
+# Project management
+.project-charters/
+.work-breakdown-structures/
+.gantt-charts/
+
+# Portfolio management
+.portfolio-dashboards/
+.investment-decisions/
+.resource-allocation/
+
+# Strategic planning
+.strategic-plans/
+.business-cases/
+.feasibility-studies/
+
+# Performance management
+.kpi-dashboards/
+.balanced-scorecards/
+.performance-reviews/
+
+# Financial management
+.budget-plans/
+.cost-centers/
+.financial-reports/
+
+# Procurement management
+.purchase-orders/
+.supplier-catalogs/
+.procurement-policies/
+
+# Inventory management
+.stock-levels/
+.reorder-points/
+.inventory-turnover/
+
+# Supply chain management
+.supplier-networks/
+.logistics-plans/
+.distribution-channels/
+
+# Customer management
+.customer-profiles/
+.segmentation-models/
+.loyalty-programs/
+
+# Marketing management
+.campaign-plans/
+.market-research/
+.brand-guidelines/
+
+# Sales management
+.sales-pipelines/
+.territory-plans/
+.commission-structures/
+
+# Operations management
+.process-maps/
+.standard-procedures/
+.operational-metrics/
+
+# Facilities management
+.floor-plans/
+.space-utilization/
+.maintenance-schedules/
+
+# Environmental management
+.sustainability-reports/
+.carbon-footprints/
+.waste-management/
+
+# Health and safety management
+.safety-procedures/
+.incident-reports/
+.risk-assessments/
+
+# Emergency management
+.emergency-plans/
+.evacuation-procedures/
+.crisis-communications/
+
+# Business intelligence
+.data-models/
+.reporting-templates/
+.analytics-dashboards/
+
+# Data management
+.data-dictionaries/
+.data-lineage/
+.data-quality-rules/
+
+# Master data management
+.master-data-models/
+.data-governance/
+.reference-data/
+
+# Data integration
+.etl-processes/
+.data-pipelines/
+.integration-patterns/
+
+# Data architecture
+.data-models/
+.database-schemas/
+.data-flows/
+
+# Enterprise architecture
+.architecture-blueprints/
+.technology-standards/
+.integration-patterns/
+
+# Solution architecture
+.solution-designs/
+.technical-specifications/
+.deployment-architectures/
+
+# Security architecture
+.security-models/
+.threat-models/
+.security-controls/
+
+# Network architecture
+.network-diagrams/
+.topology-maps/
+.routing-tables/
+
+# Infrastructure architecture
+.infrastructure-diagrams/
+.capacity-plans/
+.scalability-models/
+
+# Application architecture
+.application-maps/
+.component-diagrams/
+.interface-specifications/
+
+# Data center management
+.rack-layouts/
+.power-consumption/
+.cooling-systems/
+
+# Cloud architecture
+.cloud-designs/
+.migration-plans/
+.cost-optimization/
+
+# Hybrid architecture
+.hybrid-models/
+.connectivity-plans/
+.workload-placement/
+
+# Multi-cloud architecture
+.multi-cloud-strategies/
+.cloud-brokers/
+.interoperability-standards/
+
+# Edge architecture
+.edge-deployments/
+.latency-requirements/
+.bandwidth-optimization/
+
+# IoT architecture
+.device-management/
+.sensor-networks/
+.data-collection/
+
+# Mobile architecture
+.mobile-strategies/
+.device-compatibility/
+.offline-capabilities/
+
+# Web architecture
+.web-standards/
+.responsive-designs/
+.accessibility-guidelines/
+
+# API architecture
+.api-designs/
+.service-contracts/
+.versioning-strategies/
+
+# Microservices architecture
+.service-boundaries/
+.communication-patterns/
+.data-consistency/
+
+# Event-driven architecture
+.event-schemas/
+.message-flows/
+.event-sourcing/
+
+# Serverless architecture
+.function-designs/
+.event-triggers/
+.cold-start-optimization/
+
+# Container architecture
+.container-strategies/
+.orchestration-plans/
+.image-management/
+
+# DevOps architecture
+.pipeline-designs/
+.automation-strategies/
+.monitoring-approaches/
+
+# Site reliability engineering
+.sre-practices/
+.error-budgets/
+.incident-procedures/
+
+# Platform engineering
+.platform-designs/
+.developer-experiences/
+.self-service-capabilities/
+
+# Digital transformation
+.transformation-roadmaps/
+.change-strategies/
+.adoption-plans/
+
+# Innovation management
+.innovation-processes/
+.idea-management/
+.experimentation-frameworks/
+
+# Agile transformation
+.agile-practices/
+.scrum-implementations/
+.kanban-boards/
+
+# Lean management
+.value-stream-maps/
+.waste-elimination/
+.continuous-improvement/
+
+# Six Sigma
+.process-improvements/
+.statistical-analysis/
+.quality-metrics/
+
+# ITIL implementation
+.service-management/
+.process-documentation/
+.role-definitions/
+
+# COBIT framework
+.governance-structures/
+.control-objectives/
+.maturity-assessments/
+
+# ISO implementations
+.iso-standards/
+.compliance-frameworks/
+.audit-procedures/
+
+# Regulatory compliance
+.regulatory-requirements/
+.compliance-monitoring/
+.reporting-obligations/
+
+# Industry standards
+.industry-benchmarks/
+.best-practice-guides/
+.certification-requirements/
+
+# Professional development
+.training-programs/
+.certification-paths/
+.skill-assessments/
+
+# Career management
+.career-paths/
+.succession-planning/
+.talent-development/
+
+# Knowledge transfer
+.documentation-standards/
+.training-materials/
+.mentoring-programs/
+
+# Organizational development
+.organizational-charts/
+.role-descriptions/
+.competency-models/
+
+# Culture transformation
+.culture-assessments/
+.engagement-surveys/
+.change-initiatives/
+
+# Leadership development
+.leadership-programs/
+.coaching-frameworks/
+.feedback-mechanisms/
+
+# Team development
+.team-charters/
+.collaboration-tools/
+.performance-metrics/
+
+# Communication strategies
+.communication-frameworks/
+.messaging-guidelines/
+.feedback-channels/
+
+# Stakeholder management
+.stakeholder-maps/
+.engagement-strategies/
+.influence-networks/
+
+# Partnership management
+.partnership-agreements/
+.collaboration-frameworks/
+.joint-ventures/
+
+.ecosystem-maps/
+.platform-strategies/
+
+.network-effects/
+
+.api-ecosystems/
+
+.developer-communities/
+
+.marketplace-strategies/
+
+.startup-partnerships/
+
+.accelerator-programs/
+
+.venture-capital/
+
+.research-collaborations/
+
+.academic-partnerships/
+
+.technology-transfer/
+
+.learning-platforms/
+
+.knowledge-networks/
+
+.communities-of-practice/
+
+.circular-economy/
+
+.green-technologies/
+
+.environmental-partnerships/
+
+.social-enterprises/
+
+.impact-investing/
+
+.community-development/
+
+.international-partnerships/
+
+.cross-border-collaboration/
+.cultural-adaptation/
+
+.emerging-technologies/
+.scenario-planning/
+.adaptive-strategies/

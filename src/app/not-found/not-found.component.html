@@ -1,0 +1,73 @@
+<div class="h-screen bg-white text-gray-800 flex flex-col overflow-hidden">
+
+
+  <!-- Main 404 Content -->
+  <main class="h-full flex items-center justify-center px-4 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+    <div class="max-w-2xl mx-auto text-center">
+      <!-- Benedicto College Logo -->
+      <div class="mb-2 logo-fade-in">
+        <img
+          src="assets/images/BcLogo.png"
+          alt="Benedicto College Logo"
+          class="h-12 sm:h-16 md:h-20 w-auto mx-auto"
+          onerror="console.error('Logo failed to load:', this.src);"
+        >
+      </div>
+
+      <!-- 404 Robot Animation -->
+      <div class="mb-3 flex justify-center">
+        <img
+          src="assets/gif/404robot2.gif"
+          alt="404 Robot Animation"
+          class="h-20 sm:h-24 md:h-28 w-auto mx-auto"
+          onerror="console.error('404 Robot gif failed to load:', this.src);"
+        > 
+      </div>
+
+      <!-- 404 Error Message -->
+      <div class="mb-4 error-slide-in">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text mb-2 leading-none">
+          404
+        </h1>
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-3">Page Not Found</h2>
+        <div class="max-w-lg mx-auto">
+          <p class="text-base sm:text-lg text-gray-600 mb-1 leading-relaxed">
+            Oops! The page you're looking for doesn't exist.
+          </p>
+          <p class="text-sm sm:text-base text-gray-500 leading-relaxed">
+            It might have been moved, deleted, or you entered the wrong URL.
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-3 justify-center button-group">
+        <button
+          (click)="goHome()"
+          class="group px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+        >
+          <div class="flex items-center justify-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            </svg>
+            <span>Go to Homepage</span>
+          </div>
+        </button>
+
+        <button
+          (click)="goBack()"
+          class="group px-6 py-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+        >
+          <div class="flex items-center justify-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            <span>Go Back</span>
+          </div>
+        </button>
+      </div>
+
+
+    </div>
+  </main>
+</div>

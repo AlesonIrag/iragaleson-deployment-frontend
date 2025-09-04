@@ -1,0 +1,137 @@
+
+/* ===== ENHANCED HEADER STYLES ===== */
+
+/* Mobile navigation pane width adjustment for smaller screens */
+@media (max-width: 480px) {
+  #mobile-nav-pane {
+    width: 100vw;
+    max-width: 320px;
+  }
+}
+
+/* Enhanced mobile menu button states */
+#hamburger-icon.hidden {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+#close-icon.show {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+#close-icon {
+  opacity: 0;
+  transform: rotate(-180deg);
+  transition: all 0.3s ease;
+}
+
+#hamburger-icon {
+  transition: all 0.3s ease;
+}
+
+/* Header SVG icon hover effects */
+.group:hover svg {
+  stroke: #fb923c !important; /* Orange-400 color */
+}
+
+/* Ensure SVG icons are visible - BLACK by default */
+header svg {
+  stroke: #000000 !important; /* BLACK color */
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Header smooth expansion - NO SCROLLBAR */
+header {
+  transition: height 0.3s ease, padding 0.3s ease;
+  overflow: hidden !important; /* Remove scrollbar completely */
+  height: 80px; /* A bit more height normally */
+  padding-bottom: 8px; /* A little bit more padding bottom normally */
+}
+
+/* Header expands when hovering navigation */
+header:has(.group:hover) {
+  height: 110px !important; /* Expand a little bit more to show text */
+  padding-bottom: 10px;
+}
+
+/* Navigation group positioning */
+header .group {
+  position: relative;
+}
+
+/* Text labels - hidden by default, shown on hover */
+header .group span {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+  margin-top: 8px;
+}
+
+/* Show text labels on hover */
+header .group:hover span {
+  opacity: 1;
+}
+
+/* SVG transition effects */
+header .group svg {
+  transition: all 0.3s ease;
+}
+
+/* ===== END ENHANCED HEADER STYLES ===== */
+
+.privacy-container{
+background: linear-gradient(135deg, #f8fafc 0%, #f8fafc 100%);
+
+
+
+}
+
+
+.privacy-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+
+.section-divider{
+  background: linear-gradient(90deg, #f97316 0%, #3b82f6 100%);
+  height: 3px;
+  border-radius: 2px;
+}
+
+
+.highlight-box{
+
+  background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+}
+
+
+.info-icon{ 
+
+  background: linear-gradient(135deg, #3b82f7 0%, #1d4ed8 100% )
+}
+
+
+
+
+@media (max-width: 768px){
+
+  .privacy-card{
+
+      margin: 1rem;
+      padding: 1.5rem;
+  }
+}

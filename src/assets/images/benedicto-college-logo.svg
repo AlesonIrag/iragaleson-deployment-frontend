@@ -1,0 +1,15 @@
+<svg width="120" height="60" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="30" cy="30" r="25" fill="#f97316" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- Book Icon -->
+  <g transform="translate(18, 18)">
+    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" 
+          stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="65" y="20" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1f2937">BENEDICTO</text>
+  <text x="65" y="35" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1f2937">COLLEGE</text>
+  <text x="65" y="48" font-family="Arial, sans-serif" font-size="8" fill="#6b7280">Library Management</text>
+</svg>

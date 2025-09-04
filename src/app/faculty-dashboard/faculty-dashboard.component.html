@@ -1,0 +1,1192 @@
+<!-- Modern Interactive Faculty Library Management Dashboard -->
+<div class="min-h-screen transition-colors duration-300 flex" [class]="isDarkMode ? 'bg-gray-900' : 'bg-gray-50'" [attr.data-theme]="isDarkMode ? 'dark' : 'light'" (click)="showProfileModal ? closeProfileModal() : null">
+  <!-- Mobile Menu Button -->
+  <button
+    (click)="toggleMobileMenu()"
+    class="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg transition-colors duration-200"
+    [class]="isDarkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-white text-gray-800 hover:bg-gray-100'"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
+
+  <!-- Mobile Overlay -->
+  <div
+    *ngIf="isMobileMenuOpen"
+    class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+    (click)="closeMobileMenu()"
+  ></div>
+
+  <!-- Left Navigation Pane (Fixed) -->
+  <aside
+    class="w-64 h-screen shadow-lg flex-shrink-0 border-r flex flex-col transition-all duration-300"
+    [class]="getAsideClasses()"
+    [style.transform]="isMobileMenuOpen ? 'translateX(0)' : ''"
+  >
+    <!-- Header -->
+    <div class="p-6 border-b transition-colors duration-300 flex-shrink-0" [class]="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+      <div class="flex items-center justify-center">
+        <img
+          src="assets/images/BcLogo.png"
+          alt="Benedicto College Logo"
+          class="h-12 w-auto object-contain"
+        >
+      </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="flex-1 p-4 overflow-y-auto">
+      <div class="space-y-2">
+        <a (click)="onNavigate('dashboard'); closeMobileMenu()" [class]="getNavLinkClass('dashboard')" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 cursor-pointer">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"></path>
+          </svg>
+          Dashboard
+        </a>
+        <a (click)="onNavigate('borrow'); closeMobileMenu()" [class]="getNavLinkClass('borrow')" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 cursor-pointer">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+          Academic Resources
+        </a>
+        <a (click)="onNavigate('loans'); closeMobileMenu()" [class]="getNavLinkClass('loans')" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 cursor-pointer">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+          </svg>
+          My Loans
+        </a>
+        <a (click)="onNavigate('course-materials'); closeMobileMenu()" [class]="getNavLinkClass('course-materials')" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 cursor-pointer">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+          Course Materials
+        </a>
+        <a (click)="onNavigate('research-tools'); closeMobileMenu()" [class]="getNavLinkClass('research-tools')" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 cursor-pointer">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Research Tools
+        </a>
+        <a (click)="onNavigate('reading-lists'); closeMobileMenu()" [class]="getNavLinkClass('reading-lists')" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 cursor-pointer">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+          </svg>
+          Reading Lists
+        </a>
+        <a (click)="onNavigate('history'); closeMobileMenu()" [class]="getNavLinkClass('history')" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 cursor-pointer">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          History
+        </a>
+      </div>
+    </nav>
+
+    <!-- Logout Button -->
+    <div class="p-4 border-t transition-colors duration-300 flex-shrink-0" [class]="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+      <button (click)="onLogout()" class="logout-btn w-full flex items-center justify-center px-4 py-3 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors duration-200">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3v1"></path>
+        </svg>
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="flex-1 flex">
+    <!-- Dashboard Content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Top Header -->
+      <header [class]="getHeaderClasses()">
+        <div class="flex justify-between items-center min-h-[64px]">
+          <div class="flex-1 min-w-0 pr-4">
+            <div class="flex flex-col space-y-0.5">
+              <h2 class="text-xs sm:text-sm lg:text-2xl font-medium lg:font-bold mobile-greeting"
+                [class]="getTextClasses()">
+                {{ getMobileGreeting() }}
+              </h2>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 lg:space-x-4 flex-shrink-0">
+            <!-- Dark Mode Toggle -->
+            <button
+              (click)="toggleDarkMode()"
+              class="p-2 rounded-lg transition-colors duration-200"
+              [class]="isDarkMode ? 'text-yellow-400 hover:text-yellow-300 hover:bg-gray-700' : 'text-black hover:text-gray-800 hover:bg-gray-100'"
+              title="Toggle Dark Mode"
+            >
+              <svg *ngIf="!isDarkMode" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/>
+              </svg>
+              <svg *ngIf="isDarkMode" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12,2.25a.75.75,0,0,0-.75.75v1a.75.75,0,0,0,1.5,0V3A.75.75,0,0,0,12,2.25ZM21,12.75H20a.75.75,0,0,0,0,1.5h1a.75.75,0,0,0,0-1.5ZM12,21.75a.75.75,0,0,0,.75-.75V20a.75.75,0,0,0-1.5,0v1A.75.75,0,0,0,12,21.75ZM4,12.75H3a.75.75,0,0,0,0,1.5H4a.75.75,0,0,0,0-1.5ZM18.36,6.64a.75.75,0,0,0,1.06-1.06l-.71-.71a.75.75,0,0,0-1.06,1.06ZM6.64,18.36a.75.75,0,0,0-1.06,1.06l.71.71a.75.75,0,0,0,1.06-1.06ZM5.64,6.64l.71-.71A.75.75,0,0,0,5.29,4.87l-.71.71a.75.75,0,0,0,1.06,1.06ZM18.36,18.36l-.71.71a.75.75,0,0,0,1.06,1.06l.71-.71a.75.75,0,0,0-1.06-1.06ZM12,7a5,5,0,1,0,5,5A5,5,0,0,0,12,7Zm0,8.5A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/>
+              </svg>
+            </button>
+            <!-- Notification Bell -->
+            <div class="relative">
+              <button #notificationButton (click)="toggleNotificationDropdown()" class="relative p-2 transition-colors duration-200"
+                [class]="isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'">
+                <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                  </path>
+                </svg>
+                <!-- Red badge only shows when there are unread notifications -->
+                <span *ngIf="unreadNotificationCount > 0"
+                  class="absolute -top-1 -right-1 flex items-center justify-center h-5 w-5 text-xs font-bold text-white bg-red-500 rounded-full ring-2 ring-white">
+                  {{ unreadNotificationCount > 9 ? '9+' : unreadNotificationCount }}
+                </span>
+              </button>
+            </div>
+            <!-- User Profile -->
+            <div class="relative">
+              <button
+                #profileButton
+                (click)="onProfileClick($event)"
+                class="flex items-center space-x-2 p-2 rounded-lg transition-colors duration-200"
+                [class]="isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'"
+              >
+                <img
+                  class="w-7 h-7 lg:w-8 lg:h-8 rounded-full object-cover bg-green-500 flex items-center justify-center text-white text-sm font-medium"
+                  [src]="getProfileImageSrc()"
+                  alt="Faculty Profile"
+                  crossorigin="anonymous"
+                  (error)="onImageError($event)"
+                  (load)="onImageLoad($event)"
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Dashboard Content -->
+      <main class="flex-1 p-4 lg:p-6 overflow-y-auto transition-colors duration-300" [class]="getMainContentClasses()">
+        <div class="max-w-7xl mx-auto">
+
+          <!-- Dashboard View -->
+          <div *ngIf="currentView === 'dashboard'">
+            <!-- Quick Search Section -->
+            <div class="mb-8">
+              <h3 class="text-xl font-semibold mb-4" [class]="getTextClasses()">Quick Academic Search</h3>
+              <div class="p-6 rounded-lg shadow-sm border" [class]="getCardClasses()">
+                <div class="max-w-4xl mx-auto">
+                  <div class="flex">
+                    <input
+                      [(ngModel)]="searchQuery"
+                      (keyup.enter)="onQuickSearch()"
+                      type="text"
+                      placeholder="Search for books, authors, or subjects..."
+                      class="flex-1 px-4 py-3 border border-r-0 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                      [class]="isDarkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'"
+                    >
+                    <button
+                      (click)="onQuickSearch()"
+                      [disabled]="isSearching"
+                      class="search-button px-6 py-3 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 disabled:opacity-50 transition-colors duration-200 font-medium border border-blue-600"
+                    >
+                      <span *ngIf="!isSearching" class="flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Search
+                      </span>
+                      <span *ngIf="isSearching" class="flex items-center justify-center">
+                        <svg class="animate-spin w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24">
+                          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Searching...
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!-- Latest News Section -->
+          <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-4" [class]="getTextClasses()">Latest News</h3>
+            <div class="space-y-3">
+              <div *ngFor="let newsItem of latestNews; trackBy: trackByNewsId"
+                class="p-4 rounded-lg shadow-sm border hover:shadow-md transition-shadow duration-200" [class]="getCardClasses()">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-start flex-1">
+                    <div class="w-2 h-2 rounded-full mr-3 mt-2" [class]="getNewsColor(newsItem.color)"></div>
+                    <div class="flex-1">
+                      <p [class]="getSecondaryTextClasses()" class="mb-2">{{ newsItem.text }}</p>
+                      <p class="text-xs" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">
+                        {{ getFormattedDate(newsItem.createdAt!) }} • {{ getTimeAgo(newsItem.createdAt!) }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="latestNews.length === 0"
+                class="p-4 rounded-lg shadow-sm border text-center" [class]="getCardClasses()">
+                <p [class]="getSecondaryTextClasses()">No news available at the moment.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Faculty Announcements Section -->
+          <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-4" [class]="getTextClasses()">Faculty Announcements</h3>
+            <div class="space-y-4">
+              <div *ngFor="let announcement of announcements"
+                class="p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow duration-200" [class]="getCardClasses()">
+                <div class="flex items-start">
+                  <div class="flex-shrink-0 mr-4">
+                    <svg class="w-6 h-6" [class]="getTypeColor(announcement.type)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="getTypeIcon(announcement.type)"></path>
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <div class="flex items-center space-x-2 mb-2">
+                      <h4 class="text-lg font-medium" [class]="getTextClasses()">{{ announcement.title }}</h4>
+                      <span class="px-2 py-1 text-xs font-medium rounded-full"
+                        [class]="announcement.priority === 'high' ? 'bg-red-100 text-red-800' :
+                                 announcement.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                                 'bg-green-100 text-green-800'">
+                        {{ announcement.priority | titlecase }}
+                      </span>
+                    </div>
+                    <p class="text-sm mb-2" [class]="getSecondaryTextClasses()">{{ announcement.content }}</p>
+
+                    <div class="text-xs mb-3 space-y-1" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">
+                      <p class="font-medium">Posted on {{ getFormattedDate(announcement.createdAt!) }}</p>
+                      <p>{{ getTimeAgo(announcement.createdAt!) }}
+                        <span *ngIf="announcement.createdBy"> • by {{ announcement.createdBy }}</span>
+                      </p>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="announcements.length === 0"
+                class="p-6 rounded-lg shadow-sm border text-center" [class]="getCardClasses()">
+                <p [class]="getSecondaryTextClasses()">No announcements available at the moment.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Faculty Quick Links Section -->
+          <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-4" [class]="getTextClasses()">Faculty Quick Links</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Course Materials -->
+              <div (click)="onQuickLink('course-materials')" class="p-4 rounded-lg shadow-sm border hover:shadow-md transition-all duration-200 cursor-pointer hover:scale-105" [class]="getCardClasses()">
+                <div class="flex items-center">
+                  <div class="p-3 rounded-full bg-green-100 mr-4">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold" [class]="getTextClasses()">Course Materials</h4>
+                    <p class="text-sm" [class]="getSecondaryTextClasses()">Manage class resources</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Research Tools -->
+              <div (click)="onQuickLink('research-tools')" class="p-4 rounded-lg shadow-sm border hover:shadow-md transition-all duration-200 cursor-pointer hover:scale-105" [class]="getCardClasses()">
+                <div class="flex items-center">
+                  <div class="p-3 rounded-full bg-purple-100 mr-4">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold" [class]="getTextClasses()">Research Tools</h4>
+                    <p class="text-sm" [class]="getSecondaryTextClasses()">Access databases</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reading Lists -->
+              <div (click)="onQuickLink('reading-lists')" class="p-4 rounded-lg shadow-sm border hover:shadow-md transition-all duration-200 cursor-pointer hover:scale-105" [class]="getCardClasses()">
+                <div class="flex items-center">
+                  <div class="p-3 rounded-full bg-indigo-100 mr-4">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold" [class]="getTextClasses()">Reading Lists</h4>
+                    <p class="text-sm" [class]="getSecondaryTextClasses()">Create course lists</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Digital Library -->
+              <div class="p-4 rounded-lg shadow-sm border transition-all duration-200 opacity-75 cursor-not-allowed" [class]="getCardClasses()">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-100 mr-4">
+                      <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold" [class]="getTextClasses()">Digital Library</h4>
+                      <p class="text-sm" [class]="getSecondaryTextClasses()">Online resources</p>
+                    </div>
+                  </div>
+                  <div class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    Coming Soon
+                  </div>
+                </div>
+              </div>
+
+              <!-- Admin Chat Support -->
+              <div class="p-4 rounded-lg shadow-sm border transition-all duration-200 opacity-75 cursor-not-allowed" [class]="getCardClasses()">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-red-100 mr-4">
+                      <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-semibold" [class]="getTextClasses()">Admin Chat Support</h4>
+                      <p class="text-sm" [class]="getSecondaryTextClasses()">Live chat assistance</p>
+                    </div>
+                  </div>
+                  <div class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    Coming Soon
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Faculty Stats Section -->
+          <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-4" [class]="getTextClasses()">Faculty Overview</h3>
+            <div class="p-6 rounded-lg shadow-sm border transition-shadow duration-200" [class]="getCardClasses()">
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-blue-600" id="courses-count">{{ facultyStats.activeClasses }}</div>
+                  <div class="text-sm" [class]="getSecondaryTextClasses()">Active Courses</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-green-600" id="materials-count">{{ facultyStats.courseMaterials }}</div>
+                  <div class="text-sm" [class]="getSecondaryTextClasses()">Course Materials</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-purple-600" id="research-count">{{ facultyStats.researchProjects }}</div>
+                  <div class="text-sm" [class]="getSecondaryTextClasses()">Research Projects</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-orange-600" id="borrowed-count">{{ facultyStats.borrowed }}</div>
+                  <div class="text-sm" [class]="getSecondaryTextClasses()">Books Borrowed</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Widgets Section - Only visible on mobile -->
+          <div class="lg:hidden space-y-6">
+            <!-- Date Widget -->
+            <div class="border rounded-lg p-4 transition-colors duration-300" [class]="getCardClasses()">
+              <div class="flex items-center mb-2">
+                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <h4 class="text-lg font-semibold" [class]="getTextClasses()">Today</h4>
+              </div>
+              <p class="text-xl font-bold" [class]="getTextClasses()">{{ getCurrentDate() }}</p>
+            </div>
+
+            <!-- Weather Widget -->
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-lg font-semibold mb-1">Weather</h4>
+                  <p class="text-3xl font-bold" id="temperature-mobile">{{ temperature }}</p>
+                  <p class="text-blue-100" id="location-mobile">{{ location }}</p>
+                </div>
+                <div class="text-right">
+                  <svg class="w-14 h-14 text-yellow-400" fill="currentColor" viewBox="0 0 24 24" id="weather-icon-mobile">
+                    <path d="M6.5 20Q4.22 20 2.61 18.43Q1 16.85 1 14.58Q1 12.63 2.17 11.1Q3.35 9.57 5.25 9.15Q5.88 6.85 7.75 5.43Q9.63 4 12 4Q14.93 4 16.96 6.04Q19 8.07 19 11Q20.73 11.2 21.86 12.5Q23 13.78 23 15.5Q23 17.38 21.69 18.69Q20.38 20 18.5 20H6.5Z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Faculty Stats Widget -->
+            <div class="border rounded-lg p-6 transition-colors duration-300" [class]="getCardClasses()">
+              <h4 class="text-lg font-semibold mb-4" [class]="getTextClasses()">My Faculty Stats</h4>
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <svg class="w-6 h-6 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    <span [class]="getSecondaryTextClasses()">Active Courses</span>
+                  </div>
+                  <span class="text-xl font-bold" [class]="getTextClasses()" id="courses-count-mobile">{{ facultyStats.activeClasses }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <svg class="w-6 h-6 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <span [class]="getSecondaryTextClasses()">Books Borrowed</span>
+                  </div>
+                  <span class="text-xl font-bold" [class]="getTextClasses()" id="borrowed-count-mobile">{{ facultyStats.borrowed }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <svg class="w-6 h-6 text-purple-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span [class]="getSecondaryTextClasses()">Research Projects</span>
+                  </div>
+                  <span class="text-xl font-bold" [class]="getTextClasses()" id="research-count-mobile">{{ facultyStats.researchProjects }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <svg class="w-6 h-6 text-orange-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    <span [class]="getSecondaryTextClasses()">Course Materials</span>
+                  </div>
+                  <span class="text-xl font-bold" [class]="getTextClasses()" id="materials-count-mobile">{{ facultyStats.courseMaterials }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <!-- Academic Resources View -->
+          <div *ngIf="currentView === 'borrow'">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold mb-4" [class]="getTextClasses()">Academic Resources</h2>
+
+              <!-- Search and Filter Controls -->
+              <div class="mb-6 p-4 rounded-lg border" [class]="getCardClasses()">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <input
+                    [(ngModel)]="searchFilter"
+                    type="text"
+                    placeholder="Search academic resources..."
+                    class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    [class]="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'"
+                  >
+                  <select
+                    [(ngModel)]="categoryFilter"
+                    class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    [class]="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'"
+                  >
+                    <option value="all">All Categories</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Education">Education</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Research Methods">Research Methods</option>
+                    <option value="Psychology">Psychology</option>
+                  </select>
+                  <select
+                    [(ngModel)]="statusFilter"
+                    class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                    [class]="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'"
+                  >
+                    <option value="all">All Status</option>
+                    <option value="Available">Available</option>
+                    <option value="Checked Out">Checked Out</option>
+                    <option value="Reserved">Reserved</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Books Grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div *ngFor="let book of paginatedItems" class="border rounded-lg p-6 hover:shadow-lg transition-shadow" [class]="getCardClasses()">
+                  <div class="mb-4">
+                    <h3 class="text-lg font-semibold mb-2" [class]="getTextClasses()">{{ book.title }}</h3>
+                    <p class="text-sm mb-1" [class]="getSecondaryTextClasses()">by {{ book.author }}</p>
+                    <p class="text-sm mb-2" [class]="getSecondaryTextClasses()">{{ book.category }}</p>
+                    <span class="inline-block px-2 py-1 text-xs rounded-full" [class]="getAvailabilityClass(book.availability)">
+                      {{ book.availability }}
+                    </span>
+                  </div>
+                  <div class="mb-4">
+                    <p class="text-sm" [class]="getSecondaryTextClasses()">
+                      <strong>Location:</strong> {{ book.location }}
+                    </p>
+                    <p class="text-sm" [class]="getSecondaryTextClasses()">
+                      <strong>ISBN:</strong> {{ book.isbn }}
+                    </p>
+                    <p *ngIf="book.description" class="text-sm mt-2" [class]="getSecondaryTextClasses()">
+                      {{ book.description }}
+                    </p>
+                  </div>
+                  <div class="flex space-x-2">
+                    <button
+                      *ngIf="book.availability === 'Available'"
+                      (click)="borrowBook(book.id)"
+                      class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Borrow
+                    </button>
+                    <button
+                      *ngIf="book.availability === 'Checked Out'"
+                      (click)="reserveBook(book.id)"
+                      class="flex-1 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors"
+                    >
+                      Reserve
+                    </button>
+                    <button
+                      *ngIf="book.availability === 'Reserved'"
+                      disabled
+                      class="flex-1 px-4 py-2 bg-gray-400 text-white rounded-lg cursor-not-allowed"
+                    >
+                      Reserved
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pagination -->
+              <div *ngIf="totalPages > 1" class="mt-6 flex justify-center">
+                <nav class="flex space-x-2">
+                  <button
+                    (click)="changePage(currentPage - 1)"
+                    [disabled]="currentPage === 1"
+                    class="px-3 py-2 border rounded-lg disabled:opacity-50"
+                    [class]="isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'"
+                  >
+                    Previous
+                  </button>
+                  <span class="px-3 py-2" [class]="getTextClasses()">
+                    Page {{ currentPage }} of {{ totalPages }}
+                  </span>
+                  <button
+                    (click)="changePage(currentPage + 1)"
+                    [disabled]="currentPage === totalPages"
+                    class="px-3 py-2 border rounded-lg disabled:opacity-50"
+                    [class]="isDarkMode ? 'border-gray-600 text-gray-300' : 'border-gray-300 text-gray-700'"
+                  >
+                    Next
+                  </button>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+          <!-- My Loans View -->
+          <div *ngIf="currentView === 'loans'">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold mb-4" [class]="getTextClasses()">My Loans</h2>
+
+              <!-- Loans Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full border rounded-lg" [class]="getCardClasses()">
+                  <thead class="border-b" [class]="isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gray-50'">
+                    <tr>
+                      <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" [class]="getSecondaryTextClasses()">Book</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" [class]="getSecondaryTextClasses()">Borrowed</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" [class]="getSecondaryTextClasses()">Due Date</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" [class]="getSecondaryTextClasses()">Status</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" [class]="getSecondaryTextClasses()">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y" [class]="isDarkMode ? 'divide-gray-700' : 'divide-gray-200'">
+                    <tr *ngFor="let loan of paginatedItems" class="hover:bg-opacity-50" [class]="isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'">
+                      <td class="px-6 py-4">
+                        <div>
+                          <div class="text-sm font-medium" [class]="getTextClasses()">{{ loan.book.title }}</div>
+                          <div class="text-sm" [class]="getSecondaryTextClasses()">by {{ loan.book.author }}</div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 text-sm" [class]="getSecondaryTextClasses()">
+                        {{ loan.borrowDate | date:'MMM d, y' }}
+                      </td>
+                      <td class="px-6 py-4 text-sm">
+                        <div [class]="loan.status === 'Overdue' ? 'text-red-600' : getSecondaryTextClasses()">
+                          {{ loan.dueDate | date:'MMM d, y' }}
+                          <div *ngIf="loan.status === 'Overdue'" class="text-xs text-red-600">
+                            {{ getDaysUntilDue(loan.dueDate) * -1 }} days overdue
+                          </div>
+                          <div *ngIf="loan.status === 'Active' && getDaysUntilDue(loan.dueDate) <= 7" class="text-xs text-yellow-600">
+                            Due in {{ getDaysUntilDue(loan.dueDate) }} days
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4">
+                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full" [class]="getStatusClass(loan.status)">
+                          {{ loan.status }}
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 text-sm">
+                        <button
+                          *ngIf="loan.renewalCount < loan.maxRenewals && loan.status === 'Active'"
+                          (click)="renewLoan(loan.id)"
+                          class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors mr-2"
+                        >
+                          Renew ({{ loan.renewalCount }}/{{ loan.maxRenewals }})
+                        </button>
+                        <span *ngIf="loan.renewalCount >= loan.maxRenewals" class="text-xs" [class]="getSecondaryTextClasses()">
+                          Max renewals reached
+                        </span>
+                        <span *ngIf="loan.fineAmount" class="text-xs text-red-600 block">
+                          Fine: ₱{{ loan.fineAmount }}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Course Materials View -->
+          <div *ngIf="currentView === 'course-materials'">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold mb-4" [class]="getTextClasses()">Course Materials</h2>
+              <div class="p-6 rounded-lg border" [class]="getCardClasses()">
+                <p [class]="getSecondaryTextClasses()">Course materials management will be implemented here. Faculty can organize reading lists, upload course documents, and manage class resources.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Research Tools View -->
+          <div *ngIf="currentView === 'research-tools'">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold mb-4" [class]="getTextClasses()">Research Tools</h2>
+              <div class="p-6 rounded-lg border" [class]="getCardClasses()">
+                <p [class]="getSecondaryTextClasses()">Research tools and database access will be implemented here. Faculty can access academic databases, citation tools, and research resources.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reading Lists View -->
+          <div *ngIf="currentView === 'reading-lists'">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold mb-4" [class]="getTextClasses()">Reading Lists</h2>
+              <div class="p-6 rounded-lg border" [class]="getCardClasses()">
+                <p [class]="getSecondaryTextClasses()">Reading list creation and management will be implemented here. Faculty can create, edit, and share reading lists for their courses.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- History View -->
+          <div *ngIf="currentView === 'history'">
+            <div class="mb-6">
+              <h2 class="text-2xl font-bold mb-4" [class]="getTextClasses()">Borrowing History</h2>
+
+              <!-- History Table -->
+              <div class="overflow-x-auto">
+                <table class="w-full border rounded-lg" [class]="getCardClasses()">
+                  <thead class="border-b" [class]="isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gray-50'">
+                    <tr>
+                      <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" [class]="getSecondaryTextClasses()">Book</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" [class]="getSecondaryTextClasses()">Borrowed</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" [class]="getSecondaryTextClasses()">Due Date</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" [class]="getSecondaryTextClasses()">Returned</th>
+                      <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" [class]="getSecondaryTextClasses()">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y" [class]="isDarkMode ? 'divide-gray-700' : 'divide-gray-200'">
+                    <tr *ngFor="let loan of paginatedItems" class="hover:bg-opacity-50" [class]="isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'">
+                      <td class="px-6 py-4">
+                        <div>
+                          <div class="text-sm font-medium" [class]="getTextClasses()">{{ loan.book.title }}</div>
+                          <div class="text-sm" [class]="getSecondaryTextClasses()">by {{ loan.book.author }}</div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 text-sm" [class]="getSecondaryTextClasses()">
+                        {{ loan.borrowDate | date:'MMM d, y' }}
+                      </td>
+                      <td class="px-6 py-4 text-sm" [class]="getSecondaryTextClasses()">
+                        {{ loan.dueDate | date:'MMM d, y' }}
+                      </td>
+                      <td class="px-6 py-4 text-sm" [class]="getSecondaryTextClasses()">
+                        {{ loan.returnDate | date:'MMM d, y' }}
+                      </td>
+                      <td class="px-6 py-4">
+                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full" [class]="getStatusClass(loan.status)">
+                          {{ loan.status }}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+    <!-- Right Sidebar -->
+    <aside class="right-sidebar shadow-lg border-l flex-shrink-0 transition-all duration-300" [class]="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'" [ngClass]="{'w-80': !isSidebarHidden, 'w-0 overflow-hidden': isSidebarHidden}">
+      <div class="p-6 space-y-6">
+        <!-- Date Widget -->
+        <div class="border rounded-lg p-4 transition-colors duration-300" [class]="getCardClasses()">
+          <div class="flex items-center mb-2">
+            <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <h4 class="text-lg font-semibold" [class]="getTextClasses()">Today</h4>
+          </div>
+          <p class="text-xl font-bold" [class]="getTextClasses()">{{ getCurrentDate() }}</p>
+        </div>
+
+        <!-- Weather Widget -->
+        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="text-lg font-semibold mb-1">Weather</h4>
+              <p class="text-3xl font-bold" id="temperature">{{ temperature }}</p>
+              <p class="text-blue-100" id="location">{{ location }}</p>
+            </div>
+            <div class="text-right">
+              <svg class="w-14 h-14 text-yellow-400" fill="currentColor" viewBox="0 0 24 24" id="weather-icon">
+                <path d="M6.5 20Q4.22 20 2.61 18.43Q1 16.85 1 14.58Q1 12.63 2.17 11.1Q3.35 9.57 5.25 9.15Q5.88 6.85 7.75 5.43Q9.63 4 12 4Q14.93 4 16.96 6.04Q19 8.07 19 11Q20.73 11.2 21.86 12.5Q23 13.78 23 15.5Q23 17.38 21.69 18.69Q20.38 20 18.5 20H6.5Z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quote of the Day Widget -->
+        <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white">
+          <div class="flex items-center mb-3">
+            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+            </svg>
+            <h4 class="text-lg font-semibold">Academic Quote</h4>
+          </div>
+          
+          <!-- Loading State -->
+          <div *ngIf="isQuoteLoading && !currentQuote" class="flex items-center justify-center py-4">
+            <svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span class="text-purple-100">Loading quote...</span>
+          </div>
+
+          <!-- Quote Content -->
+          <div *ngIf="currentQuote && !isQuoteLoading">
+            <p class="text-purple-100 italic mb-3">"{{ currentQuote.text }}"</p>
+            <div class="flex items-center">
+              <span class="text-purple-200 text-sm font-medium">— {{ currentQuote.author }}</span>
+            </div>
+          </div>
+
+          <!-- Error State -->
+          <div *ngIf="quoteError && !currentQuote" class="text-center py-2">
+            <p class="text-purple-200 text-sm mb-2">{{ quoteError }}</p>
+          </div>
+
+          <!-- Fallback Quote -->
+          <div *ngIf="!currentQuote && !isQuoteLoading && !quoteError">
+            <p class="text-purple-100 italic">"The best teachers are those who show you where to look but don't tell you what to see."</p>
+            <span class="text-purple-200 text-sm font-medium">— Anonymous</span>
+          </div>
+        </div>
+
+        <!-- Random Fact Widget -->
+        <div class="border rounded-lg p-6 transition-colors duration-300" [class]="getCardClasses()">
+          <div class="flex items-center mb-3">
+            <svg class="w-6 h-6 text-yellow-500 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2a7 7 0 0 0-7 7c0 3.07 1.63 5.64 4 6.69V17h6v-1.31c2.37-1.05 4-3.62 4-6.69a7 7 0 0 0-7-7zm-1 18h2v2h-2v-2zm-4-2h10v2H7v-2z"/>
+            </svg>
+            <h4 class="text-lg font-semibold" [class]="getTextClasses()">Random Fact</h4>
+          </div>
+          <p *ngIf="!factError" [class]="getSecondaryTextClasses()">{{ randomFact }}</p>
+          <p *ngIf="factError" class="text-red-500">{{ factError }}</p>
+        </div>
+
+        <!-- Faculty Stats Widget -->
+        <div class="border rounded-lg p-6 transition-colors duration-300" [class]="getCardClasses()">
+          <h4 class="text-lg font-semibold mb-4" [class]="getTextClasses()">My Faculty Stats</h4>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <svg class="w-6 h-6 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                <span [class]="getSecondaryTextClasses()">Active Courses</span>
+              </div>
+              <span class="text-xl font-bold" [class]="getTextClasses()" id="courses-count-sidebar">{{ facultyStats.activeClasses }}</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <svg class="w-6 h-6 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                <span [class]="getSecondaryTextClasses()">Books Borrowed</span>
+              </div>
+              <span class="text-xl font-bold" [class]="getTextClasses()" id="borrowed-count-sidebar">{{ facultyStats.borrowed }}</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <svg class="w-6 h-6 text-purple-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span [class]="getSecondaryTextClasses()">Research Projects</span>
+              </div>
+              <span class="text-xl font-bold" [class]="getTextClasses()" id="research-count-sidebar">{{ facultyStats.researchProjects }}</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <svg class="w-6 h-6 text-orange-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                <span [class]="getSecondaryTextClasses()">Course Materials</span>
+              </div>
+              <span class="text-xl font-bold" [class]="getTextClasses()" id="materials-count-sidebar">{{ facultyStats.courseMaterials }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- AI Chat Assistant Widget -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <!-- Tooltip -->
+    <div
+      *ngIf="!isChatOpen && showTooltip"
+      class="absolute bottom-16 right-0 mb-2 px-4 py-2 bg-white rounded-lg shadow-lg border border-gray-200 text-sm text-gray-700 whitespace-nowrap transform transition-all duration-300 ease-in-out"
+      [class]="isDarkMode ? 'bg-gray-800 border-gray-600 text-gray-200' : 'bg-white border-gray-200 text-gray-700'"
+    >
+      <div class="relative">
+        Need help finding books?
+        <!-- Tooltip arrow -->
+        <div class="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"
+             [class]="isDarkMode ? 'border-t-gray-800' : 'border-t-white'"></div>
+      </div>
+    </div>
+
+    <!-- Chat Window (Expanded) -->
+    <div
+      *ngIf="isChatOpen"
+      class="bg-white rounded-2xl shadow-2xl border border-gray-200 w-80 h-96 flex flex-col transform transition-all duration-300 ease-in-out origin-bottom-right"
+      [class]="isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'"
+    >
+      <!-- Chat Header -->
+      <div class="flex items-center justify-between p-4 border-b border-gray-200 rounded-t-2xl"
+           [class]="isDarkMode ? 'border-gray-600 bg-gray-750' : 'border-gray-200 bg-gray-50'">
+        <div class="flex items-center space-x-3">
+          <div class="relative">
+            <img
+              src="assets/images/bc-ai.png"
+              alt="BC-AI"
+              class="w-8 h-8 rounded-full bg-blue-500 object-cover"
+              (error)="onAvatarError($event)"
+            >
+            <!-- Online indicator -->
+            <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"
+                 [class]="isDarkMode ? 'border-gray-800' : 'border-white'"></div>
+          </div>
+          <div>
+            <h3 class="font-semibold text-sm" [class]="getTextClasses()">BC-AI</h3>
+            <p class="text-xs" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">Online</p>
+          </div>
+        </div>
+        <button
+          (click)="toggleChat()"
+          class="p-1 rounded-full hover:bg-gray-100 transition-colors duration-200"
+          [class]="isDarkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-500'"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Chat Messages Area -->
+      <div class="flex-1 p-4 overflow-y-auto space-y-3" #chatMessagesContainer>
+        <!-- Welcome Message -->
+        <div class="flex items-start space-x-2" *ngIf="chatMessages.length === 0">
+          <img
+            src="assets/images/bc-ai.png"
+            alt="BC-AI"
+            class="w-6 h-6 rounded-full bg-blue-500 flex-shrink-0 mt-1"
+          >
+          <div
+            class="bg-gray-100 rounded-lg px-3 py-2 max-w-xs"
+            [class]="isDarkMode ? 'bg-gray-700' : 'bg-gray-100'"
+          >
+            Hi! I'm BC-AI, your library assistant. How can I help you?
+          </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div
+          *ngFor="let message of chatMessages"
+          class="flex"
+          [class.justify-end]="message.isUser"
+        >
+          <div
+            class="flex items-start space-x-2"
+            [class.flex-row-reverse]="message.isUser"
+            [class.space-x-reverse]="message.isUser"
+          >
+            <img
+              *ngIf="!message.isUser"
+              src="assets/images/bc-ai.png"
+              alt="BC-AI"
+              class="w-6 h-6 rounded-full bg-blue-500 flex-shrink-0 mt-1"
+            >
+            <div
+              class="rounded-lg px-3 py-2 max-w-xs"
+              [class]="message.isUser ?
+                'bg-blue-500 text-white' :
+                (isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900')"
+            >
+              <p class="text-sm">{{ message.text }}</p>
+              <p class="text-xs mt-1 opacity-70">{{ message.time }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typing indicator -->
+        <div *ngIf="isTyping" class="flex items-start space-x-2">
+          <img
+            src="assets/images/bc-ai.png"
+            alt="BC-AI"
+            class="w-6 h-6 rounded-full bg-blue-500 flex-shrink-0 mt-1"
+            (error)="onAvatarError($event)"
+          >
+          <div class="bg-gray-100 rounded-lg px-3 py-2"
+               [class]="isDarkMode ? 'bg-gray-700' : 'bg-gray-100'">
+            <div class="flex space-x-1">
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+              <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Input -->
+      <div class="p-4 border-t border-gray-200"
+           [class]="isDarkMode ? 'border-gray-600' : 'border-gray-200'">
+        <div class="flex space-x-2">
+          <input
+            type="text"
+            [(ngModel)]="chatInput"
+            (keyup.enter)="sendMessage()"
+            placeholder="Type your message..."
+            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+            [class]="isDarkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'"
+          >
+          <button
+            (click)="sendMessage()"
+            [disabled]="!chatInput.trim()"
+            class="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Chat Button (Collapsed) -->
+    <button
+      *ngIf="!isChatOpen"
+      (click)="toggleChat()"
+      (mouseenter)="showTooltip = true"
+      (mouseleave)="showTooltip = false"
+      class="w-14 h-14 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out flex items-center justify-center relative overflow-hidden"
+    >
+      <!-- Pulse animation -->
+      <div class="absolute inset-0 bg-blue-400 rounded-full animate-ping opacity-20"></div>
+
+      <!-- Avatar or Chat Icon -->
+      <img
+        src="assets/images/bc-ai.png"
+        alt="BC-AI"
+        class="w-8 h-8 rounded-full object-cover relative z-10"
+        (error)="onAvatarError($event)"
+      >
+
+      <!-- Fallback icon if image fails -->
+      <svg
+        *ngIf="avatarError"
+        class="w-6 h-6 relative z-10"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+      </svg>
+
+      <!-- Notification badge -->
+      <div *ngIf="hasUnreadMessages" class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+        {{ unreadCount }}
+      </div>
+    </button>
+  </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div
+    *ngIf="showProfileModal"
+    class="profile-modal fixed w-48 rounded-lg shadow-2xl border-2 transform transition-all duration-200 ease-out"
+    [class]="isDarkMode ? 'bg-gray-800 border-gray-500 shadow-gray-900/50' : 'bg-white border-green-200 shadow-green-500/20'"
+    (click)="$event.stopPropagation()"
+    [style.top]="profileModalTop"
+    [style.right]="profileModalRight"
+    style="z-index: 10000 !important;"
+  >
+    <div class="py-2">
+      <button
+        (click)="viewProfile()"
+        class="w-full text-left px-4 py-3 text-sm font-medium transition-colors duration-200 flex items-center space-x-3"
+        [class]="isDarkMode ? 'text-white hover:bg-green-600 hover:text-white' : 'text-gray-800 hover:bg-green-50 hover:text-green-700'"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+        </svg>
+        <span>View Profile</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div
+    *ngIf="showLogoutModal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm"
+    (click)="cancelLogout()"
+  >
+    <div
+      class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all duration-300 scale-100"
+      [class]="isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Modal Header -->
+      <div class="p-6 border-b" [class]="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-lg font-semibold" [class]="isDarkMode ? 'text-white' : 'text-gray-900'">
+              Confirm Logout
+            </h3>
+            <p class="text-sm" [class]="isDarkMode ? 'text-gray-300' : 'text-gray-600'">
+              You are about to sign out of your faculty session
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6">
+        <p class="text-sm" [class]="isDarkMode ? 'text-gray-300' : 'text-gray-600'">
+          Are you sure you want to log out? You will need to sign in again to access the faculty dashboard.
+        </p>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-6 border-t flex flex-col sm:flex-row gap-3 sm:gap-4" [class]="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+        <!-- Cancel Button -->
+        <button
+          type="button"
+          (click)="cancelLogout()"
+          class="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg border transition-colors duration-200"
+          [class]="isDarkMode ?
+            'border-gray-600 text-gray-300 hover:bg-gray-700 hover:border-gray-500' :
+            'border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'"
+        >
+          <span class="flex items-center justify-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            No, Stay Logged In
+          </span>
+        </button>
+
+        <!-- Confirm Button -->
+        <button
+          type="button"
+          (click)="confirmLogout()"
+          class="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-200 transition-colors duration-200"
+        >
+          <span class="flex items-center justify-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            Yes, Log Out
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+<!-- Notification Dropdown Portal (Outside main container for proper z-index) -->
+<div *ngIf="showNotificationDropdown"
+     data-notification-dropdown
+     class="fixed bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 z-[99999] w-80"
+     [style.top.px]="notificationDropdownPosition.top"
+     [style.right.px]="notificationDropdownPosition.right"
+     style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
+  <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+    <div class="flex items-center justify-between">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Notifications</h3>
+      <button *ngIf="unreadNotificationCount > 0"
+              (click)="markAllNotificationsAsRead()"
+              class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+        Mark all read
+      </button>
+    </div>
+  </div>
+
+  <div class="max-h-96 overflow-y-auto">
+    <!-- Real notifications -->
+    <div *ngIf="facultyNotifications.length > 0" class="divide-y divide-gray-200 dark:divide-gray-700">
+      <div *ngFor="let notification of facultyNotifications"
+           class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+           [ngClass]="{
+             'bg-blue-50': !notification.isRead && !isDarkMode,
+             'dark:bg-blue-900/20': !notification.isRead && isDarkMode
+           }"
+           (click)="markNotificationAsRead(notification.id)">
+        <div class="flex items-start space-x-3">
+          <!-- Notification icon -->
+          <div class="flex-shrink-0 mt-1">
+            <div class="w-2 h-2 rounded-full"
+                 [class]="!notification.isRead ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'"></div>
+          </div>
+
+          <!-- Notification content -->
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium" [class]="getTextClasses()">{{ notification.title }}</p>
+            <p class="text-sm" [class]="getSecondaryTextClasses()">{{ notification.message }}</p>
+            <p class="text-xs mt-1" [class]="isDarkMode ? 'text-gray-400' : 'text-gray-500'">
+              {{ getTimeAgo(notification.timestamp) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="facultyNotifications.length === 0" class="p-8 text-center text-gray-500 dark:text-gray-400">
+      <div class="mb-4">
+        <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+        </svg>
+      </div>
+      <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">It's been quiet since...</p>
+      <p class="text-xs text-gray-500 dark:text-gray-400">All caught up! New notifications will appear here</p>
+    </div>
+  </div>

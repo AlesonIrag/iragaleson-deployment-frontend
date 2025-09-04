@@ -1,0 +1,147 @@
+/* Terms of Service Styles - Benedicto College Library Management System */
+
+/* ===== ENHANCED HEADER STYLES ===== */
+
+/* Mobile navigation pane width adjustment for smaller screens */
+@media (max-width: 480px) {
+  #mobile-nav-pane {
+    width: 100vw;
+    max-width: 320px;
+  }
+}
+
+/* Enhanced mobile menu button states */
+#hamburger-icon.hidden {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+#close-icon.show {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+#close-icon {
+  opacity: 0;
+  transform: rotate(-180deg);
+  transition: all 0.3s ease;
+}
+
+#hamburger-icon {
+  transition: all 0.3s ease;
+}
+
+/* Header SVG icon hover effects */
+.group:hover svg {
+  stroke: #fb923c !important; /* Orange-400 color */
+}
+
+/* Ensure SVG icons are visible - BLACK by default */
+header svg {
+  stroke: #000000 !important; /* BLACK color */
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Header smooth expansion - NO SCROLLBAR */
+header {
+  transition: height 0.3s ease, padding 0.3s ease;
+  overflow: hidden !important; /* Remove scrollbar completely */
+  height: 80px; /* A bit more height normally */
+  padding-bottom: 8px; /* A little bit more padding bottom normally */
+}
+
+/* Header expands when hovering navigation */
+header:has(.group:hover) {
+  height: 110px !important; /* Expand a little bit more to show text */
+  padding-bottom: 10px;
+}
+
+/* Navigation group positioning */
+header .group {
+  position: relative;
+}
+
+/* Text labels - hidden by default, shown on hover */
+header .group span {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+  margin-top: 8px;
+}
+
+/* Show text labels on hover */
+header .group:hover span {
+  opacity: 1;
+}
+
+/* SVG transition effects */
+header .group svg {
+  transition: all 0.3s ease;
+}
+
+/* ===== END ENHANCED HEADER STYLES ===== */
+
+.terms-container {
+  background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 20%, #f3e8ff 80%, #e0e7ff 100%);
+}
+
+.terms-card {
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.section-header {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.terms-divider {
+  background: linear-gradient(90deg, #f97316 0%, #3b82f6 50%, #8b5cf6 100%);
+  height: 4px;
+  border-radius: 2px;
+}
+
+.warning-box {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border-left: 5px solid #ef4444;
+}
+
+.success-box {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-left: 5px solid #22c55e;
+}
+
+.terms-icon {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.subsection {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-left: 3px solid #3b82f6;
+}
+
+@media (max-width: 768px) {
+  .terms-card {
+    margin: 0.5rem;
+    padding: 1.5rem;
+  }
+  
+  .section-header {
+    font-size: 1.5rem;
+  }
+}
